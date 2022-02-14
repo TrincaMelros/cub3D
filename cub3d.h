@@ -26,9 +26,19 @@
 # define BUFFER_SIZE 1
 
 typedef struct s_input {
-	char	**input;
+	char	**txt;
 	int		height;
+
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
 }		t_input;
+
+typedef struct s_cub3d
+{
+	t_input	input;
+}		t_cub3d;
 
 		/*	Get Next line */
 int		get_next_line(char **line, int fd);
