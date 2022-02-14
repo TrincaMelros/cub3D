@@ -1,0 +1,1 @@
+gcc -Wall -Wextra -Werror cub3d.c gnl.c libft.c map_parsing.c -o cub3d 

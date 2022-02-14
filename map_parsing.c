@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int	get_map_height(char *filename, t_input *input)
+int	get_input_height(char *filename, t_input *input)
 {
 	int		fd;
 	int		size;
@@ -83,42 +83,57 @@ int assign_textures(t_input *input)
 	return (error);
 }
 
+void	parse_RGB(t_input *input)
+{
+	char	**f_splitter;
+	char	**c_splitter;
+
+	f_splitter = ft_split(input->floor_RGB, ',');
+	input->floor_R = ft_atoi(f_splitter[0]);
+	input->floor_G = ft_atoi(f_splitter[1]);
+	input->floor_B = ft_atoi(f_splitter[2]);
+	c_splitter = ft_split(input->ceiling_RGB, ',');
+	input->ceiling_R = ft_atoi(c_splitter[0]);
+	input->ceiling_G = ft_atoi(c_splitter[1]);
+	input->ceiling_B = ft_atoi(c_splitter[2]);
+}
+
+int	assign_RGB(t_input *input)
+{
+	int		error;
+	char	**f_splitter;
+	char	**c_splitter;
+
+	error = 0;
+	if (input->txt[5][0] == 'F')
+		input->floor_RGB = ft_substr(input->txt[5], 2, 20);
+	else
+		error = 1;
+	if (input->txt[6][0] == 'C')
+		input->ceiling_RGB = ft_substr(input->txt[6], 2, 20);
+	else
+		error = 1;
+	f_splitter = ft_split(input->floor_RGB, ',');
+	input->floor_R = ft_atoi(f_splitter[0]);
+	input->floor_G = ft_atoi(f_splitter[1]);
+	input->floor_B = ft_atoi(f_splitter[2]);
+	c_splitter = ft_split(input->ceiling_RGB, ',');
+	input->ceiling_R = ft_atoi(c_splitter[0]);
+	input->ceiling_G = ft_atoi(c_splitter[1]);
+	input->ceiling_B = ft_atoi(c_splitter[2]);
+	return (error);
+}
+
 int map_parsing(char *filename, t_input *input)
 {
-	if (get_map_height(filename, input))
+	if (get_input_height(filename, input))
 		return (1);
 	input->txt = malloc(sizeof(char*) * input->height + 1);
 	if (get_input(filename, input))
 		return (1);
 	if (assign_textures(input))
 		return (1);
-	return (0);
-}
-
-void	printer(char **print)
-{
-	int	i;
-
-	i = 0;
-	while (print[i])
-	{
-		printf("%s\n", print[i]);
-		i++;
-	}
-}
-
-int main(int argc, char **argv)
-{
-	t_cub3d	x;
-
-
-    if (argc != 2)
-    {
-        printf("Error: invalid number of arguments\n");
-        return (1);
-    }
-    if (map_parsing(argv[1], &x.input))
+	if (assign_RGB(input))
 		return (1);
-	printer(x.input.txt);
-    return (0);
+	return (0);
 }

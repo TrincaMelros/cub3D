@@ -33,6 +33,16 @@ typedef struct s_input {
 	char	*south;
 	char	*west;
 	char	*east;
+
+	char	*floor_RGB;
+	int		floor_R;
+	int		floor_G;
+	int		floor_B;
+
+	char	*ceiling_RGB;
+	int		ceiling_R;
+	int		ceiling_G;
+	int		ceiling_B;
 }		t_input;
 
 typedef struct s_cub3d
@@ -43,6 +53,9 @@ typedef struct s_cub3d
 		/*	Get Next line */
 int		get_next_line(char **line, int fd);
 
+		/*	Map Parsing	*/
+int map_parsing(char *filename, t_input *input);
+
 		/*	Libft	*/
 int		ft_strlen(char *str);
 void	ft_bzero(void *s, size_t n);
@@ -51,5 +64,7 @@ char	*ft_strdup(char *s1);
 char	*ft_strchr(char *s, int c);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_substr(char *s, unsigned int start, size_t len);
+char	**ft_split(char *s, char c);
+int		ft_atoi(const char *nptr);
 
 #endif
