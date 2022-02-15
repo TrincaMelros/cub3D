@@ -36,6 +36,15 @@ void	print_RGB(t_input input)
 	printf("ceiling blue is %d\n", input.ceiling_B);
 }
 
+void	print_map(t_input input)
+{
+	int i;
+
+	i = -1;
+	while (input.map[++i])
+		printf("%s\n", input.map[i]);
+}
+
 int main(int argc, char **argv)
 {
 	t_cub3d	x;
@@ -51,5 +60,6 @@ int main(int argc, char **argv)
 //	print_input(x.input.txt);
 //	print_path(x.input);
 //	print_RGB(x.input);
+//	print_map(x.input);
     return (0);
 }

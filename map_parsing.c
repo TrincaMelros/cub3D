@@ -83,21 +83,6 @@ int assign_textures(t_input *input)
 	return (error);
 }
 
-void	parse_RGB(t_input *input)
-{
-	char	**f_splitter;
-	char	**c_splitter;
-
-	f_splitter = ft_split(input->floor_RGB, ',');
-	input->floor_R = ft_atoi(f_splitter[0]);
-	input->floor_G = ft_atoi(f_splitter[1]);
-	input->floor_B = ft_atoi(f_splitter[2]);
-	c_splitter = ft_split(input->ceiling_RGB, ',');
-	input->ceiling_R = ft_atoi(c_splitter[0]);
-	input->ceiling_G = ft_atoi(c_splitter[1]);
-	input->ceiling_B = ft_atoi(c_splitter[2]);
-}
-
 int	assign_RGB(t_input *input)
 {
 	int		error;
@@ -124,6 +109,26 @@ int	assign_RGB(t_input *input)
 	return (error);
 }
 
+int	assign_map(t_input *input)
+{
+	int	i;
+	int	j;
+
+	input->map = malloc(sizeof(char*) * (input->height - 8 + 1));
+	if (!input->map)
+		return (1);
+	i = 8;
+	j = 0;
+	while (i < input->height)
+	{
+		input->map[j] = ft_strdup(input->txt[i]);
+		i++;
+		j++;
+	}
+	input->map[j] = NULL;
+	return (0);
+}
+
 int map_parsing(char *filename, t_input *input)
 {
 	if (get_input_height(filename, input))
@@ -134,6 +139,8 @@ int map_parsing(char *filename, t_input *input)
 	if (assign_textures(input))
 		return (1);
 	if (assign_RGB(input))
+		return (1);
+	if (assign_map(input))
 		return (1);
 	return (0);
 }
