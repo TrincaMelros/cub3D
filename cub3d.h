@@ -60,6 +60,7 @@ int		map_parsing(char *filename, t_input *input);
 
 		/*	Libft	*/
 int		ft_strlen(char *str);
+int		ft_isdigit(int c);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(char *s1);

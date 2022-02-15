@@ -45,6 +45,16 @@ void	print_map(t_input input)
 		printf("%s\n", input.map[i]);
 }
 
+void	init_vars(t_input *input)
+{
+	input->north = NULL;
+	input->south = NULL;
+	input->west = NULL;
+	input->east = NULL;
+	input->floor_RGB = NULL;
+	input->ceiling_RGB = NULL;
+}
+
 int main(int argc, char **argv)
 {
 	t_cub3d	x;
@@ -55,6 +65,7 @@ int main(int argc, char **argv)
         printf("Error: invalid number of arguments\n");
         return (1);
     }
+	init_vars(&x.input);
     if (map_parsing(argv[1], &x.input))
 		return (1);
 //	print_input(x.input.txt);

@@ -59,54 +59,98 @@ int	get_input(char *filename, t_input *input)
 	return (0);
 }
 
-int assign_textures(t_input *input)
+int assign_texture(t_input *input, int i, char c)
 {
-	int	error;
+	int	j;
 
-	error = 0;
-	if (input->txt[0][0] == 'N' && input->txt[0][1] == 'O')
-		input->north = ft_substr(input->txt[0], 3, 200);
-	else
-		error = 1;
-	if (input->txt[1][0] == 'S' && input->txt[1][1] == 'O')
-		input->south = ft_substr(input->txt[1], 3, 200);
-	else
-		error = 1;
-	if (input->txt[2][0] == 'W' && input->txt[2][1] == 'E')
-		input->west = ft_substr(input->txt[2], 3, 200);
-	else
-		error = 1;
-	if (input->txt[3][0] == 'E' && input->txt[3][1] == 'A')
-		input->east = ft_substr(input->txt[3], 3, 200);
-	else
-		error = 1;
-	return (error);
+	j = 1;
+	while (input->txt[i][j] != '.')
+		j++;
+	if (c == 'N')
+		input->north = ft_substr(input->txt[i], j, 20);
+	if (c == 'S')
+		input->south = ft_substr(input->txt[i], j, 20);
+	if (c == 'W')
+		input->west = ft_substr(input->txt[i], j, 20);
+	if (c == 'E')
+		input->east = ft_substr(input->txt[i], j, 20);
+	return (0);
 }
 
-int	assign_RGB(t_input *input)
+int	assign_RGB(t_input *input, int i, char c)
 {
-	int		error;
+	int		j;
 	char	**f_splitter;
 	char	**c_splitter;
 
-	error = 0;
-	if (input->txt[5][0] == 'F')
-		input->floor_RGB = ft_substr(input->txt[5], 2, 20);
-	else
-		error = 1;
-	if (input->txt[6][0] == 'C')
-		input->ceiling_RGB = ft_substr(input->txt[6], 2, 20);
-	else
-		error = 1;
-	f_splitter = ft_split(input->floor_RGB, ',');
-	input->floor_R = ft_atoi(f_splitter[0]);
-	input->floor_G = ft_atoi(f_splitter[1]);
-	input->floor_B = ft_atoi(f_splitter[2]);
-	c_splitter = ft_split(input->ceiling_RGB, ',');
-	input->ceiling_R = ft_atoi(c_splitter[0]);
-	input->ceiling_G = ft_atoi(c_splitter[1]);
-	input->ceiling_B = ft_atoi(c_splitter[2]);
-	return (error);
+	j = 1;
+	while (!ft_isdigit(input->txt[i][j]))
+		j++;
+	if (c == 'F')
+	{
+		input->floor_RGB = ft_substr(input->txt[i], j, 20);
+		f_splitter = ft_split(input->floor_RGB, ',');
+		input->floor_R = ft_atoi(f_splitter[0]);
+		input->floor_G = ft_atoi(f_splitter[1]);
+		input->floor_B = ft_atoi(f_splitter[2]);
+	}
+	if (c == 'C')
+	{
+		input->ceiling_RGB = ft_substr(input->txt[i], j, 20);
+		c_splitter = ft_split(input->ceiling_RGB, ',');
+		input->ceiling_R = ft_atoi(c_splitter[0]);
+		input->ceiling_G = ft_atoi(c_splitter[1]);
+		input->ceiling_B = ft_atoi(c_splitter[2]);
+	}
+	return (0);
+}
+
+int	all_assigned(t_input *input)
+{
+	if (input->north == NULL)
+		return (1);
+	if (input->south == NULL)
+		return (1);
+	if (input->west == NULL)
+		return (1);
+	if (input->east == NULL)
+		return (1);
+	if (input->floor_RGB == NULL)
+		return (1);
+	if (input->ceiling_RGB == NULL)
+		return (1);
+	return (0);
+}
+
+int	assign_elements(t_input *input)
+{
+	int	i;
+
+	i = 0;
+	while(input->txt[i][0] != '1')
+	{
+		if (input->txt[i][0] == 'N')
+			if (assign_texture(input, i, 'N'))
+				return (1);
+		else if (input->txt[i][0] == 'S')
+			if (assign_texture(input, i, 'S'))
+				return (1);
+		else if (input->txt[i][0] == 'W')
+			if (assign_texture(input, i, 'W'))
+				return (1);
+		else if (input->txt[i][0] == 'E')
+			if (assign_texture(input, i, 'E'))
+				return (1);
+		else if (input->txt[i][0] == 'F')
+			if (assign_RGB(input, i, 'F'))
+				return (1);
+		else if (input->txt[i][0] == 'C')
+			if (assign_RGB(input, i, 'C'))
+				return (1);
+		if (!all_assigned(input))
+			break ;
+	}
+	return (0);
 }
 
 int	assign_map(t_input *input)
@@ -114,6 +158,11 @@ int	assign_map(t_input *input)
 	int	i;
 	int	j;
 
+	i = 0;
+	j = 0;
+	while (input->txt[i][j] != '1')
+		i++;
+	*********************
 	input->map = malloc(sizeof(char*) * (input->height - 8 + 1));
 	if (!input->map)
 		return (1);
@@ -136,9 +185,7 @@ int map_parsing(char *filename, t_input *input)
 	input->txt = malloc(sizeof(char*) * input->height + 1);
 	if (get_input(filename, input))
 		return (1);
-	if (assign_textures(input))
-		return (1);
-	if (assign_RGB(input))
+	if (assign_elements(input))
 		return (1);
 	if (assign_map(input))
 		return (1);
