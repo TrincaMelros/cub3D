@@ -38,11 +38,17 @@ typedef struct s_input {
 	int		floor_R;
 	int		floor_G;
 	int		floor_B;
+	/**/
+	int		floor_TRGB;
+	/**/
 
 	char	*ceiling_RGB;
 	int		ceiling_R;
 	int		ceiling_G;
 	int		ceiling_B;
+	/**/
+	int		ceiling_TRGB;
+	/**/
 
 	char	**map;
 }		t_input;
@@ -58,6 +64,12 @@ int		get_next_line(char **line, int fd);
 		/*	Map Parsing	*/
 int		map_parsing(char *filename, t_input *input);
 
+/**********************************************************/
+		/*  Mlx utils  */
+int		create_trgb(int t, int r, int g, int b);
+void	ft_pixel_put(int *addr, int x, int y, int color);
+/**********************************************************/
+
 		/*	Libft	*/
 int		ft_strlen(char *str);
 int		ft_isdigit(int c);
@@ -69,5 +81,9 @@ char	*ft_strjoin(char *s1, char *s2);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char	**ft_split(char *s, char c);
 int		ft_atoi(const char *nptr);
+/**********************************************************/
+void	ft_putstr(char *s);
+void	ft_puttxt(char **txt);
+/**********************************************************/
 
 #endif

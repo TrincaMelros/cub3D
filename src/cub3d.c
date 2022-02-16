@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	print_input(char **print)
 {
@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 
     if (argc != 2)
     {
-        printf("Error: invalid number of arguments\n");
+        perror("Error: invalid number of arguments\n");
         return (1);
     }
 	init_vars(&x.input);

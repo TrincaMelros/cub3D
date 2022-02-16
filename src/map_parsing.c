@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 int	get_input_height(char *filename, t_input *input)
 {
@@ -93,6 +93,9 @@ int	assign_RGB(t_input *input, int i, char c)
 		input->floor_R = ft_atoi(f_splitter[0]);
 		input->floor_G = ft_atoi(f_splitter[1]);
 		input->floor_B = ft_atoi(f_splitter[2]);
+		/**/
+		input->floor_TRGB = create_trgb(0, input->floor_R, input->floor_G, input->floor_B);
+		/**/
 	}
 	if (c == 'C')
 	{
@@ -101,6 +104,9 @@ int	assign_RGB(t_input *input, int i, char c)
 		input->ceiling_R = ft_atoi(c_splitter[0]);
 		input->ceiling_G = ft_atoi(c_splitter[1]);
 		input->ceiling_B = ft_atoi(c_splitter[2]);
+		/**/
+		input->ceiling_TRGB = create_trgb(0, input->ceiling_R, input->ceiling_G, input->ceiling_B);
+		/**/
 	}
 	return (0);
 }
@@ -126,27 +132,39 @@ int	assign_elements(t_input *input)
 {
 	int	i;
 
-	i = 0;
-	while(input->txt[i][0] != '1')
+	i = -1;
+	while(input->txt[++i][0] != '1')
 	{
 		if (input->txt[i][0] == 'N')
+		{
 			if (assign_texture(input, i, 'N'))
 				return (1);
+		}
 		else if (input->txt[i][0] == 'S')
+		{
 			if (assign_texture(input, i, 'S'))
 				return (1);
+		}
 		else if (input->txt[i][0] == 'W')
+		{
 			if (assign_texture(input, i, 'W'))
 				return (1);
+		}
 		else if (input->txt[i][0] == 'E')
+		{
 			if (assign_texture(input, i, 'E'))
 				return (1);
+		}
 		else if (input->txt[i][0] == 'F')
+		{
 			if (assign_RGB(input, i, 'F'))
 				return (1);
+		}
 		else if (input->txt[i][0] == 'C')
+		{
 			if (assign_RGB(input, i, 'C'))
 				return (1);
+		}
 		if (!all_assigned(input))
 			break ;
 	}
@@ -162,7 +180,6 @@ int	assign_map(t_input *input)
 	j = 0;
 	while (input->txt[i][j] != '1')
 		i++;
-	*********************
 	input->map = malloc(sizeof(char*) * (input->height - 8 + 1));
 	if (!input->map)
 		return (1);
