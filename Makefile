@@ -11,29 +11,53 @@
 # **************************************************************************** #
 
 NAME = cub3d
+
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -lm -g
-INC = inc/
+
+CFLAGS = -Wall -Wextra -Werror
+
+DEBUG = -g
+
+LIBS = -lm -L./libft -lft
+
+INCLUDES = -I inc/ -Imlx
+
+SRCS = $(wildcard src/*.c)
+
+RM = rm -f
+
 FW = -framework AppKit -framework OpenGL
-OBJ = $(SRC:c=o)
-LIBFT = libft.a
+
+OBJ = $(SRCS:%.c=%.o)
+
+LIBFT = libft/libft.a
 
 %.o: %.c
-	$(CC) $(CFLAGS) -Imlx $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ) 
+$(NAME): $(LIBFT) $(OBJ)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBS) $(FW) -o $(NAME)
 
 $(LIBFT):
+	$(MAKE) -C libft
 
 clean: 
-	rm $(OBJ)
+	$(MAKE) clean -C libft
+	$(RM) $(OBJ)
 
-fclean:
-	rm -f $(NAME)
+fclean: clean
+	$(MAKE) fclean -C libft
+	$(RM) $(NAME)
+	rm -rf *.dSYM
 
 re: fclean all
 
 .PHONY: all re clean fclean
+
+
+# make quiet
+# obj/ dir
+# change libft makefile
+# change gnl??

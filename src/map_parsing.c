@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "cub3d.h"
 
-int	get_input_height(char *filename, t_input *input)
+static int	get_input_height(char *filename, t_input *input)
 {
 	int		fd;
 	int		size;
@@ -29,7 +29,7 @@ int	get_input_height(char *filename, t_input *input)
 	return (0);
 }
 
-int	get_input(char *filename, t_input *input)
+static int	get_input(char *filename, t_input *input)
 {
 	char	*str;
 	int		fd;
@@ -59,7 +59,7 @@ int	get_input(char *filename, t_input *input)
 	return (0);
 }
 
-int assign_texture(t_input *input, int i, char c)
+static int assign_texture(t_input *input, int i, char c)
 {
 	int	j;
 
@@ -77,7 +77,7 @@ int assign_texture(t_input *input, int i, char c)
 	return (0);
 }
 
-int	assign_RGB(t_input *input, int i, char c)
+static int	assign_RGB(t_input *input, int i, char c)
 {
 	int		j;
 	char	**f_splitter;
@@ -111,7 +111,7 @@ int	assign_RGB(t_input *input, int i, char c)
 	return (0);
 }
 
-int	all_assigned(t_input *input)
+static int	all_assigned(t_input *input)
 {
 	if (input->north == NULL)
 		return (1);
@@ -128,7 +128,7 @@ int	all_assigned(t_input *input)
 	return (0);
 }
 
-int	assign_elements(t_input *input)
+static int	assign_elements(t_input *input)
 {
 	int	i;
 
@@ -171,7 +171,7 @@ int	assign_elements(t_input *input)
 	return (0);
 }
 
-int	assign_map(t_input *input)
+static int	assign_map(t_input *input)
 {
 	int	i;
 	int	j;
