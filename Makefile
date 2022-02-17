@@ -10,13 +10,20 @@
 #                                                                              #
 # **************************************************************************** #
 
+MAKEFLAGS	+=	-s
+#(https://www.gnu.org/software/make/manual/html_node/Options_002fRecursion.html)
+# make -n for displaying commands but not running them
+
+GREEN	= \033[0;32m
+DEF = \033[0m
+
 NAME = cub3d
 
 CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-DEBUG = -g
+DEBUG = -g -fsanitize=address
 
 LIBS = -lm -L./libft -lft
 
@@ -39,9 +46,11 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBS) $(FW) -o $(NAME)
+	echo "$(GREEN)[ cub3d COMPILED ]$(DEF)"
 
 $(LIBFT):
 	$(MAKE) -C libft
+	echo "$(GREEN)[ libft COMPILED ]$(DEF)"
 
 clean: 
 	$(MAKE) clean -C libft
@@ -54,10 +63,12 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all re clean fclean
+debug: CFLAGS += $(DEBUG)
+debug: re
+
+.PHONY: all re clean fclean debug
 
 
-# make quiet
 # obj/ dir
 # change libft makefile
 # change gnl??

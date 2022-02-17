@@ -60,6 +60,8 @@ static int	get_input(char *filename, t_input *input)
 }
 
 static int assign_texture(t_input *input, int i, char c)
+/*No need to substr if we only free input.txt at the end of program,
+	just reference to beggining of string (same goes for map)*/
 {
 	int	j;
 
@@ -93,9 +95,7 @@ static int	assign_RGB(t_input *input, int i, char c)
 		input->floor_R = ft_atoi(f_splitter[0]);
 		input->floor_G = ft_atoi(f_splitter[1]);
 		input->floor_B = ft_atoi(f_splitter[2]);
-		/**/
 		input->floor_TRGB = create_trgb(0, input->floor_R, input->floor_G, input->floor_B);
-		/**/
 	}
 	if (c == 'C')
 	{
@@ -104,9 +104,7 @@ static int	assign_RGB(t_input *input, int i, char c)
 		input->ceiling_R = ft_atoi(c_splitter[0]);
 		input->ceiling_G = ft_atoi(c_splitter[1]);
 		input->ceiling_B = ft_atoi(c_splitter[2]);
-		/**/
 		input->ceiling_TRGB = create_trgb(0, input->ceiling_R, input->ceiling_G, input->ceiling_B);
-		/**/
 	}
 	return (0);
 }
@@ -129,6 +127,7 @@ static int	all_assigned(t_input *input)
 }
 
 static int	assign_elements(t_input *input)
+/**/
 {
 	int	i;
 
@@ -178,7 +177,7 @@ static int	assign_map(t_input *input)
 
 	i = 0;
 	j = 0;
-	while (input->txt[i][j] != '1')
+	while (input->txt[i] && input->txt[i][j] != '1')
 		i++;
 	input->map = malloc(sizeof(char*) * (input->height - 8 + 1));
 	if (!input->map)

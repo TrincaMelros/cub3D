@@ -57,7 +57,7 @@ void	init_vars(t_input *input)
 
 int main(int argc, char **argv)
 {
-	t_cub3d	x;
+	t_cub3d	cub;
 
 
     if (argc != 2)
@@ -65,12 +65,14 @@ int main(int argc, char **argv)
         perror("Error: invalid number of arguments\n");
         return (1);
     }
-	init_vars(&x.input);
-    if (map_parsing(argv[1], &x.input))
+	init_vars(&cub.input);
+    if (map_parsing(argv[1], &cub.input))
 		return (1);
-//	print_input(x.input.txt);
-//	print_path(x.input);
-//	print_RGB(x.input);
-//	print_map(x.input);
+	// print_input(cub.input.txt);
+	// print_path(cub.input);
+	// print_RGB(cub.input);
+	// print_map(cub.input);
+
+	// free_all(cub)
     return (0);
 }
