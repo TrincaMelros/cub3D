@@ -24,9 +24,18 @@
 # include <string.h>
 
 # include "libft.h"
+# include "events.h"
 
 # define BUFFER_SIZE 1
 
+	/*	Error ID	*/
+typedef enum	e_error {
+	SYSCALL,
+	MAPVAL,
+	OTHER
+} t_error;
+
+	/*	Parsing Struct	*/
 typedef struct s_input {
 	char	**txt;
 	int		height;
@@ -51,11 +60,33 @@ typedef struct s_input {
 	char	**map;
 }		t_input;
 
-// Refer to so_long for struct making
+	/*	Images	*/
+typedef struct s_img {
+	void	*ptr;
+	int		w;
+	int		h;
+	int		*addr;
+	int		bpp;
+	int		line;
+	int		endian;
+}	t_img;
 
+	/*	MLX	*/
+typedef struct s_mlx {
+	void	*instance;
+	void	*window;
+	int		width;
+	int		height;
+	t_img	*imgs;
+}	t_mlx;
+
+
+	/*	General Struct	*/
 typedef struct s_cub3d
 {
+	t_mlx	mlx_obj;
 	t_input	input;
+	t_error	errnum;
 }		t_cub3d;
 
 		/*	Get Next line */
@@ -68,7 +99,11 @@ int		map_parsing(char *filename, t_input *input);
 int		create_trgb(int t, int r, int g, int b);
 void	ft_pixel_put(int *addr, int x, int y, int color);
 
+		/*	Error Handling	*/
+void	error_general(int errnum, char *str);
+
 		/*	Other utils	*/
+void	ft_putstr_err(char *s);
 void	ft_puttxt(char **txt);
 
 #endif

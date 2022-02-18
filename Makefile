@@ -23,7 +23,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-DEBUG = -g -fsanitize=address
+DEBUG = -g
 
 LIBS = -lm -L./libft -lft
 
@@ -65,6 +65,8 @@ re: fclean all
 
 debug: CFLAGS += $(DEBUG)
 debug: re
+memcheck: DEBUG += -fsanitize=address
+memcheck: debug
 
 .PHONY: all re clean fclean debug
 

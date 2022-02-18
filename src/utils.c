@@ -12,20 +12,17 @@
 
 #include "cub3d.h"
 
-static void	ft_putstr(char *s)
+void	ft_putstr_err(char *s)
 {
 	if (write(1, s, ft_strlen(s)) == -1)
-	{
-		perror(strerror(errno));	// <----------- pass to error handling function
-		exit(errno);
-	}
+		error_general(SYSCALL, 0);
 }
 
-void	ft_puttxt(char **txt)
+void	ft_puttext(char **text)
 {
-	while (*txt)
+	while (*text)
 	{
-		ft_putstr(*txt++);
-		ft_putstr("\n");
+		ft_putstr_err(*text++);
+		ft_putstr_err("\n");
 	}
 }

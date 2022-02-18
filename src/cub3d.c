@@ -12,6 +12,7 @@
 
 #include "cub3d.h"
 
+/***************************AUXILIARY TEMPORARY FUNCTIONS*************************************/
 void	print_input(char **print)
 {
 	int	i;
@@ -44,8 +45,24 @@ void	print_map(t_input input)
 	while (input.map[++i])
 		printf("%s\n", input.map[i]);
 }
+/***************************AUXILIARY TEMPORARY FUNCTIONS*************************************/
 
-void	init_vars(t_input *input)
+static void	twoD_free(void **ptr_arr)
+{
+	while (*ptr_arr)
+	{
+		free(*ptr_arr);
+		*ptr_arr++ = NULL;
+	}
+}
+
+static void	free_all(t_cub3d *obj)
+{
+	twoD_free((void **)obj->input.txt);
+	// ...
+}
+
+static void	init_vars(t_input *input)
 {
 	input->north = NULL;
 	input->south = NULL;
@@ -59,12 +76,8 @@ int main(int argc, char **argv)
 {
 	t_cub3d	cub;
 
-
     if (argc != 2)
-    {
-        perror("Error: invalid number of arguments\n");
-        return (1);
-    }
+		error_general(OTHER, "Invalid number of arguments.");
 	init_vars(&cub.input);
     if (map_parsing(argv[1], &cub.input))
 		return (1);
@@ -73,6 +86,6 @@ int main(int argc, char **argv)
 	// print_RGB(cub.input);
 	// print_map(cub.input);
 
-	// free_all(cub)
+	free_all(&cub);
     return (0);
 }
