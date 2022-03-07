@@ -14,6 +14,7 @@
 # define CUB3D_H
 
 # include <mlx.h>
+# include <math.h>
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <fcntl.h>
@@ -73,7 +74,7 @@ typedef struct s_img {
 
 	/*	MLX	*/
 typedef struct s_mlx {
-	void	*instance;
+	void	*mlx;
 	void	*window;
 	int		width;
 	int		height;
