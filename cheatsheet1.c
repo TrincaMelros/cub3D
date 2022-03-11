@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   01_untextured_raycast.c                            :+:      :+:    :+:   */
+/*   cheatsheet1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yohlee <yohlee@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 12:12:25 by yohan             #+#    #+#             */
-/*   Updated: 2020/07/21 08:08:19 by yohlee           ###   ########.fr       */
+/*   Updated: 2022/03/11 17:16:32 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ int	worldMap[24][24] = {
 						};
 
 void	verLine(t_info *info, int x, int y1, int y2, int color)
+/**
+ * Drawing a column on the x axis depending on distance from pos to a wall/object
+*/
 {
 	int	y;
 
@@ -107,6 +110,7 @@ void	calc(t_info *info)
 		double rayDirX = info->dirX + info->planeX * cameraX;
 		double rayDirY = info->dirY + info->planeY * cameraX;
 
+		// represent the current square of the map the ray([rayDirX, rayDirY]) is in
 		int mapX = (int)info->posX;
 		int mapY = (int)info->posY;
 
@@ -196,6 +200,7 @@ void	calc(t_info *info)
 		if (side == 1)
 			color = color / 2;
 
+		// draws vertical line on the x axis. This will happen #width times
 		verLine(info, x, drawStart, drawEnd, color);
 
 		x++;
