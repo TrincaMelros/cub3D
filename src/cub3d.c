@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/02/14 15:06:39 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/03/13 20:59:04 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,16 @@ void	print_path(t_input input)
 	printf("NO -> %s\nSO -> %s\nWE -> %s\nEA -> %s\n", input.north, input.south, input.west, input.east);
 }
 
-void	print_RGB(t_input input)
+void	print_RGB(const t_input input)
 {
-	printf("floor red is %d\n", input.floor_R);
-	printf("floor green is %d\n", input.floor_G);
-	printf("floor blue is %d\n", input.floor_B);
-	printf("ceiling red is %d\n", input.ceiling_R);
-	printf("ceiling green is %d\n", input.ceiling_G);
-	printf("ceiling blue is %d\n", input.ceiling_B);
+	printf("floor red is %d\n", input.floor.R);
+	printf("floor green is %d\n", input.floor.G);
+	printf("floor blue is %d\n", input.floor.B);
+	printf("floor trgb is %d\n", input.floor.TRGB);
+	printf("ceiling red is %d\n", input.ceiling.R);
+	printf("ceiling green is %d\n", input.ceiling.G);
+	printf("ceiling blue is %d\n", input.ceiling.B);
+	printf("ceiling trgb is %d\n", input.ceiling.TRGB);
 }
 
 void	print_map(t_input input)
@@ -47,29 +49,18 @@ void	print_map(t_input input)
 }
 /***************************AUXILIARY TEMPORARY FUNCTIONS*************************************/
 
-static void	twoD_free(void **ptr_arr)
-{
-	while (*ptr_arr)
-	{
-		free(*ptr_arr);
-		*ptr_arr++ = NULL;
-	}
-}
+
 
 static void	free_all(t_cub3d *obj)
 {
-	twoD_free((void **)obj->input.txt);
+	twoD_free((void **)&obj->input.txt);
 	// ...
 }
 
 static void	init_vars(t_input *input)
 {
-	input->north = NULL;
-	input->south = NULL;
-	input->west = NULL;
-	input->east = NULL;
-	input->floor_RGB = NULL;
-	input->ceiling_RGB = NULL;
+	input->floor.TRGB = -1;
+	input->ceiling.TRGB = -1;
 }
 
 int main(int argc, char **argv)
@@ -78,13 +69,16 @@ int main(int argc, char **argv)
 
     if (argc != 2)
 		error_general(OTHER, "Invalid number of arguments.");
+	ft_memset(&cub, 0, sizeof(t_cub3d));
 	init_vars(&cub.input);
-    if (map_parsing(argv[1], &cub.input))
+    if (map_parsing(argv[1], &cub.input)) // 
 		return (1);
-	// print_input(cub.input.txt);
-	// print_path(cub.input);
-	// print_RGB(cub.input);
-	// print_map(cub.input);
+
+
+	print_input(cub.input.txt);
+	print_path(cub.input);
+	print_RGB(cub.input);
+	print_map(cub.input);
 
 	free_all(&cub);
     return (0);

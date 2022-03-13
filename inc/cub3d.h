@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/02/10 12:49:57 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/03/13 20:14:16 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,14 @@ typedef enum	e_error {
 	SYSCALL,
 	MAPVAL,
 	OTHER
-} t_error;
+}	t_error;
+
+typedef struct s_color {
+	int	R;	
+	int	G;	
+	int	B;
+	int	TRGB;	
+}	t_color;
 
 	/*	Parsing Struct	*/
 typedef struct s_input {
@@ -46,17 +53,8 @@ typedef struct s_input {
 	char	*west;
 	char	*east;
 
-	char	*floor_RGB;
-	int		floor_R;
-	int		floor_G;
-	int		floor_B;
-	int		floor_TRGB;
-
-	char	*ceiling_RGB;
-	int		ceiling_R;
-	int		ceiling_G;
-	int		ceiling_B;
-	int		ceiling_TRGB;
+	t_color floor;
+	t_color	ceiling;
 
 	char	**map;
 }		t_input;
@@ -106,5 +104,7 @@ void	error_general(int errnum, char *str);
 		/*	Other utils	*/
 void	ft_putstr_err(char *s);
 void	ft_puttxt(char **txt);
+void	**twoD_free(void **ptr_arr);
+void	**twoD_realloc(void **ptr, size_t size);
 
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 17:15:00 by malmeida          #+#    #+#             */
-/*   Updated: 2022/02/10 17:15:01 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/03/13 19:43:59 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,39 @@ void	ft_puttext(char **text)
 		ft_putstr_err(*text++);
 		ft_putstr_err("\n");
 	}
+}
+
+void	**twoD_free(void **ptr_arr)
+{
+	while (*ptr_arr)
+	{
+		free(*ptr_arr);
+		*ptr_arr++ = NULL;
+	}
+	return (NULL); // because norminette (...for now). maybe set to NULL by reference??
+}
+
+void	**twoD_realloc(void **ptr, const size_t size)
+/**
+ * allocates size pointers set to NULL and "adds" to pointer
+ * if no size returns pointer
+*/
+{
+	void 	**tmp;
+	int		i;
+
+	tmp = ptr;
+	i = -1;
+	if(!size)
+		return (ptr); // ?? not sure
+	while(tmp[++i])
+		continue ;
+	ptr = ft_calloc(i + size + 1, sizeof(*ptr));
+	if (!ptr)
+		return (NULL);
+	i = -1;
+	while (tmp[++i])
+		ptr[i] = tmp[i];
+	free(tmp);
+	return (ptr);
 }

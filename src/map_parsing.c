@@ -3,207 +3,143 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 16:45:21 by malmeida          #+#    #+#             */
-/*   Updated: 2022/02/10 16:45:22 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/03/13 21:10:29 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int	get_input_height(char *filename, t_input *input)
+static char	**get_input(char *file)
 {
+	char	**txt;
+	char	**tmp; // for safety ... need alternative
 	int		fd;
-	int		size;
-	char	*str;
-
-	fd = open(filename, O_RDONLY);
-	if (fd < 1)
-		return (1);
-	size = 0;
-	while (get_next_line(&str, fd))
-		size++;
-	close(fd);
-	input->height = size + 1;
-	return (0);
-}
-
-static int	get_input(char *filename, t_input *input)
-{
-	char	*str;
-	int		fd;
-	int		i;
 	int		rd;
+	int		i;
 
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (1);
-	i = 0;
-	while (i < input->height)
+	fd = open(file, O_RDONLY);
+	rd = 1;
+	i = -1;
+	txt = ft_calloc(2, sizeof(char *));
+	// txt[1] = NULL;
+	if (fd < 0 || !txt)
 	{
-		rd = get_next_line(&str, fd);
-		if (rd == 1)
-			input->txt[i] = str;
-		else if (rd == 0)
+		free(txt);
+		return (NULL);
+	}
+	while (rd == 1)
+	{
+		if (i >= 0)
 		{
-			input->txt[i++] = str;
-			break;
+			tmp = (char **)twoD_realloc((void **)txt, 1);
+			if (!tmp)
+			{
+				rd = -1;
+				break ; // ...
+			}
+			txt = tmp;
 		}
-		else if (rd == -1)
-			return (1);
-		i++;	
+		rd = get_next_line(&txt[++i], fd);
 	}
-	input->txt[i] = NULL;
+	if (rd < 0)
+		return ((char **)twoD_free((void **)txt));
 	close(fd);
-	return (0);
+	return (txt);
 }
 
-static int assign_texture(t_input *input, int i, char c)
-/*No need to substr if we only free input.txt at the end of program,
-	just reference to beggining of string (same goes for map)*/
+static int	assign_color(char *txt, t_color *color)
 {
-	int	j;
+	int		i;
+	char	**splitter;
 
-	j = 1;
-	while (input->txt[i][j] != '.')
-		j++;
-	if (c == 'N')
-		input->north = ft_substr(input->txt[i], j, 20);
-	if (c == 'S')
-		input->south = ft_substr(input->txt[i], j, 20);
-	if (c == 'W')
-		input->west = ft_substr(input->txt[i], j, 20);
-	if (c == 'E')
-		input->east = ft_substr(input->txt[i], j, 20);
-	return (0);
-}
-
-static int	assign_RGB(t_input *input, int i, char c)
-{
-	int		j;
-	char	**f_splitter;
-	char	**c_splitter;
-
-	j = 1;
-	while (!ft_isdigit(input->txt[i][j]))
-		j++;
-	if (c == 'F')
+	i = -1;
+	splitter = ft_split(txt, ',');
+	while (splitter[++i])
+		continue ;
+	if (i == 3) // avoiding segfault
 	{
-		input->floor_RGB = ft_substr(input->txt[i], j, 20);
-		f_splitter = ft_split(input->floor_RGB, ',');
-		input->floor_R = ft_atoi(f_splitter[0]);
-		input->floor_G = ft_atoi(f_splitter[1]);
-		input->floor_B = ft_atoi(f_splitter[2]);
-		input->floor_TRGB = create_trgb(0, input->floor_R, input->floor_G, input->floor_B);
+		color->R = ft_atoi(splitter[0]);
+		color->G = ft_atoi(splitter[1]);
+		color->B = ft_atoi(splitter[2]);
+		color->TRGB = create_trgb(0, color->R, color->G, color->B);
+		i = 0;
 	}
-	if (c == 'C')
-	{
-		input->ceiling_RGB = ft_substr(input->txt[i], j, 20);
-		c_splitter = ft_split(input->ceiling_RGB, ',');
-		input->ceiling_R = ft_atoi(c_splitter[0]);
-		input->ceiling_G = ft_atoi(c_splitter[1]);
-		input->ceiling_B = ft_atoi(c_splitter[2]);
-		input->ceiling_TRGB = create_trgb(0, input->ceiling_R, input->ceiling_G, input->ceiling_B);
-	}
-	return (0);
+	else
+		i = -1;
+	twoD_free((void **)splitter);
+	if (color->R > 255 || color->G > 255 || color->B > 255
+				|| color->R < 0 || color->G < 0 || color->B < 0)
+			i = -1;
+	return (i);
 }
 
 static int	all_assigned(t_input *input)
 {
 	if (input->north == NULL)
-		return (1);
+		return (0);
 	if (input->south == NULL)
-		return (1);
+		return (0);
 	if (input->west == NULL)
-		return (1);
+		return (0);
 	if (input->east == NULL)
-		return (1);
-	if (input->floor_RGB == NULL)
-		return (1);
-	if (input->ceiling_RGB == NULL)
-		return (1);
-	return (0);
+		return (0);
+	if (input->floor.TRGB == -1)
+		return (0);
+	if (input->ceiling.TRGB == -1)
+		return (0);
+	return (1);
 }
 
 static int	assign_elements(t_input *input)
 /**/
 {
 	int	i;
+	int	r;
 
 	i = -1;
-	while(input->txt[++i][0] != '1')
+	r = 0;
+	while(input->txt[++i] && !all_assigned(input) && r != -1)
 	{
-		if (input->txt[i][0] == 'N')
-		{
-			if (assign_texture(input, i, 'N'))
-				return (1);
-		}
-		else if (input->txt[i][0] == 'S')
-		{
-			if (assign_texture(input, i, 'S'))
-				return (1);
-		}
-		else if (input->txt[i][0] == 'W')
-		{
-			if (assign_texture(input, i, 'W'))
-				return (1);
-		}
-		else if (input->txt[i][0] == 'E')
-		{
-			if (assign_texture(input, i, 'E'))
-				return (1);
-		}
-		else if (input->txt[i][0] == 'F')
-		{
-			if (assign_RGB(input, i, 'F'))
-				return (1);
-		}
-		else if (input->txt[i][0] == 'C')
-		{
-			if (assign_RGB(input, i, 'C'))
-				return (1);
-		}
-		if (!all_assigned(input))
-			break ;
+		if (!ft_strncmp(input->txt[i], "NO", 2))
+			input->north = input->txt[i] + 3;
+		else if (!ft_strncmp(input->txt[i], "SO", 2))
+			input->south = input->txt[i] + 3;
+		else if (!ft_strncmp(input->txt[i], "EA", 2))
+			input->east = input->txt[i] + 3;
+		else if (!ft_strncmp(input->txt[i], "WE", 2))
+			input->west = input->txt[i] + 3;
+		else if (!ft_strncmp(input->txt[i], "F", 1))
+			r = assign_color(input->txt[i] + 2, &input->floor);
+		else if (!ft_strncmp(input->txt[i], "C", 1))
+			r = assign_color(input->txt[i] + 2, &input->ceiling);		
 	}
-	return (0);
+	return (r);
 }
 
-static int	assign_map(t_input *input)
+static char	**validate_map(char **txt)
 {
 	int	i;
-	int	j;
+	// int	j;
 
 	i = 0;
-	j = 0;
-	while (input->txt[i] && input->txt[i][j] != '1')
+	while (txt[i] && (ft_isalpha(txt[i][0]) || txt[i][0] == 0))
 		i++;
-	input->map = malloc(sizeof(char*) * (input->height - 8 + 1));
-	if (!input->map)
-		return (1);
-	i = 8;
-	j = 0;
-	while (i < input->height)
-	{
-		input->map[j] = ft_strdup(input->txt[i]);
-		i++;
-		j++;
-	}
-	input->map[j] = NULL;
-	return (0);
+	return (&txt[i]); // provisorio
 }
 
 int map_parsing(char *filename, t_input *input)
+/**/
 {
-	if (get_input_height(filename, input))
+	input->txt = get_input(filename);
+	if (!input->txt)
+		return (1); // ... or exit from withing function
+	if (assign_elements(input) < 0)
 		return (1);
-	input->txt = malloc(sizeof(char*) * input->height + 1);
-	if (get_input(filename, input))
-		return (1);
-	if (assign_elements(input))
-		return (1);
-	if (assign_map(input))
+	input->map = validate_map(input->txt);
+	if (!input->map)
 		return (1);
 	return (0);
 }

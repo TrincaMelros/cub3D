@@ -10,3 +10,9 @@ void	error_general(int errnum, char *str)
 		perror(strerror(errno));
 	exit(errnum);
 }
+
+void	free_and_exit(void *obj)
+{
+	(void)obj;
+	// ...
+}
