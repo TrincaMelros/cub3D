@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 16:45:21 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/13 21:10:29 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/16 14:16:07 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ static int	assign_elements(t_input *input)
 }
 
 static char	**validate_map(char **txt)
+/*what to do with tabs?*/
 {
 	int	i;
 	// int	j;

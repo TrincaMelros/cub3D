@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cheatsheet1.c                                      :+:      :+:    :+:   */
+/*   untextured.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 12:12:25 by yohan             #+#    #+#             */
-/*   Updated: 2022/03/11 17:16:32 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/16 15:23:39 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx/mlx.h"
+#include <mlx.h>
 #include "key_macos.h"
 #include <math.h>
 #include <string.h>
@@ -20,8 +20,18 @@
 #define X_EVENT_KEY_EXIT	17
 #define mapWidth 24 // to be done in parsing
 #define mapHeight 24
-#define width 640 // to be user defined??
+#define width 640 // user defined??
 #define height 480
+
+typedef struct	s_img
+{
+	void	*img;
+	char	*path_to_texture;
+	int		*addr;
+	int		bitsperpixel;
+	int		length;
+	int		endian;
+}	t_img;
 
 typedef struct	s_info
 {
@@ -45,7 +55,11 @@ typedef struct	s_info
 	// fps ??
 	double	moveSpeed;
 	double	rotSpeed;
+
+	t_img	img;
 }				t_info;
+
+
 
 int	worldMap[24][24] = {
 							{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -74,6 +88,7 @@ int	worldMap[24][24] = {
 							{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 						};
 
+
 void	verLine(t_info *info, int x, int y1, int y2, int color)
 /**
  * Drawing a column on the x axis depending on distance from pos to a wall/object
@@ -84,7 +99,9 @@ void	verLine(t_info *info, int x, int y1, int y2, int color)
 	y = y1;
 	while (y <= y2)
 	{
-		mlx_pixel_put(info->mlx, info->win, x, y, color);
+		info->img.addr[y * width + x] = color; // put_pixel_to_image(...)
+		// put_pixel_to_img(&info->img, x, y, color);
+		// mlx_pixel_put(info->mlx, info->win, x, y, color);
 		y++;
 	}
 }
@@ -209,9 +226,10 @@ void	calc(t_info *info)
 
 int	main_loop(t_info *info)
 {
+	// mlx_clear_window(info->mlx, info->win);
+	memset(info->img.addr, 0, sizeof(int) * (width * height)); // clear_image()
 	calc(info);
-	// mlx_put_image_to_window(info->mlx, info->win, &info->img, 0, 0);
-
+	mlx_put_image_to_window(info->mlx, info->win, info->img.img, 0, 0);
 	return (0);
 }
 
@@ -262,6 +280,7 @@ int	key_press(int key, t_info *info)
 int	main(void)
 {
 	t_info info;
+	memset(&info, 0, sizeof(t_info));
 	info.mlx = mlx_init();
 
 	info.posX = 12;
@@ -274,6 +293,8 @@ int	main(void)
 	info.rotSpeed = 0.05;
 
 	info.win = mlx_new_window(info.mlx, width, height, "mlx");
+	info.img.img = mlx_new_image(info.mlx, width, height);
+	info.img.addr = (int *)mlx_get_data_addr(info.img.img, &info.img.bitsperpixel, &info.img.length, &info.img.endian);
 
 	mlx_loop_hook(info.mlx, &main_loop, &info);
 	mlx_hook(info.win, X_EVENT_KEY_PRESS, 0, &key_press, &info);
