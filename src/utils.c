@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 17:15:00 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/13 19:43:59 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/21 12:21:49 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_puttext(char **text)
 	}
 }
 
-void	**twoD_free(void **ptr_arr)
+void	twoD_free(void **ptr_arr)
 {
 	while (*ptr_arr)
 	{

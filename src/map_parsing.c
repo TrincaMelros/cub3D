@@ -6,11 +6,45 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 16:45:21 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/16 14:16:07 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/21 15:47:22 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static int	parse_line(const char *line)
+/*for map only (for now)*/
+{
+	static unsigned char	player_in; // if N, S, E or W found once
+	static bool				map_in; // if map reached
+	int						i;
+	char					s[200];
+	
+	i = -1;
+	ft_memset(s, 0, 200);
+	// maybe atribute textures here ??
+	if (!ft_strset(line, "NO") || !ft_strset(line, "SO") || !ft_strset(line, "EA")
+			|| !ft_strset(line, "WE") || !ft_strset(line, "F") || !ft_strset(line, "C"))
+			return (0);
+	line = ft_strset(line, "\t ");
+	while (ft_strchr("01NSEW\t ", line[++i]))
+	{
+		if (!map_in)
+		{
+			if (!ft_strset(line, "\t1 "))
+			{
+				map_in = true;
+				return (0);
+			}
+			ft_strlcpy(s, "Error\nmap: Not surrounded by 1's.", 200);
+			break ;
+		}
+		// if (line[0] != '1' || ft_strrchr(line, '1'))
+	}
+	if (!s)
+		ft_putendl_fd("Error\nmap: Invalid element.\n", 2);
+	return (MAPVAL);
+}
 
 static char	**get_input(char *file)
 {
@@ -43,9 +77,14 @@ static char	**get_input(char *file)
 			txt = tmp;
 		}
 		rd = get_next_line(&txt[++i], fd);
+		if (parse_line(txt[i]))
+			rd = -1; // need error message
 	}
 	if (rd < 0)
-		return ((char **)twoD_free((void **)txt));
+	{
+		twoD_free((void **)txt);
+		return (NULL);
+	}
 	close(fd);
 	return (txt);
 }
@@ -119,27 +158,13 @@ static int	assign_elements(t_input *input)
 	return (r);
 }
 
-static char	**validate_map(char **txt)
-/*what to do with tabs?*/
-{
-	int	i;
-	// int	j;
-
-	i = 0;
-	while (txt[i] && (ft_isalpha(txt[i][0]) || txt[i][0] == 0))
-		i++;
-	return (&txt[i]); // provisorio
-}
-
 int map_parsing(char *filename, t_input *input)
-/**/
 {
 	input->txt = get_input(filename);
 	if (!input->txt)
 		return (1); // ... or exit from withing function
 	if (assign_elements(input) < 0)
 		return (1);
-	input->map = validate_map(input->txt);
 	if (!input->map)
 		return (1);
 	return (0);

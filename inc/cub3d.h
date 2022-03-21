@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/13 20:14:16 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/21 14:38:44 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <string.h>
+# include <stdbool.h>
 
 # include "libft.h"
 # include "events.h"
@@ -30,11 +31,15 @@
 # define BUFFER_SIZE 1
 
 	/*	Error ID	*/
-typedef enum	e_error {
-	SYSCALL,
-	MAPVAL,
-	OTHER
-}	t_error;
+# define SYSCALL 1
+# define MAPVAL 2
+# define OTHER 3
+
+// typedef enum	e_error {
+// 	SYSCALL,
+// 	MAPVAL,
+// 	OTHER
+// }	t_error;
 
 typedef struct s_color {
 	int	R;	
@@ -85,7 +90,7 @@ typedef struct s_cub3d
 {
 	t_mlx	mlx_obj;
 	t_input	input;
-	t_error	errnum;
+	// t_error	errnum;
 }		t_cub3d;
 
 		/*	Get Next line */
@@ -100,11 +105,12 @@ void	ft_pixel_put(int *addr, int x, int y, int color);
 
 		/*	Error Handling	*/
 void	error_general(int errnum, char *str);
+int		ft_error(char *s);
 
 		/*	Other utils	*/
 void	ft_putstr_err(char *s);
 void	ft_puttxt(char **txt);
-void	**twoD_free(void **ptr_arr);
+void	twoD_free(void **ptr_arr);
 void	**twoD_realloc(void **ptr, size_t size);
 
 #endif
