@@ -15,7 +15,7 @@
 void	ft_putstr_err(char *s)
 {
 	if (write(1, s, ft_strlen(s)) == -1)
-		error_general(SYSCALL, 0);
+		exit(SYSCALL);
 }
 
 void	ft_puttext(char **text)
@@ -34,7 +34,6 @@ void	twoD_free(void **ptr_arr)
 		free(*ptr_arr);
 		*ptr_arr++ = NULL;
 	}
-	return (NULL); // because norminette (...for now). maybe set to NULL by reference??
 }
 
 void	**twoD_realloc(void **ptr, const size_t size)

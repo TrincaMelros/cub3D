@@ -15,9 +15,8 @@
 
 int		ft_error(char *s)
 {
-	ft_putendl_fd("Error\n", 2);
+	ft_putstr_fd("Error\n", 2);
 	ft_putendl_fd(s, 2);
-	free(s);
 	return (1); // for now
 }
 
@@ -30,14 +29,14 @@ int		ft_error(char *s)
 // 		perror(strerror(errno));
 // 	else if (errnum == MAPVAL)
 // 	{
-		
+
 // 	}
 // 	exit(errnum);
 // }
 
 void	free_and_exit(t_cub3d *cub3d, char *s) /*function pointer as 2nd arg??*/
 {
-	twoD_free(cub3d->input.txt);
-	error_general(1, s);
+	twoD_free((void **)cub3d->input.txt);
+	ft_error(s);
 	// ...
 }

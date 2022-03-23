@@ -15,11 +15,11 @@
 static int	parse_line(const char *line)
 /*for map only (for now)*/
 {
-	static unsigned char	player_in; // if N, S, E or W found once
+/* 	static unsigned char	player_in;  */// if N, S, E or W found once
 	static bool				map_in; // if map reached
 	int						i;
 	char					s[200];
-	
+
 	i = -1;
 	ft_memset(s, 0, 200);
 	// maybe atribute textures here ??
@@ -41,7 +41,7 @@ static int	parse_line(const char *line)
 		}
 		// if (line[0] != '1' || ft_strrchr(line, '1'))
 	}
-	if (!s)
+	if (!*s) // asking for segfault
 		ft_putendl_fd("Error\nmap: Invalid element.\n", 2);
 	return (MAPVAL);
 }
@@ -153,7 +153,7 @@ static int	assign_elements(t_input *input)
 		else if (!ft_strncmp(input->txt[i], "F", 1))
 			r = assign_color(input->txt[i] + 2, &input->floor);
 		else if (!ft_strncmp(input->txt[i], "C", 1))
-			r = assign_color(input->txt[i] + 2, &input->ceiling);		
+			r = assign_color(input->txt[i] + 2, &input->ceiling);
 	}
 	return (r);
 }

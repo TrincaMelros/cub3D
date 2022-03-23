@@ -67,19 +67,21 @@ int main(int argc, char **argv)
 {
 	t_cub3d	cub;
 
-    if (argc != 2)
-		error_general(OTHER, "Invalid number of arguments.");
+	if (argc != 2)
+		ft_error("Invalid number of arguments.");
 	ft_memset(&cub, 0, sizeof(t_cub3d));
 	init_vars(&cub.input);
-    if (map_parsing(argv[1], &cub.input)) // 
+	if (map_parsing(argv[1], &cub.input))
 		return (1);
 
 
-	print_input(cub.input.txt);
+	/**********  *************/
+//	print_input(cub.input.txt);
 	print_path(cub.input);
 	print_RGB(cub.input);
 	print_map(cub.input);
+	/**********  *************/
 
 	free_all(&cub);
-    return (0);
+	return (0);
 }
