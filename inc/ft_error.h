@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_error.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/16 14:31:14 by fbarros           #+#    #+#             */
-/*   Updated: 2022/03/28 14:50:23 by fbarros          ###   ########.fr       */
+/*   Created: 2022/03/28 14:03:34 by fbarros           #+#    #+#             */
+/*   Updated: 2022/03/28 14:07:28 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef FT_ERROR_H
+#define FT_ERROR_H
 
-#include "cub3d.h"
+# include "cub3d.h" // ...
+# include <errno.h>
 
-int		ft_error(char *s)
-{
-	ft_putendl_fd("Error\n", 2);
-	if (errno || !s)
-	{
-		perror(strerror(errno));
-		exit(SYSCALL);
-	}
-	ft_putendl_fd(s, 2);
-	exit(OTHER);
-}
+# define SYSCALL 1
+# define OTHER 2
+// # define MAPVAL 3
 
-void	free_and_exit(t_cub3d cub3d, char *s)
-{
-	twoD_free((void **)cub3d->input.txt);
-	ft_error(s);
-}
+int		ft_error(char *s);
+void	free_and_exit(t_cub3d *cub3d, char *s);
+// void	error_general(int errnum, char *str);
+
+#endif

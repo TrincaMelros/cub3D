@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/21 14:38:44 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/28 14:36:19 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,38 +21,28 @@
 # include <sys/uio.h>
 # include <unistd.h>
 # include <stdio.h>
-# include <errno.h>
 # include <string.h>
 # include <stdbool.h>
 
 # include "libft.h"
 # include "events.h"
+# include "ft_error.h"
 
 # define BUFFER_SIZE 1
 
-	/*	Error ID	*/
-# define SYSCALL 1
-# define MAPVAL 2
-# define OTHER 3
-
-// typedef enum	e_error {
-// 	SYSCALL,
-// 	MAPVAL,
-// 	OTHER
-// }	t_error;
+# define WIDTH 1920
+# define HEIGHT 1080
 
 typedef struct s_color {
-	int	R;	
-	int	G;	
+	int	R;
+	int	G;
 	int	B;
-	int	TRGB;	
+	int	TRGB;
 }	t_color;
 
 	/*	Parsing Struct	*/
 typedef struct s_input {
 	char	**txt;
-	int		height;
-
 	char	*north;
 	char	*south;
 	char	*west;
@@ -62,6 +52,8 @@ typedef struct s_input {
 	t_color	ceiling;
 
 	char	**map;
+	int		map_w;
+	int		map_h;
 }		t_input;
 
 	/*	Images	*/
@@ -79,8 +71,8 @@ typedef struct s_img {
 typedef struct s_mlx {
 	void	*mlx;
 	void	*window;
-	int		width;
-	int		height;
+	// int		width;
+	// int		height;
 	t_img	*imgs;
 }	t_mlx;
 
@@ -88,9 +80,9 @@ typedef struct s_mlx {
 	/*	General Struct	*/
 typedef struct s_cub3d
 {
-	t_mlx	mlx_obj;
 	t_input	input;
-	// t_error	errnum;
+	t_mlx	mlx_obj;
+	t_img	*imgs; // or imgs[7] (raycasting including floor and ceiling, no, so, ea, we, sprites)
 }		t_cub3d;
 
 		/*	Get Next line */
@@ -103,14 +95,10 @@ int		map_parsing(char *filename, t_input *input);
 int		create_trgb(int t, int r, int g, int b);
 void	ft_pixel_put(int *addr, int x, int y, int color);
 
-		/*	Error Handling	*/
-void	error_general(int errnum, char *str);
-int		ft_error(char *s);
-
 		/*	Other utils	*/
 void	ft_putstr_err(char *s);
 void	ft_puttxt(char **txt);
-void	twoD_free(void **ptr_arr);
+int		twoD_free(void **ptr_arr);
 void	**twoD_realloc(void **ptr, size_t size);
 
 #endif

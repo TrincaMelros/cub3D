@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/13 20:59:04 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/28 14:57:03 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,37 +49,33 @@ void	print_map(t_input input)
 }
 /***************************AUXILIARY TEMPORARY FUNCTIONS*************************************/
 
-
+static void	ft_init(t_cub3d *obj)
+{
+	ft_memset(obj, 0, sizeof(t_cub3d));
+	obj->input.floor.TRGB = -1;
+	obj->input.ceiling.TRGB = -1;
+}
 
 static void	free_all(t_cub3d *obj)
 {
 	twoD_free((void **)&obj->input.txt);
-	// ...
-}
-
-static void	init_vars(t_input *input)
-{
-	input->floor.TRGB = -1;
-	input->ceiling.TRGB = -1;
+	
 }
 
 int main(int argc, char **argv)
 {
-	t_cub3d	cub;
+	t_cub3d	cub3d;
 
     if (argc != 2)
-		error_general(OTHER, "Invalid number of arguments.");
-	ft_memset(&cub, 0, sizeof(t_cub3d));
-	init_vars(&cub.input);
-    if (map_parsing(argv[1], &cub.input)) // 
+		ft_error("Invalid number of arguments.");
+	ft_init(&cub3d);
+    if (map_parsing(argv[1], &cub3d.input))
 		return (1);
-
-
-	print_input(cub.input.txt);
-	print_path(cub.input);
-	print_RGB(cub.input);
-	print_map(cub.input);
-
-	free_all(&cub);
+	// cub3d.mlx_obj.mlx = mlx_init();
+	// cub3d.mlx_obj.window = mlx_new_window(cub3d.mlx_obj.mlx, WIDTH, HEIGHT, "Cub3D");
+	// // mlx_loop_hook(cub3d.mlx_obj.mlx, &raycast(mlx_obj ??), &cub3d);
+	// mlx_loop(cub3d.mlx_obj.mlx);
+	// mlx_destroy_window(cub3d.mlx_obj.mlx, cub3d.mlx_obj.window);
+	free_all(&cub3d);
     return (0);
 }

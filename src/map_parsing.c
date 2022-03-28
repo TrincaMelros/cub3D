@@ -6,32 +6,38 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 16:45:21 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/21 15:47:22 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/28 14:53:24 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 static int	parse_line(const char *line)
-/*for map only (for now)*/
+/**for map only (...for now)
+ * Should probly only check valid info for all file
+*/
 {
-	static unsigned char	player_in; // if N, S, E or W found once
+	// static unsigned char	player_in; // if N, S, E or W found once
 	static bool				map_in; // if map reached
 	int						i;
 	char					s[200];
-	
-	i = -1;
+
 	ft_memset(s, 0, 200);
+	i = ft_strlen(line);
 	// maybe atribute textures here ??
-	if (!ft_strset(line, "NO") || !ft_strset(line, "SO") || !ft_strset(line, "EA")
-			|| !ft_strset(line, "WE") || !ft_strset(line, "F") || !ft_strset(line, "C"))
+	if (ft_strnstr(line, "NO", i) || ft_strnstr(line, "SO", i) || ft_strnstr(line, "EA", i)
+			|| ft_strnstr(line, "WE", i) || ft_strnstr(line, "F", i) || ft_strnstr(line, "C", i))
 			return (0);
-	line = ft_strset(line, "\t ");
+	i = 0;
+	while (ft_isspace(line[i + 1]))
+		i++;
+	if (!line[i])
+		return (0);
 	while (ft_strchr("01NSEW\t ", line[++i]))
 	{
-		if (!map_in)
+		if (!map_in) // ??
 		{
-			if (!ft_strset(line, "\t1 "))
+			if (ft_strset(line, "1 	"))
 			{
 				map_in = true;
 				return (0);
@@ -41,12 +47,16 @@ static int	parse_line(const char *line)
 		}
 		// if (line[0] != '1' || ft_strrchr(line, '1'))
 	}
-	if (!s)
-		ft_putendl_fd("Error\nmap: Invalid element.\n", 2);
-	return (MAPVAL);
+	if (!*s)
+		return (1);
 }
 
 static char	**get_input(char *file)
+/**
+ * "The map must be parsed as it looks in the file."
+ * (Considering just passing text by reference ??0
+ *
+*/
 {
 	char	**txt;
 	char	**tmp; // for safety ... need alternative
@@ -58,7 +68,6 @@ static char	**get_input(char *file)
 	rd = 1;
 	i = -1;
 	txt = ft_calloc(2, sizeof(char *));
-	// txt[1] = NULL;
 	if (fd < 0 || !txt)
 	{
 		free(txt);
@@ -68,22 +77,20 @@ static char	**get_input(char *file)
 	{
 		if (i >= 0)
 		{
-			tmp = (char **)twoD_realloc((void **)txt, 1);
+			tmp = (char **)twoD_realloc((void **)txt, 1); // absolute crap! Pass by reference
 			if (!tmp)
-			{
-				rd = -1;
-				break ; // ...
-			}
+				ft_error("malloc: failed to allocate memory.\n");
 			txt = tmp;
 		}
 		rd = get_next_line(&txt[++i], fd);
 		if (parse_line(txt[i]))
 			rd = -1; // need error message
 	}
+/* 	scan through all map again */
 	if (rd < 0)
 	{
 		twoD_free((void **)txt);
-		return (NULL);
+		return (NULL); // or exit?
 	}
 	close(fd);
 	return (txt);
@@ -153,7 +160,7 @@ static int	assign_elements(t_input *input)
 		else if (!ft_strncmp(input->txt[i], "F", 1))
 			r = assign_color(input->txt[i] + 2, &input->floor);
 		else if (!ft_strncmp(input->txt[i], "C", 1))
-			r = assign_color(input->txt[i] + 2, &input->ceiling);		
+			r = assign_color(input->txt[i] + 2, &input->ceiling);
 	}
 	return (r);
 }
@@ -162,7 +169,7 @@ int map_parsing(char *filename, t_input *input)
 {
 	input->txt = get_input(filename);
 	if (!input->txt)
-		return (1); // ... or exit from withing function
+		return (1); // in case forgot to exit()? 
 	if (assign_elements(input) < 0)
 		return (1);
 	if (!input->map)

@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 17:15:00 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/21 12:21:49 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/28 14:35:38 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	ft_putstr_err(char *s)
 {
 	if (write(1, s, ft_strlen(s)) == -1)
-		error_general(SYSCALL, 0);
+		exit(SYSCALL);
+		// error_general(SYSCALL, 0);
 }
 
 void	ft_puttext(char **text)
@@ -27,14 +28,13 @@ void	ft_puttext(char **text)
 	}
 }
 
-void	twoD_free(void **ptr_arr)
+int	twoD_free(void **ptr_arr)
 {
 	while (*ptr_arr)
 	{
 		free(*ptr_arr);
 		*ptr_arr++ = NULL;
 	}
-	return (NULL); // because norminette (...for now). maybe set to NULL by reference??
 }
 
 void	**twoD_realloc(void **ptr, const size_t size)
