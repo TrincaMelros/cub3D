@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/28 15:00:45 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/29 11:38:53 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,22 @@ static void	free_all(t_cub3d *obj)
 	
 }
 
+static void	check_ftype(const char *ftype)
+{
+	char	*cptr;
+
+	cptr = ft_strchr(ftype, '.');
+	if (ft_strlen(cptr) != 4 || !ft_strnstr(cptr, "cub", 4))
+		ft_error("Wrong file type.");
+}
+
 int main(int argc, char **argv)
 {
 	t_cub3d	cub3d;
 
     if (argc != 2)
 		ft_error("Invalid number of arguments.");
+	check_ftype(argv[1]);
 	ft_init(&cub3d);
     if (map_parsing(argv[1], &cub3d.input))
 		return (1);

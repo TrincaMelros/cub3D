@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/28 14:36:19 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/29 12:16:38 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,15 @@
 
 # include "libft.h"
 # include "events.h"
-# include "ft_error.h"
+
+# include <errno.h>
+
+enum	e_error {
+	SUCCESS,
+	SYSCALL,
+	MAPVAL,
+	OTHER
+} ;
 
 # define BUFFER_SIZE 1
 
@@ -34,10 +42,10 @@
 # define HEIGHT 1080
 
 typedef struct s_color {
-	int	R;
-	int	G;
-	int	B;
-	int	TRGB;
+	int	r;
+	int	g;
+	int	b;
+	int	trgb;
 }	t_color;
 
 	/*	Parsing Struct	*/
@@ -48,7 +56,7 @@ typedef struct s_input {
 	char	*west;
 	char	*east;
 
-	t_color floor;
+	t_color	floor;
 	t_color	ceiling;
 
 	char	**map;
@@ -71,25 +79,27 @@ typedef struct s_img {
 typedef struct s_mlx {
 	void	*mlx;
 	void	*window;
-	// int		width;
-	// int		height;
 	t_img	*imgs;
 }	t_mlx;
-
 
 	/*	General Struct	*/
 typedef struct s_cub3d
 {
 	t_input	input;
 	t_mlx	mlx_obj;
-	t_img	*imgs; // or imgs[7] (raycasting including floor and ceiling, no, so, ea, we, sprites)
+	t_img	*imgs;
 }		t_cub3d;
+
+		/* Error Handling */
+int		ft_error(char *s);
+void	free_and_exit(t_cub3d *cub3d, char *s);
 
 		/*	Get Next line */
 int		get_next_line(char **line, int fd);
 
 		/*	Map Parsing	*/
 int		map_parsing(char *filename, t_input *input);
+int		assign_elements(t_input *input);
 
 		/*  Mlx utils  */
 int		create_trgb(int t, int r, int g, int b);
@@ -98,7 +108,7 @@ void	ft_pixel_put(int *addr, int x, int y, int color);
 		/*	Other utils	*/
 void	ft_putstr_err(char *s);
 void	ft_puttxt(char **txt);
-int		twoD_free(void **ptr_arr);
+void	twoD_free(void **ptr_arr);
 void	**twoD_realloc(void **ptr, size_t size);
 
 #endif

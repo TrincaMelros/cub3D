@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:31:14 by fbarros           #+#    #+#             */
-/*   Updated: 2022/03/28 15:00:22 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/29 11:26:32 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 int		ft_error(char *s)
 {
-	ft_putendl_fd("Error\n", 2);
-	if (errno || !s)
+	ft_putendl_fd("Error", 2);
+	if (!s)
 	{
 		perror(strerror(errno));
 		exit(SYSCALL);
