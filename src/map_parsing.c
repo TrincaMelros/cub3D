@@ -56,6 +56,7 @@ static char	**get_input(char *file)
 /**
  * "The map must be parsed as it looks in the file."
  * (Considering just passing text by reference ??
+ * Need distinguish syscall error from map validation error
 */
 {
 	char	**txt;
@@ -65,34 +66,39 @@ static char	**get_input(char *file)
 	int		i;
 
 	fd = open(file, O_RDONLY);
-	rd = 1;
-	i = -1;
-	txt = ft_calloc(2, sizeof(char *));
-	if (fd < 0 || !txt)
-	{
-		free(txt);
-		return (NULL);
-	}
+//	rd = 1;
+//	i = -1;
+//	txt = ft_calloc(2, sizeof(char *));
+//	if (fd > 0)
+//	{
+	rd = get_next_line(txt, fd);
+	txt[1] = 0; // ??
 	while (rd == 1)
 	{
 		if (i >= 0)
 		{
 			tmp = (char **)twoD_realloc((void **)txt, 1);
 			if (!tmp)
-				ft_error("malloc: failed to allocate memory.\n");
+			{
+				rd = -1;
+				break ;
+			}
 			txt = tmp;
 		}
 		rd = get_next_line(&txt[++i], fd);
-		if (parse_line(txt[i]))
+		if (parse_line(txt[i]) == -1)
 		/*need error message*/
 			rd = -1;
 	}
+//	}
 	if (rd < 0)
 	{
-		twoD_free((void **)txt);
-		return (NULL);
+		if (fd > 0)
+			close(fd);
+		if (txt)
+			txt = (char **)twoD_free((void **)txt);
+		ft_error(0);
 	}
-	close(fd);
 	return (txt);
 }
 

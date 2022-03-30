@@ -108,7 +108,7 @@ void	ft_pixel_put(int *addr, int x, int y, int color);
 		/*	Other utils	*/
 void	ft_putstr_err(char *s);
 void	ft_puttxt(char **txt);
-void	twoD_free(void **ptr_arr);
+void	**twoD_free(void **ptr_arr);
 void	**twoD_realloc(void **ptr, size_t size);
 
 #endif

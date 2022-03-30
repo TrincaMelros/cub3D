@@ -28,7 +28,7 @@ void	ft_puttext(char **text)
 	}
 }
 
-void	twoD_free(void **ptr_arr)
+void	**twoD_free(void **ptr_arr)
 {
 	while (*ptr_arr)
 	{
