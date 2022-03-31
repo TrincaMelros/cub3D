@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 12:15:11 by fbarros           #+#    #+#             */
-/*   Updated: 2022/03/29 12:20:24 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/30 12:05:11 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	assign_color(char *txt, t_color *color)
 	}
 	else
 		i = -1;
-	twoD_free((void **)splitter);
+	twod_free((void **)splitter);
 	if (color->r > 255 || color->g > 255 || color->b > 255
 		|| color->r < 0 || color->g < 0 || color->b < 0)
 			i = -1;

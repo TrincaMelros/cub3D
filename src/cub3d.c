@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/29 11:38:53 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/30 12:04:47 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ void	print_path(t_input input)
 
 void	print_RGB(const t_input input)
 {
-	printf("floor red is %d\n", input.floor.R);
-	printf("floor green is %d\n", input.floor.G);
-	printf("floor blue is %d\n", input.floor.B);
-	printf("floor trgb is %d\n", input.floor.TRGB);
-	printf("ceiling red is %d\n", input.ceiling.R);
-	printf("ceiling green is %d\n", input.ceiling.G);
-	printf("ceiling blue is %d\n", input.ceiling.B);
-	printf("ceiling trgb is %d\n", input.ceiling.TRGB);
+	printf("floor red is %d\n", input.floor.r);
+	printf("floor green is %d\n", input.floor.g);
+	printf("floor blue is %d\n", input.floor.b);
+	printf("floor trgb is %d\n", input.floor.trgb);
+	printf("ceiling red is %d\n", input.ceiling.r);
+	printf("ceiling green is %d\n", input.ceiling.g);
+	printf("ceiling blue is %d\n", input.ceiling.b);
+	printf("ceiling trgb is %d\n", input.ceiling.trgb);
 }
 
 void	print_map(t_input input)
@@ -52,13 +52,13 @@ void	print_map(t_input input)
 static void	ft_init(t_cub3d *obj)
 {
 	ft_memset(obj, 0, sizeof(t_cub3d));
-	obj->input.floor.TRGB = -1;
-	obj->input.ceiling.TRGB = -1;
+	obj->input.floor.trgb = -1;
+	obj->input.ceiling.trgb = -1;
 }
 
 static void	free_all(t_cub3d *obj)
 {
-	twoD_free((void **)&obj->input.txt);
+	twod_free((void **)&obj->input.txt);
 	
 }
 

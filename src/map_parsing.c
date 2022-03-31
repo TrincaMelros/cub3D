@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 16:45:21 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/29 12:21:14 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/31 11:48:48 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,44 +60,36 @@ static char	**get_input(char *file)
 */
 {
 	char	**txt;
-	char	**tmp;
+	// char	**tmp; // consider using char *tmp (1 line)
 	int		fd;
 	int		rd;
 	int		i;
 
 	fd = open(file, O_RDONLY);
-//	rd = 1;
-//	i = -1;
-//	txt = ft_calloc(2, sizeof(char *));
-//	if (fd > 0)
-//	{
+	txt = &file; // because effin -Werror
 	rd = get_next_line(txt, fd);
-	txt[1] = 0; // ??
+	i = 1;
 	while (rd == 1)
 	{
-		if (i >= 0)
+		txt = (char **)twod_realloc((void **)txt, 1); // assign NULL within function if it doesn't have one already
+		if (!txt)
 		{
-			tmp = (char **)twoD_realloc((void **)txt, 1);
-			if (!tmp)
-			{
-				rd = -1;
-				break ;
-			}
-			txt = tmp;
+			rd = -1;
+			break ;
 		}
+		// txt = tmp;
 		rd = get_next_line(&txt[++i], fd);
 		if (parse_line(txt[i]) == -1)
 		/*need error message*/
 			rd = -1;
 	}
-//	}
 	if (rd < 0)
 	{
 		if (fd > 0)
 			close(fd);
 		if (txt)
-			txt = (char **)twoD_free((void **)txt);
-		ft_error(0);
+			txt = (char **)twod_free((void **)txt);
+		ft_error(NULL);
 	}
 	return (txt);
 }

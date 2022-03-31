@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/29 12:16:38 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/31 10:22:45 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	ft_pixel_put(int *addr, int x, int y, int color);
 		/*	Other utils	*/
 void	ft_putstr_err(char *s);
 void	ft_puttxt(char **txt);
-void	**twoD_free(void **ptr_arr);
-void	**twoD_realloc(void **ptr, size_t size);
+void	**twod_realloc(void **ptr, size_t size);
+void	**twod_free(void **ptr_arr);
 
 #endif

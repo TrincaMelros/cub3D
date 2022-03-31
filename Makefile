@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbarros <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/08 13:26:17 by fbarros           #+#    #+#              #
-#    Updated: 2021/11/08 13:36:00 by fbarros          ###   ########.fr        #
+#    Updated: 2022/03/29 11:03:42 by fbarros          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ DEBUG = -g
 
 LIBS = -lm -L./libft -lft
 
-INCLUDES = -I inc/ -Imlx
+INCLUDES = -Iinc/ -Imlx
 
 SRCS = $(wildcard src/*.c)
 

@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:31:14 by fbarros           #+#    #+#             */
-/*   Updated: 2022/03/29 11:26:32 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/03/30 12:05:06 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ int		ft_error(char *s)
 
 void	free_and_exit(t_cub3d *cub3d, char *s)
 {
-	twoD_free((void **)cub3d->input.txt);
+	twod_free((void **)cub3d->input.txt);
 	ft_error(s);
 }
