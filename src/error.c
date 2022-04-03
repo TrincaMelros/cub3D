@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "cub3d.h"
 
 int		ft_error(char *s)
@@ -19,14 +18,19 @@ int		ft_error(char *s)
 	if (!s)
 	{
 		perror(strerror(errno));
-		exit(SYSCALL);
+		return(SYSCALL);
 	}
 	ft_putendl_fd(s, 2);
-	exit(OTHER);
+	return(OTHER);
+}
+
+void	error_exit(char *s) // exit numcode as 2nd param??
+{
+	exit(ft_error(s));
 }
 
 void	free_and_exit(t_cub3d *cub3d, char *s)
 {
 	twod_free((void **)cub3d->input.txt);
-	ft_error(s);
+	error_exit(s);
 }

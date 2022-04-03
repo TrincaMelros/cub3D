@@ -52,9 +52,9 @@ static int	parse_line(const char *line)
 	return (0);
 }
 
-static char	**get_input(char *file)
+static char	**get_input(char *file, t_input *input)
 /**
- * "The map must be parsed as it looks in the file."
+ * "The map must be parsed as it looks [like] in the file." The map meaning the .cub file??
  * (Considering just passing text by reference ??
  * Need distinguish syscall error from map validation error
 */
@@ -89,16 +89,16 @@ static char	**get_input(char *file)
 			close(fd);
 		if (txt)
 			txt = (char **)twod_free((void **)txt);
-		ft_error(NULL);
+		error_exit(NULL);
 	}
 	return (txt);
 }
 
 int map_parsing(char *filename, t_input *input)
 {
-	input->txt = get_input(filename);
+	input->txt = get_input(filename, input);
 	if (!input->txt)
-		return (1);
+		return (ft_error(NULL)); // or just exit from within (will always be segfault at this point)
 	if (assign_elements(input) < 0)
 		return (1);
 	if (!input->map)
