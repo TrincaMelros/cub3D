@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:48:15 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/28 14:19:56 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/01 17:02:33 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	get_next_line(char **line, int fd)
 	static char	*saved[10000];
 	int			rd;
 
-	if (fd < 0 || read(fd, 0, 0) < 0 || !line || BUFFER_SIZE <= 0)
+	if (fd < 0 || read(fd, 0, 0) < 0 /* || !line  */|| BUFFER_SIZE <= 0)
 		return (-1);
 	if (!saved[fd])
 		saved[fd] = ft_calloc(1, 1);

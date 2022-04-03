@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/31 10:22:45 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/01 16:31:14 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 enum	e_error {
 	SUCCESS,
 	SYSCALL,
-	MAPVAL,
+//	MAPVAL,
 	OTHER
 } ;
 
@@ -85,9 +85,10 @@ typedef struct s_mlx {
 	/*	General Struct	*/
 typedef struct s_cub3d
 {
-	t_input	input;
-	t_mlx	mlx_obj;
-	t_img	*imgs;
+	t_input			input;
+	t_mlx			mlx_obj;
+	t_img			*imgs;
+	enum e_error	status;
 }		t_cub3d;
 
 		/* Error Handling */

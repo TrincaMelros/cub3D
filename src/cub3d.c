@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/03/30 12:04:47 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/01 17:18:48 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int main(int argc, char **argv)
 		ft_error("Invalid number of arguments.");
 	check_ftype(argv[1]);
 	ft_init(&cub3d);
-    if (map_parsing(argv[1], &cub3d.input))
-		return (1);
+    map_parsing(argv[1], &cub3d.input);
+	print_map(cub3d.input);
 	// cub3d.mlx_obj.mlx = mlx_init();
 	// cub3d.mlx_obj.window = mlx_new_window(cub3d.mlx_obj.mlx, WIDTH, HEIGHT, "Cub3D");
 	// // mlx_loop_hook(cub3d.mlx_obj.mlx, &raycast(mlx_obj ??), &cub3d);
