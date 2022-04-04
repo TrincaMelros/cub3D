@@ -25,7 +25,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 DEBUG = -g
 
-LIBS = -lm -L./libft -lft
+LIBS = -lm -L./libft -lft -lmlx
 
 INCLUDES = -I inc/ -Imlx
 

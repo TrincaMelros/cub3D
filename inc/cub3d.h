@@ -73,6 +73,8 @@ typedef struct s_img {
 
 	/*	MLX	*/
 typedef struct s_mlx {
+	void	*mlx;
+	void	*mlx_win;
 	void	*instance;
 	void	*window;
 	int		width;
@@ -80,6 +82,10 @@ typedef struct s_mlx {
 	t_img	*imgs;
 }	t_mlx;
 
+typedef struct s_assets {
+	void	*floor;
+	void	*wall;
+}	t_assets;
 
 	/*	General Struct	*/
 typedef struct s_cub3d
@@ -87,6 +93,7 @@ typedef struct s_cub3d
 	t_mlx	mlx_obj;
 	t_input	input;
 	t_error	errnum;
+	t_assets assets;
 }		t_cub3d;
 
 		/*	Get Next line */
