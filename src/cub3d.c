@@ -111,6 +111,8 @@ void	load_player(t_cub3d *cub)
 		{
 			if (cub->input.map[i][j] == '0')
 			{
+				cub->assets.player_x = j * 64;
+				cub->assets.player_x = j * 64;
 				mlx_put_image_to_window(cub->mlx_obj.instance, cub->mlx_obj.window, cub->assets.player, j * 64, i * 64);
 				exit = 1;
 				break ;
@@ -122,6 +124,40 @@ void	load_player(t_cub3d *cub)
 		i++;
 	}
 	
+}
+
+void	movement(t_cub3d *cub, int new_x, int new_y)
+{
+	int x;
+	int	y;
+
+	x = (new_x + 1) / 64;
+	y = (new_y + 1) / 64;
+
+	printf("y is %d, x is %d", y, x);
+	if (cub->input.map[y][x] == '1')
+		return;
+	else
+	{
+		mlx_put_image_to_window(cub->mlx_obj.instance, cub->mlx_obj.window, cub->assets.floor, cub->assets.player_x / 64, cub->assets.player_y / 64);
+		mlx_put_image_to_window(cub->mlx_obj.instance, cub->mlx_obj.window, cub->assets.player, new_x, new_y);	
+	}
+	cub->assets.player_x = new_x;
+	cub->assets.player_x = new_y;
+}
+
+int	key_hook(int keycode, t_cub3d *cub)
+{
+	printf("MOVEMENT\n");
+	if (keycode == MOVE_UP)
+		movement(cub, cub->assets.player_y - 2, cub->assets.player_x);
+	if (keycode == MOVE_DOWN)
+		movement(cub, cub->assets.player_y + 2, cub->assets.player_x);
+	if (keycode == MOVE_LEFT)
+		movement(cub, cub->assets.player_y, cub->assets.player_x - 2);
+	if (keycode == MOVE_RIGHT)
+		movement(cub, cub->assets.player_y, cub->assets.player_x + 2);
+	return (0);
 }
 
 int main(int argc, char **argv)
@@ -142,6 +178,7 @@ int main(int argc, char **argv)
 	img_assignment(&cub);
 	load_wall_floor(&cub);
 	load_player(&cub);
+	mlx_key_hook(cub.mlx_obj.window, key_hook, &cub);
 	mlx_loop(cub.mlx_obj.instance);
 	// free_all(&cub);
     return (0);
