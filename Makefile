@@ -6,7 +6,7 @@
 #    By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/08 13:26:17 by fbarros           #+#    #+#              #
-#    Updated: 2022/03/29 11:03:42 by fbarros          ###   ########.fr        #
+#    Updated: 2022/04/04 20:55:31 by fbarros          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-DEBUG = -g
+DEBUG = -g -DDEBUG_MODE
 
 LIBS = -lm -L./libft -lft
 
