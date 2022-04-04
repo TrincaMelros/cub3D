@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/01 17:18:48 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/04 21:25:37 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ static void	ft_init(t_cub3d *obj)
 
 static void	free_all(t_cub3d *obj)
 {
-	twod_free((void **)&obj->input.txt);
-	
+	twod_free((void **)obj->input.txt);
 }
 
 static void	check_ftype(const char *ftype)
@@ -71,16 +70,29 @@ static void	check_ftype(const char *ftype)
 		ft_error("Wrong file type.");
 }
 
+t_cub3d *get_data(t_cub3d *original) {
+	static t_cub3d *data = NULL;
+	if (original != NULL) {
+		data = original;
+	}
+	return (data);
+}
+
 int main(int argc, char **argv)
 {
 	t_cub3d	cub3d;
 
     if (argc != 2)
+	{
 		ft_error("Invalid number of arguments.");
+		return (1);
+	}
 	check_ftype(argv[1]);
 	ft_init(&cub3d);
-    map_parsing(argv[1], &cub3d.input);
-	print_map(cub3d.input);
+	get_data(&cub3d);
+    map_parsing(argv[1], &(get_data(NULL)->input));
+	DEBUG(print_input(cub3d.input.txt);)
+	DEBUG(print_RGB(cub3d.input);)
 	// cub3d.mlx_obj.mlx = mlx_init();
 	// cub3d.mlx_obj.window = mlx_new_window(cub3d.mlx_obj.mlx, WIDTH, HEIGHT, "Cub3D");
 	// // mlx_loop_hook(cub3d.mlx_obj.mlx, &raycast(mlx_obj ??), &cub3d);

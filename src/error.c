@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:31:14 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/01 16:13:03 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/04 19:46:48 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		ft_error(char *s)
 	return(OTHER);
 }
 
-void	error_exit(char *s) // exit numcode as 2nd param??
+void	error_exit(char *s)
 {
 	exit(ft_error(s));
 }

@@ -6,12 +6,18 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/01 16:31:14 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/04 20:54:13 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
+# ifdef DEBUG_MODE
+#  define DEBUG(x) x
+# else
+#  define DEBUG(x)
+# endif
 
 # include <mlx.h>
 # include <math.h>
@@ -32,7 +38,6 @@
 enum	e_error {
 	SUCCESS,
 	SYSCALL,
-//	MAPVAL,
 	OTHER
 } ;
 
@@ -94,6 +99,7 @@ typedef struct s_cub3d
 		/* Error Handling */
 int		ft_error(char *s);
 void	free_and_exit(t_cub3d *cub3d, char *s);
+void	error_exit(char *s);
 
 		/*	Get Next line */
 int		get_next_line(char **line, int fd);
@@ -109,7 +115,10 @@ void	ft_pixel_put(int *addr, int x, int y, int color);
 		/*	Other utils	*/
 void	ft_putstr_err(char *s);
 void	ft_puttxt(char **txt);
+
+		/* Memory Management */
 void	**twod_realloc(void **ptr, size_t size);
 void	**twod_free(void **ptr_arr);
+void	*set_free(void **ptr);
 
 #endif
