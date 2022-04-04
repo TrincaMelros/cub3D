@@ -73,8 +73,6 @@ typedef struct s_img {
 
 	/*	MLX	*/
 typedef struct s_mlx {
-	void	*mlx;
-	void	*mlx_win;
 	void	*instance;
 	void	*window;
 	int		width;
@@ -85,6 +83,9 @@ typedef struct s_mlx {
 typedef struct s_assets {
 	void	*floor;
 	void	*wall;
+	void	*player;
+	int		player_x;
+	int		player_y;
 }	t_assets;
 
 	/*	General Struct	*/

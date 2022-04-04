@@ -47,21 +47,6 @@ void	print_map(t_input input)
 }
 /***************************AUXILIARY TEMPORARY FUNCTIONS*************************************/
 
-//static void	twoD_free(void **ptr_arr)
-//{
-//	while (*ptr_arr)
-//	{
-//		free(*ptr_arr);
-//		*ptr_arr++ = NULL;
-//	}
-//}
-
-//static void	free_all(t_cub3d *obj)
-//{
-//	twoD_free((void **)obj->input.txt);
-	// ...
-//}
-
 static void	init_vars(t_input *input)
 {
 	input->north = NULL;
@@ -79,9 +64,11 @@ void	img_assignment(t_cub3d *cub)
 	char	*path;
 
 	path = "./assets/floor.xpm";
-	cub->assets.floor = mlx_xpm_file_to_image(cub->mlx_obj.mlx, path, &width, &height);
-	path = "./assets/walls.xpm";
-	cub->assets.wall = mlx_xpm_file_to_image(cub->mlx_obj.mlx, path, &width, &height);
+	cub->assets.floor = mlx_xpm_file_to_image(cub->mlx_obj.instance, path, &width, &height);
+	path = "./assets/wall.xpm";
+	cub->assets.wall = mlx_xpm_file_to_image(cub->mlx_obj.instance, path, &width, &height);
+	path = "./assets/player.xpm";
+	cub->assets.player = mlx_xpm_file_to_image(cub->mlx_obj.instance, path, &width, &height);
 }
 
 void	load_wall_floor(t_cub3d *cub)
@@ -95,20 +82,46 @@ void	load_wall_floor(t_cub3d *cub)
 		j = 0;
 		while (j < 10)
 		{
-			printf("char is %c\n", cub->input.map[i][j]);
 			if (cub->input.map[i][j] == '0')
-				mlx_put_image_to_window(cub->mlx_obj.mlx, cub->mlx_obj.mlx_win, \
+				mlx_put_image_to_window(cub->mlx_obj.instance, cub->mlx_obj.window, \
 						cub->assets.floor, j * 64, i * 64);
-			if (cub->input.map[i][j] == '1')
+			else if (cub->input.map[i][j] == '1')
 			{
-				printf("eyy\n");
-				mlx_put_image_to_window(cub->mlx_obj.mlx, cub->mlx_obj.mlx_win, \
+				mlx_put_image_to_window(cub->mlx_obj.instance, cub->mlx_obj.window, \
 						cub->assets.wall, j * 64, i * 64);
 			}
 			j++;
 		}
 		i++;
 	}
+}
+
+void	load_player(t_cub3d *cub)
+{
+	int	i;
+	int	j;
+	int	exit;
+
+	exit = 0;
+	i = 1;
+	while (i < 10)
+	{
+		j = 1;
+		while (j < 10)
+		{
+			if (cub->input.map[i][j] == '0')
+			{
+				mlx_put_image_to_window(cub->mlx_obj.instance, cub->mlx_obj.window, cub->assets.player, j * 64, i * 64);
+				exit = 1;
+				break ;
+			}
+			j++;
+		}
+		if (exit)
+			break ;
+		i++;
+	}
+	
 }
 
 int main(int argc, char **argv)
@@ -124,11 +137,12 @@ int main(int argc, char **argv)
 	// print_path(cub.input);
 	// print_RGB(cub.input);
 	print_map(cub.input);
-	cub.mlx_obj.mlx = mlx_init();
-	cub.mlx_obj.mlx_win = mlx_new_window(cub.mlx_obj.mlx, 700, 700, "Gamer");
+	cub.mlx_obj.instance = mlx_init();
+	cub.mlx_obj.window = mlx_new_window(cub.mlx_obj.instance, 640, 640, "Gamer");
 	img_assignment(&cub);
 	load_wall_floor(&cub);
-	mlx_loop(cub.mlx_obj.mlx);
+	load_player(&cub);
+	mlx_loop(cub.mlx_obj.instance);
 	// free_all(&cub);
     return (0);
 }
