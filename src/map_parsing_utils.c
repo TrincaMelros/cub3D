@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 12:15:11 by fbarros           #+#    #+#             */
-/*   Updated: 2022/03/30 12:05:11 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/05 16:41:54 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,28 @@ static int	all_assigned(t_input *input)
 
 int	assign_elements(t_input *input)
 {
-	int	i;
-	int	r;
+	char	**ptr;
+	int		r;
 
-	i = -1;
+	ptr = input->txt;
 	r = 0;
-	while (input->txt[++i] && !all_assigned(input) && r != -1)
+	while (ptr && !all_assigned(input) && r != -1)
 	{
-		if (!ft_strncmp(input->txt[i], "NO", 2))
-			input->north = input->txt[i] + 3;
-		else if (!ft_strncmp(input->txt[i], "SO", 2))
-			input->south = input->txt[i] + 3;
-		else if (!ft_strncmp(input->txt[i], "EA", 2))
-			input->east = input->txt[i] + 3;
-		else if (!ft_strncmp(input->txt[i], "WE", 2))
-			input->west = input->txt[i] + 3;
-		else if (!ft_strncmp(input->txt[i], "F", 1))
-			r = assign_color(input->txt[i] + 2, &input->floor);
-		else if (!ft_strncmp(input->txt[i], "C", 1))
-			r = assign_color(input->txt[i] + 2, &input->ceiling);
+		if (!ft_strncmp(*ptr, "NO", 2))
+			input->north = *ptr + 3;
+		else if (!ft_strncmp(*ptr, "SO", 2))
+			input->south = *ptr + 3;
+		else if (!ft_strncmp(*ptr, "EA", 2))
+			input->east = *ptr + 3;
+		else if (!ft_strncmp(*ptr, "WE", 2))
+			input->west = *ptr + 3;
+		else if (!ft_strncmp(*ptr, "F", 1))
+			r = assign_color(*ptr + 2, &input->floor);
+		else if (!ft_strncmp(*ptr, "C", 1))
+			r = assign_color(*ptr + 2, &input->ceiling);
+		ptr++;
 	}
+	input->map = ptr;
+	DEBUG(print_txt(ptr);)
 	return (r);
 }

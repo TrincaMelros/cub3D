@@ -6,11 +6,16 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 16:45:21 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/04 19:47:21 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/05 16:50:58 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+ 
+// static char	map_validation()
+// {
+	
+// }
  
 static char	**get_input(char *file)
 /**
@@ -52,11 +57,8 @@ static char	**get_input(char *file)
 int map_parsing(char *filename, t_input *input)
 {
 	input->txt = get_input(filename);
-	if (!input->txt)
-		return (ft_error(NULL)); // or just exit from within (will always be segfault at this point)
 	if (assign_elements(input) < 0)
-		return (1);
-	if (!input->map)
-		return (1);
+		free_and_exit(get_data(NULL), ".cub: File data invalid or missing.");
+	map_validation(input->map);
 	return (0);
 }

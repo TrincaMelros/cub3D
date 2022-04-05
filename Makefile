@@ -6,7 +6,7 @@
 #    By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/08 13:26:17 by fbarros           #+#    #+#              #
-#    Updated: 2022/04/04 20:55:31 by fbarros          ###   ########.fr        #
+#    Updated: 2022/04/05 16:53:02 by fbarros          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +23,12 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-DEBUG = -g -DDEBUG_MODE
-
 LIBS = -lm -L./libft -lft
 
 INCLUDES = -Iinc/ -Imlx
 
-SRCS = $(wildcard src/*.c)
+SRCS = src/cub3d.c src/error.c src/gnl.c src/mem.c src/mlx_utils.c\
+		src/map_parsing_utils.c src/map_parsing.c  src/utils.c\
 
 RM = rm -f
 
@@ -38,6 +37,12 @@ FW = -framework AppKit -framework OpenGL
 OBJ = $(SRCS:%.c=%.o)
 
 LIBFT = libft/libft.a
+
+DEBUG = -g -DDEBUG_MODE -Itest/
+
+TESTSRCS = $(wildcard test/*.c)
+
+TESTOBJ = $(TESTSRCS:%.c=%.o)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
@@ -54,23 +59,24 @@ $(LIBFT):
 
 clean: 
 	$(MAKE) clean -C libft
-	$(RM) $(OBJ)
+	$(RM) $(OBJ) $(TESTOBJ)
 
 fclean: clean
 	$(MAKE) fclean -C libft
-	$(RM) $(NAME)
+	$(RM) $(NAME) debug
 	rm -rf *.dSYM
 
 re: fclean all
 
+debug: NAME = debug
 debug: CFLAGS += $(DEBUG)
-debug: re
+debug: OBJ += $(TESTOBJ)
+debug: $(TESTOBJ) all
 memcheck: DEBUG += -fsanitize=address
 memcheck: debug
 
 .PHONY: all re clean fclean debug
 
-
+# make linux compatible (pulgamecanica)
 # obj/ dir
 # change libft makefile
-# change gnl??

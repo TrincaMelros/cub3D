@@ -6,18 +6,13 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/04 20:54:13 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/05 16:46:51 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# ifdef DEBUG_MODE
-#  define DEBUG(x) x
-# else
-#  define DEBUG(x)
-# endif
 
 # include <mlx.h>
 # include <math.h>
@@ -96,6 +91,13 @@ typedef struct s_cub3d
 	enum e_error	status;
 }		t_cub3d;
 
+# ifdef DEBUG_MODE
+#  define DEBUG(x) x
+#  include "test.h"
+# else
+#  define DEBUG(x)
+# endif
+
 		/* Error Handling */
 int		ft_error(char *s);
 void	free_and_exit(t_cub3d *cub3d, char *s);
@@ -120,5 +122,7 @@ void	ft_puttxt(char **txt);
 void	**twod_realloc(void **ptr, size_t size);
 void	**twod_free(void **ptr_arr);
 void	*set_free(void **ptr);
+t_cub3d	*get_data(t_cub3d *original);
+
 
 #endif

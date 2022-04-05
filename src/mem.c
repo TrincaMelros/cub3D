@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:34:50 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/04 21:12:05 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/05 16:46:31 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,14 @@ void	**twod_realloc(void **ptr, const size_t size)
 		ptr[i] = tmp[i]; // or memccpy for each string ??
 	free(tmp);
 	return (ptr);
+}
+
+t_cub3d *get_data(t_cub3d *original)
+{
+	static t_cub3d *data;
+	
+	if (original != NULL) {
+		data = original;
+	}
+	return (data);
 }
