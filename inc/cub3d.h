@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/05 16:46:51 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/06 16:39:12 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	error_exit(char *s);
 int		get_next_line(char **line, int fd);
 
 		/*	Map Parsing	*/
-int		map_parsing(char *filename, t_input *input);
+void	map_parsing(char *filename, t_input *input);
 int		assign_elements(t_input *input);
 
 		/*  Mlx utils  */

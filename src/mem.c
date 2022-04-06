@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:34:50 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/05 16:46:31 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/06 15:30:55 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ void	**twod_free(void **ptr_arr)
 	void	**ptr;
 	
 	ptr = ptr_arr;
-	if (ptr_arr && *ptr_arr)
+	if (ptr && *ptr)
 	{
-		while (*ptr_arr)
+		while (*ptr)
 		{
-			free(*ptr_arr);
-			*ptr_arr++ = NULL;
+			free(*ptr);
+			*ptr++ = NULL;
 		}
-		free(*ptr_arr);
-		free(ptr);
+		free(*ptr);
+		free(ptr_arr);
 		ptr = NULL;
 	}
 	return (NULL);

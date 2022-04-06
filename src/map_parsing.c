@@ -6,16 +6,16 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 16:45:21 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/05 16:50:58 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/06 16:38:42 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
  
-// static char	map_validation()
-// {
+static char	map_validation(const char **map)
+{
 	
-// }
+}
  
 static char	**get_input(char *file)
 /**
@@ -54,7 +54,7 @@ static char	**get_input(char *file)
 	return (txt);
 }
 
-int map_parsing(char *filename, t_input *input)
+void map_parsing(char *filename, t_input *input)
 {
 	input->txt = get_input(filename);
 	if (assign_elements(input) < 0)

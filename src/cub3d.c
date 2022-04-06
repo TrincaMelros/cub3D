@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/05 16:45:49 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/06 15:54:40 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ static void	check_ftype(const char *ftype)
 		ft_error("Wrong file type.");
 }
 
-
-
 int main(int argc, char **argv)
 {
 	t_cub3d	cub3d;
@@ -48,8 +46,8 @@ int main(int argc, char **argv)
 	ft_init(&cub3d);
 	get_data(&cub3d);
     map_parsing(argv[1], &(get_data(NULL)->input));
-	// DEBUG(print_txt(cub3d.input.txt);)
-	// DEBUG(print_RGB(cub3d.input);)
+	DEBUG(print_txt(cub3d.input.txt);)
+	DEBUG(print_RGB(cub3d.input);)
 	// cub3d.mlx_obj.mlx = mlx_init();
 	// cub3d.mlx_obj.window = mlx_new_window(cub3d.mlx_obj.mlx, WIDTH, HEIGHT, "Cub3D");
 	// // mlx_loop_hook(cub3d.mlx_obj.mlx, &raycast(mlx_obj ??), &cub3d);
