@@ -6,15 +6,77 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 16:45:21 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/06 16:38:42 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/07 17:24:19 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
- 
-static char	map_validation(const char **map)
+
+static char	*line_validation(char *line)
+/**
+ * if NSEW found return position (but only after parsing through whole line)
+ * else if only valid chars found return null
+ * else error_and_exit
+*/
 {
-	
+	while (line)
+	/**
+	 * repeating myself with constant "if line != NULL" statement
+	*/
+	{
+		while (line && ft_isspace(*line))
+			line++;
+		if (line && *line != '1')
+			free_and_exit("map: not surrounded by 1's.");
+		while (line && (*line == '1' || *line == '0'))
+			line++;
+		if (line && ft_strchr("NSEW", *line))
+			return (line);
+		if (line && *(line - 1) != '1')
+			free_and_exit("map: not surrounded by 1's");
+	}
+	return (line);
+}
+
+static t_map	map_validation(char **map)
+/**
+ * "Except for the map content, each type of element can be separated by one or more empty lines."
+ * NEED CHECK CLOSURE "VERTICALLY"
+*/
+{
+	t_map	tmp;
+	bool	in_map;
+
+	ft_bzero(&tmp, sizeof(tmp));
+	tmp.top_left = map;
+	while (map[tmp.h])
+	{
+		if (ft_strlen(map[tmp.h]) > tmp.w) // looking for longest line
+			tmp.w = ft_strlen(map[tmp.h]);
+		if (!in_map) // checking upper wall
+		{
+			// skip "whitespace"
+			// nothing other than 1's and more whitespace
+			if (ft_strchr(map[tmp.h], '1'))
+				in_map = true;
+			if (ft_strchr(map[tmp.h], '0'))
+				free_and_exit("map: not surrounded by 1's.");
+		}
+		else if(map[tmp.h + 1] == NULL) // last line of map
+		{
+			// sort of an "inversion" of previous if statement results
+		}
+		// formula [wht_spc, 1, 0/[N/S/E/W], 1, wht_spc]
+		//
+		if (in_map && !tmp.p_pos)
+		{
+			*tmp.p_pos = line_validation(map[tmp.h++]);
+			line_validation(*(tmp.p_pos + 1));	// checking through rest of string [REDUNDANT!]
+		}
+		else if (line_validation(map[tmp.h++])) // if a second instance of NSEW is found
+			free_and_exit("map: only one position is to be set for player."); // MIGHT JUST NOT BE IN_MAP [!!!!]
+	}
+	return (tmp);
 }
  
 static char	**get_input(char *file)
@@ -56,9 +118,11 @@ static char	**get_input(char *file)
 
 void map_parsing(char *filename, t_input *input)
 {
+	char	**map;
+
 	input->txt = get_input(filename);
-	if (assign_elements(input) < 0)
-		free_and_exit(get_data(NULL), ".cub: File data invalid or missing.");
-	map_validation(input->map);
-	return (0);
+	map = assign_elements(input);
+	if (!map)
+		free_and_exit(".cub: File data invalid or missing.");
+	input->map = map_validation(map);
 }

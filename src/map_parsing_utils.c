@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 12:15:11 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/06 16:05:28 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/07 17:19:21 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	all_assigned(t_input *input)
 	return (1);
 }
 
-int	assign_elements(t_input *input)
+char	**assign_elements(t_input *input)
 {
 	char	**ptr;
 	int		r;
@@ -78,9 +78,8 @@ int	assign_elements(t_input *input)
 			r = assign_color(*ptr + 2, &input->ceiling);
 		ptr++;
 	}
-	if (!all_assigned(input))
-		return (-1);
-	input->map = ptr;
-	DEBUG(print_txt(input->map);)
-	return (r);
+	if (r == -1 || !all_assigned(input))
+		return (NULL);
+	DEBUG(print_txt(input->map.top_left);)
+	return (ptr);
 }

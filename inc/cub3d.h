@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/06 16:39:12 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/07 17:18:59 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@ typedef struct s_color {
 	int	trgb;
 }	t_color;
 
+typedef struct	s_map {
+	char			**top_left;
+	unsigned int	w;
+	unsigned int	h;
+	int				p_coord[2];
+	char			**p_pos;
+}	t_map;
+
 	/*	Parsing Struct	*/
 typedef struct s_input {
 	char	**txt;
@@ -59,9 +67,7 @@ typedef struct s_input {
 	t_color	floor;
 	t_color	ceiling;
 
-	char	**map;
-	int		map_w;
-	int		map_h;
+	t_map	map;
 }		t_input;
 
 	/*	Images	*/
@@ -100,7 +106,7 @@ typedef struct s_cub3d
 
 		/* Error Handling */
 int		ft_error(char *s);
-void	free_and_exit(t_cub3d *cub3d, char *s);
+void	free_and_exit(char *s);
 void	error_exit(char *s);
 
 		/*	Get Next line */
@@ -108,7 +114,7 @@ int		get_next_line(char **line, int fd);
 
 		/*	Map Parsing	*/
 void	map_parsing(char *filename, t_input *input);
-int		assign_elements(t_input *input);
+char	**assign_elements(t_input *input);
 
 		/*  Mlx utils  */
 int		create_trgb(int t, int r, int g, int b);
