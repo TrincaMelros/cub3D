@@ -23,7 +23,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-LIBS = -lm -L./libft -lft
+LIBS = -lm -lmlx -Llibft -lft
 
 INCLUDES = -Iinc/ -Imlx
 
@@ -32,7 +32,7 @@ SRCS = src/cub3d.c src/error.c src/gnl.c src/mem.c src/mlx_utils.c\
 
 RM = rm -f
 
-FW = -framework AppKit -framework OpenGL
+MACFW = -framework AppKit -framework OpenGL
 
 OBJ = $(SRCS:%.c=%.o)
 
@@ -44,20 +44,26 @@ TESTSRCS = $(wildcard test/*.c)
 
 TESTOBJ = $(TESTSRCS:%.c=%.o)
 
+ifeq ($(shell uname), Darwin)
+	LIBS += $(MACFW)
+else ifeq ($(shell uname), Linux)
+	LIBS += -lXext -lX11
+endif
+
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
+	$(CC) $(CFLAGS) $(INCLUDES) $(LIBS) -o $@ -c $<
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBS) $(FW) -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBS) -o $(NAME)
 	echo "$(GREEN)[ cub3d COMPILED ]$(DEF)"
 
 $(LIBFT):
-	$(MAKE) -C libft
+	@make -C ./libft
 	echo "$(GREEN)[ libft COMPILED ]$(DEF)"
 
-clean: 
+clean:
 	$(MAKE) clean -C libft
 	$(RM) $(OBJ) $(TESTOBJ)
 
@@ -77,6 +83,6 @@ memcheck: debug
 
 .PHONY: all re clean fclean debug
 
-# make linux compatible (pulgamecanica)
+# make linux compatible
 # obj/ dir
 # change libft makefile

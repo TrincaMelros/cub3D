@@ -19,7 +19,7 @@ static char	*line_validation(char *line)
  * else error_and_exit
 */
 {
-	while (line)
+	while (line && *line) // do not like this
 	/**
 	 * repeating myself with constant "if line != NULL" statement
 	*/
@@ -70,15 +70,19 @@ static t_map	map_validation(char **map)
 		//
 		if (in_map && !tmp.p_pos)
 		{
-			*tmp.p_pos = line_validation(map[tmp.h++]);
+			tmp.p_pos = &line_validation(map[tmp.h++]);
 			line_validation(*(tmp.p_pos + 1));	// checking through rest of string [REDUNDANT!]
 		}
 		else if (line_validation(map[tmp.h++])) // if a second instance of NSEW is found
-			free_and_exit("map: only one position is to be set for player."); // MIGHT JUST NOT BE IN_MAP [!!!!]
+		{
+			if (in_map)
+				free_and_exit("map: only one position is to be set for player."); // MIGHT JUST NOT BE IN_MAP [!!!!]
+//			else if ()
+		}
 	}
 	return (tmp);
 }
- 
+
 static char	**get_input(char *file)
 /**
  * "The map must be parsed as it looks [like] in the file." The map meaning the .cub file??
