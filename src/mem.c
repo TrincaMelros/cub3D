@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:34:50 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/13 13:49:08 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/13 16:47:13 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	*malloc_check(size_t size)
 {
 	void	*ptr;
 
-	ptr = malloc(size_t);
+	ptr = malloc(size);
 	if (!ptr)
 		free_and_exit(NULL);
 	return (ptr);

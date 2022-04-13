@@ -6,7 +6,7 @@
 #    By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/08 13:26:17 by fbarros           #+#    #+#              #
-#    Updated: 2022/04/12 18:07:53 by fbarros          ###   ########.fr        #
+#    Updated: 2022/04/13 18:12:39 by fbarros          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,6 +74,7 @@ fclean: clean
 
 re: fclean all
 
+debug: fclean
 debug: NAME = debug
 debug: CFLAGS += $(DEBUG)
 debug: OBJ += $(TESTOBJ)
@@ -82,7 +83,3 @@ memcheck: DEBUG += -fsanitize=address
 memcheck: debug
 
 .PHONY: all re clean fclean debug
-
-# make linux compatible
-# obj/ dir
-# change libft makefile

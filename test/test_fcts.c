@@ -31,9 +31,11 @@ void	print_RGB(const t_input input)
 
 void	print_map(t_input input)
 {
-	int i;
+	int i = -1, j = -1;
 
-	i = -1;
 	while (input.map.top_left[++i])
-		printf("%s\n", input.map.top_left[i]);
+	{
+		while(input.map.top_left[i][++j])
+			printf("%d\n", (int)input.map.top_left[i][j]);
+	}
 }

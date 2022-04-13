@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/13 13:49:29 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/13 19:04:31 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,31 @@ enum	e_error {
 # define WIDTH 1920
 # define HEIGHT 1080
 
+typedef enum	e_blocks {
+	SPACE,
+	WALL,
+	VOID
+}	t_blocks;
+
+typedef struct	s_position
+{
+	float	x;
+	float	y;
+}	t_position;
+
+typedef struct	s_map {
+	t_blocks		**top_left;
+	unsigned int	w;
+	unsigned int	h;
+	t_position		player;
+}	t_map;
+
 typedef struct s_color {
 	int	r;
 	int	g;
 	int	b;
 	int	trgb;
 }	t_color;
-
-typedef struct	s_map {
-	char			**top_left;
-	unsigned int	w;
-	unsigned int	h;
-	int				p_coord[2];
-	char			**p_pos;
-}	t_map;
 
 	/*	Parsing Struct	*/
 typedef struct s_input {
@@ -123,6 +134,7 @@ void	ft_pixel_put(int *addr, int x, int y, int color);
 		/*	Other utils	*/
 void	ft_putstr_err(char *s);
 void	ft_puttxt(char **txt);
+bool	line_empty(char *line);
 
 		/* Memory Management */
 void	**twod_realloc(void **ptr, size_t size);
