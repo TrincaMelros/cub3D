@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/07 12:13:49 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/13 12:53:13 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	check_ftype(const char *ftype)
 
 	cptr = ft_strchr(ftype, '.');
 	if (ft_strlen(cptr) != 4 || !ft_strnstr(cptr, "cub", 4))
-		ft_error("Wrong file type.");
+		error_exit("Wrong file type.");
 }
 
 int main(int argc, char **argv)

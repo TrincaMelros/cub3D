@@ -6,7 +6,7 @@
 #    By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/08 13:26:17 by fbarros           #+#    #+#              #
-#    Updated: 2022/04/05 16:53:02 by fbarros          ###   ########.fr        #
+#    Updated: 2022/04/12 18:07:53 by fbarros          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 LIBS = -lm -lmlx -Llibft -lft
 
-INCLUDES = -Iinc/ -Imlx
+INCLUDES = -Iinc -Imlx
 
 SRCS = src/cub3d.c src/error.c src/gnl.c src/mem.c src/mlx_utils.c\
 		src/map_parsing_utils.c src/map_parsing.c  src/utils.c\
@@ -51,7 +51,7 @@ else ifeq ($(shell uname), Linux)
 endif
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) $(LIBS) -o $@ -c $<
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 all: $(NAME)
 

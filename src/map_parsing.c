@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 16:45:21 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/07 17:24:19 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/13 13:49:59 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,47 +19,58 @@ static char	*line_validation(char *line)
  * else error_and_exit
 */
 {
-	while (line && *line) // do not like this
+	char	*ptr;
+
+	ptr = NULL;
+	while (*line) // do not like this
 	/**
 	 * repeating myself with constant "if line != NULL" statement
 	*/
 	{
-		while (line && ft_isspace(*line))
+		while (ft_isspace(*line))
 			line++;
-		if (line && *line != '1')
+		if (*line != '1' && *line != '\0')
 			free_and_exit("map: not surrounded by 1's.");
-		while (line && (*line == '1' || *line == '0'))
+		while (*line && ft_strchr("10NSEW", *line))
+		{
+			if (*line && ft_strchr("NSEW", *line))
+			{
+				ptr = line;
+				if (*line && (ft_isspace(*line) || *line != '1' || *line != '0'))
+					free_and_exit("map: player not positioned within map.");
+			}
 			line++;
-		if (line && ft_strchr("NSEW", *line))
-			return (line);
-		if (line && *(line - 1) != '1')
-			free_and_exit("map: not surrounded by 1's");
+		}
+		if (*(line - 1) != '1' && *line && !ft_isspace(*line))
+			free_and_exit("map: not surrounded by 1's or invalid character in map.");
 	}
-	return (line);
+	return (ptr);
 }
 
 static t_map	map_validation(char **map)
 /**
  * "Except for the map content, each type of element can be separated by one or more empty lines."
- * NEED CHECK CLOSURE "VERTICALLY"
+ * NEED CHECK IF "VERTICALLY" VALID
 */
 {
 	t_map	tmp;
 	bool	in_map;
 
 	ft_bzero(&tmp, sizeof(tmp));
+	while (**map == '\0')
+		map++;
 	tmp.top_left = map;
 	while (map[tmp.h])
 	{
-		if (ft_strlen(map[tmp.h]) > tmp.w) // looking for longest line
+		if (ft_strlen(map[tmp.h]) > tmp.w)
 			tmp.w = ft_strlen(map[tmp.h]);
-		if (!in_map) // checking upper wall
+		if (!in_map) // checking "upper" wall
 		{
 			// skip "whitespace"
 			// nothing other than 1's and more whitespace
 			if (ft_strchr(map[tmp.h], '1'))
 				in_map = true;
-			if (ft_strchr(map[tmp.h], '0'))
+			if (ft_strchr(map[tmp.h], '0')) // what if there's something else ??????
 				free_and_exit("map: not surrounded by 1's.");
 		}
 		else if(map[tmp.h + 1] == NULL) // last line of map
@@ -70,8 +81,12 @@ static t_map	map_validation(char **map)
 		//
 		if (in_map && !tmp.p_pos)
 		{
-			tmp.p_pos = &line_validation(map[tmp.h++]);
-			line_validation(*(tmp.p_pos + 1));	// checking through rest of string [REDUNDANT!]
+			char *p = line_validation(map[tmp.h++]);
+			if (p)
+			{
+				tmp.p_pos = (char **)malloc_check(sizeof(char *));
+				tmp.p_pos = &p; // not gonna work, local var <------------------------------ [!!!!!!!!]
+			}
 		}
 		else if (line_validation(map[tmp.h++])) // if a second instance of NSEW is found
 		{

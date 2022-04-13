@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/07 17:18:59 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/13 13:49:29 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void	**twod_realloc(void **ptr, size_t size);
 void	**twod_free(void **ptr_arr);
 void	*set_free(void **ptr);
 t_cub3d	*get_data(t_cub3d *original);
+void	*malloc_check(size_t size);
 
 
 #endif

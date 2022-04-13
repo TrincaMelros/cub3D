@@ -6,11 +6,21 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:34:50 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/06 15:30:55 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/13 13:49:08 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
+
+void	*malloc_check(size_t size)
+{
+	void	*ptr;
+
+	ptr = malloc(size_t);
+	if (!ptr)
+		free_and_exit(NULL);
+	return (ptr);
+}
 
 void	*set_free(void **ptr)
 {
