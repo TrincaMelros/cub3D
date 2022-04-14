@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/13 19:04:31 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/14 18:02:49 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,15 @@ enum	e_error {
 # define HEIGHT 1080
 
 typedef enum	e_blocks {
-	SPACE,
+	VOID,
 	WALL,
-	VOID
+	SPACE,
+	PLAYER
 }	t_blocks;
 
 typedef struct	s_position
 {
+	char	dir;
 	float	x;
 	float	y;
 }	t_position;
@@ -124,8 +126,10 @@ void	error_exit(char *s);
 int		get_next_line(char **line, int fd);
 
 		/*	Map Parsing	*/
+t_map	map_validation(char **map);
+		
+		/*	.cub Parsing	*/
 void	map_parsing(char *filename, t_input *input);
-char	**assign_elements(t_input *input);
 
 		/*  Mlx utils  */
 int		create_trgb(int t, int r, int g, int b);
@@ -141,7 +145,7 @@ void	**twod_realloc(void **ptr, size_t size);
 void	**twod_free(void **ptr_arr);
 void	*set_free(void **ptr);
 t_cub3d	*get_data(t_cub3d *original);
-void	*malloc_check(size_t size);
+void	*calloc_check(size_t nmemb, size_t size);
 
 
 #endif

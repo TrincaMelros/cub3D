@@ -29,13 +29,16 @@ void	print_RGB(const t_input input)
 		printf("ceiling trgb is %d\n", input.ceiling.trgb);
 }
 
-void	print_map(t_input input)
+void	print_map(t_map map)
 {
 	int i = -1, j = -1;
 
-	while (input.map.top_left[++i])
+	while (map.top_left[++i])
 	{
-		while(input.map.top_left[i][++j])
-			printf("%d\n", (int)input.map.top_left[i][j]);
+		j = -1;
+		while(++j < (int)map.w)
+			printf("%d", (int)map.top_left[i][j]);
+		printf("\n");
 	}
+	printf("\nPlayer direction: %c", map.player.dir);
 }

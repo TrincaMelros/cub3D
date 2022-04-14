@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_parsing_utils.c                                :+:      :+:    :+:   */
+/*   cub_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/29 12:15:11 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/07 17:19:21 by fbarros          ###   ########.fr       */
+/*   Created: 2022/02/10 16:45:21 by malmeida          #+#    #+#             */
+/*   Updated: 2022/04/14 19:26:53 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	all_assigned(t_input *input)
 	return (1);
 }
 
-char	**assign_elements(t_input *input)
+static char	**assign_elements(t_input *input)
 {
 	char	**ptr;
 	int		r;
@@ -65,7 +65,11 @@ char	**assign_elements(t_input *input)
 	while (ptr && *ptr && !all_assigned(input) && r != -1)
 	{
 		if (!strncmp(*ptr, "NO", 2))
+		{
+			// if (input->north) // check if already assigned
+			// 	error
 			input->north = *ptr + 3;
+		}
 		else if (!strncmp(*ptr, "SO", 2))
 			input->south = *ptr + 3;
 		else if (!strncmp(*ptr, "EA", 2))
@@ -80,6 +84,53 @@ char	**assign_elements(t_input *input)
 	}
 	if (r == -1 || !all_assigned(input))
 		return (NULL);
-	DEBUG(print_txt(input->map.top_left);)
 	return (ptr);
+}
+
+static char	**get_input(char *file)
+/**
+ * "The map must be parsed as it looks [like] in the file." The map meaning the .cub file??
+*/
+{
+	char	**txt;
+	int		fd;
+	int		rd;
+	int		i;
+
+	fd = open(file, O_RDONLY);
+	txt = ft_calloc(2, sizeof(char *));
+	if (!txt)
+		ft_error(NULL);
+	rd = get_next_line(txt, fd);
+	i = 1;
+	while (rd == 1)
+	{
+		txt = (char **)twod_realloc((void **)txt, 1);
+		if (!txt)
+		{
+			rd = -1;
+			break ;
+		}
+		rd = get_next_line(&txt[i++], fd);
+	}
+	if (rd < 0)
+	{
+		if (fd > 0)
+			close(fd);
+		if (txt)
+			txt = (char **)twod_free((void **)txt);
+		error_exit(NULL);
+	}
+	return (txt);
+}
+
+void map_parsing(char *filename, t_input *input)
+{
+	char	**map;
+
+	input->txt = get_input(filename);
+	map = assign_elements(input);
+	if (!map)
+		free_and_exit(".cub: File data invalid or missing.");
+	input->map = map_validation(map);
 }

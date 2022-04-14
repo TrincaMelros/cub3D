@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/13 12:53:13 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/14 15:11:33 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int main(int argc, char **argv)
 	ft_init(&cub3d);
 	get_data(&cub3d);
     map_parsing(argv[1], &(get_data(NULL)->input));
-	DEBUG(print_txt(cub3d.input.txt);)
-	DEBUG(print_RGB(cub3d.input);)
+	// DEBUG(print_txt(cub3d.input.txt);)
+	// DEBUG(print_RGB(cub3d.input);)
 	// cub3d.mlx_obj.mlx = mlx_init();
 	// cub3d.mlx_obj.window = mlx_new_window(cub3d.mlx_obj.mlx, WIDTH, HEIGHT, "Cub3D");
 	// // mlx_loop_hook(cub3d.mlx_obj.mlx, &raycast(mlx_obj ??), &cub3d);

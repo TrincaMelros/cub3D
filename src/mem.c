@@ -6,17 +6,17 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:34:50 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/13 16:47:13 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/14 14:39:12 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-void	*malloc_check(size_t size)
+void	*calloc_check(size_t nmemb, size_t size)
 {
 	void	*ptr;
 
-	ptr = malloc(size);
+	ptr = ft_calloc(nmemb, size);
 	if (!ptr)
 		free_and_exit(NULL);
 	return (ptr);
@@ -37,14 +37,15 @@ void	**twod_free(void **ptr_arr)
 	void	**ptr;
 	
 	ptr = ptr_arr;
-	if (ptr && *ptr)
+	if (ptr)
 	{
 		while (*ptr)
 		{
 			free(*ptr);
 			*ptr++ = NULL;
 		}
-		free(*ptr);
+		if (*ptr)
+			free(*ptr);
 		free(ptr_arr);
 		ptr = NULL;
 	}

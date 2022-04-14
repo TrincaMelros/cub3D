@@ -6,7 +6,7 @@
 #    By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/08 13:26:17 by fbarros           #+#    #+#              #
-#    Updated: 2022/04/13 18:12:39 by fbarros          ###   ########.fr        #
+#    Updated: 2022/04/14 19:26:39 by fbarros          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ LIBS = -lm -lmlx -Llibft -lft
 INCLUDES = -Iinc -Imlx
 
 SRCS = src/cub3d.c src/error.c src/gnl.c src/mem.c src/mlx_utils.c\
-		src/map_parsing_utils.c src/map_parsing.c  src/utils.c\
+		src/map_parsing.c src/cub_parsing.c src/cub_parsing_utils.c src/utils.c\
 
 RM = rm -f
 
