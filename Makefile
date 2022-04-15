@@ -6,7 +6,7 @@
 #    By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/08 13:26:17 by fbarros           #+#    #+#              #
-#    Updated: 2022/04/14 19:26:39 by fbarros          ###   ########.fr        #
+#    Updated: 2022/04/15 17:17:48 by fbarros          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,14 +25,16 @@ CFLAGS = -Wall -Wextra -Werror
 
 LIBS = -lm -lmlx -Llibft -lft
 
+MACFW = -framework AppKit -framework OpenGL
+
+LINUXLIBS = -lXext -lX11
+
 INCLUDES = -Iinc -Imlx
 
 SRCS = src/cub3d.c src/error.c src/gnl.c src/mem.c src/mlx_utils.c\
 		src/map_parsing.c src/cub_parsing.c src/cub_parsing_utils.c src/utils.c\
 
 RM = rm -f
-
-MACFW = -framework AppKit -framework OpenGL
 
 OBJ = $(SRCS:%.c=%.o)
 
@@ -47,7 +49,7 @@ TESTOBJ = $(TESTSRCS:%.c=%.o)
 ifeq ($(shell uname), Darwin)
 	LIBS += $(MACFW)
 else ifeq ($(shell uname), Linux)
-	LIBS += -lXext -lX11
+	LIBS += $(LINUXLIBS)
 endif
 
 %.o: %.c

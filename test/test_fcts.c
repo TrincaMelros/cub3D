@@ -1,6 +1,11 @@
 #include "test.h"
 // #include "cub3d.h"
 
+void	init_test(t_cub3d *cub3d)
+{
+	g_test = cub3d;
+}
+
 void	print_txt(char **print)
 {
 	int	i;
@@ -29,16 +34,47 @@ void	print_RGB(const t_input input)
 		printf("ceiling trgb is %d\n", input.ceiling.trgb);
 }
 
+void	print_block(t_blocks block)
+{
+	// printf("%d", (int)block);
+	printf("\033[0m");
+	if (block == VOID)
+		printf(".");
+	else if (block == WALL)
+		printf("1");
+	else if (block == SPACE)
+		printf("0");
+	else
+		printf("\033[0;31mX");
+
+}
+
 void	print_map(t_map map)
 {
 	int i = -1, j = -1;
 
+	if (!map.top_left)
+		return ;
+	while (++j < (int)map.w)
+		printf(".");
+	printf("\n");
 	while (map.top_left[++i])
 	{
 		j = -1;
 		while(++j < (int)map.w)
-			printf("%d", (int)map.top_left[i][j]);
+		{
+			if (i == (int)map.player.y && j == (int)map.player.x)
+				printf("\033[0;32m%c", map.player.dir);
+			else
+				print_block(map.top_left[i][j]);
+		}
 		printf("\n");
+
 	}
+	j = -1;
+	while (++j < (int)map.w)
+		printf(".");
+	printf("\n");
 	printf("\nPlayer direction: %c", map.player.dir);
+	printf("\nHeight: %u Width: %u", map.h, map.w);
 }

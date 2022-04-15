@@ -6,21 +6,51 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 12:15:11 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/14 20:41:41 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/15 17:37:57 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+static t_map	init_t_map(char **map)
+/**
+ * Gets max width, height and truncates unnecessary spaces both horizontally and vertically
+*/
+{
+	t_map	tmp;
+	size_t	trunc_l;
+	int		i;
+
+	ft_bzero(&tmp, sizeof(tmp));
+	while (map[tmp.h])
+	{
+		trunc_l = ft_strlen(map[tmp.h]);
+		trunc_l -= ft_strlen(ft_strrchr(map[tmp.h], '1'));
+		if (trunc_l + 1 > tmp.w)
+			tmp.w = trunc_l + 1;
+		tmp.h++;
+		if (line_empty(map[tmp.h]))
+			break ;
+	}
+	i = tmp.h;
+	while (map[++i])
+	{
+		if (!line_empty(map[i]))
+			free_and_exit("map: map should include no empty lines.");
+	}
+	return (tmp);
+}
+
 static t_blocks	*init_map_row(char *original, size_t lenght)
+/**
+ * Scans line for validity and translates each element to t_blocks(enum) element
+ * Initially, everything is set to 0, which equals VOID and is a bit of a dangerous implementation
+*/
 {
 	int			i;
 	t_blocks	*new_map;
 
-	i = 0;
 	new_map = calloc_check(lenght, sizeof(t_blocks));
-	while (i < (int)lenght)
-		new_map[i++] = VOID;
 	i = -1;
 	while (original[++i])
 	{
@@ -29,17 +59,17 @@ static t_blocks	*init_map_row(char *original, size_t lenght)
 			if (original[i] == '\t')
 				i += 3;
 		}
-		else if (original[i] == '1')
-			new_map[i] = WALL;
 		else if (original[i] == '0')
 			new_map[i] = SPACE;
-		else if (!ft_strchr("NSEW", original[i]))
+		else if (original[i] == '1')
+			new_map[i] = WALL;
+		else if (ft_strchr("NSEW", original[i]))
+			new_map[i] = PLAYER;
+		else
 		{
 			free(new_map);
 			free_and_exit("map: invalid map char.");
 		}
-		else
-			new_map[i] = PLAYER;
 	}
 	return (new_map);
 }
@@ -47,7 +77,7 @@ static t_blocks	*init_map_row(char *original, size_t lenght)
 static void	check_p_pos(t_map *map)
 /**
  * Checks player position
- * If none or too many frees everything, outputs error and exits
+ * If none or too many are found: frees everything(hopefully), outputs error and exits
 */
 {
 	int		i;
@@ -63,7 +93,10 @@ static void	check_p_pos(t_map *map)
 			if (map->top_left[i][j] == PLAYER)
 			{
 				if (map->player.x != 0 || map->player.y != 0)
+				{
+					DEBUG(print_map(get_data(0)->input.map);)
 					free_and_exit("map: too many positions set for player.");
+				}
 				map->player.x = (float)j;
 				map->player.y = (float)i;
 				map->top_left[i][j] = SPACE;
@@ -74,10 +107,54 @@ static void	check_p_pos(t_map *map)
 		free_and_exit("map: no position set for player.");
 }
 
-static int	invalid_perimeter(t_map *map)
+
+
+static bool	invalid_perimeter(t_blocks **map, int width)
+/**
+ * Checks if map is "fenced" with '1's
+*/
 {
-	(void)map;
-	return (0);
+	int	i;
+	int	j;
+
+	i = -1;
+	while (map[++i])
+	{
+		j = -1;
+		while (++j < width)
+		{
+			if (i == 0 || map[i + 1] == NULL)
+			{
+				while (j++ < width)
+				{
+					if (map[i][j] != WALL || map[i][j] != VOID)
+						return (true);
+				}
+			}
+			while (j < width && map[i][j] == VOID)
+				++j;
+			if (j < width && map[i][j] != WALL)
+				return (true);
+			while (j < width && map[i][j + 1] != VOID)
+			{
+				if (i > 0 && map[i + 1] != NULL)
+				{
+					if (map[i][j] == SPACE
+						&& ((map[i - 1][j] != WALL && map[i - 1][j] != SPACE)
+							|| (map [i + 1][j] != WALL && map[i + 1][j] != SPACE)))
+						return (true);
+				}
+				else if (map[i][j] != VOID && map[i][j] != WALL)
+					return (true);
+				j++;
+			}
+			if (j < width && map[i][j++] != WALL)
+				return (true);
+			while (j < width && map[i][j] == VOID)
+				++j;
+		}
+	}
+	return (false);
 }
 
 t_map	map_validation(char **map)
@@ -88,27 +165,9 @@ t_map	map_validation(char **map)
 	t_map	tmp;
 	int		i;
 
-	ft_bzero(&tmp, sizeof(tmp));
 	while (line_empty(*map))
 		map++;
-	while (map[tmp.h])
-	{
-		// essencially truncates horizontally in case there are too many free spaces
-		if ((ft_strlen(map[tmp.h]) - ft_strlen(ft_strrchr(map[tmp.h], '1'))) > tmp.w) // maybe put it in a var
-			tmp.w = ft_strlen(map[tmp.h]) - ft_strlen(ft_strrchr(map[tmp.h], '1'));
-		tmp.h++;
-	// check for more empty lines
-		if (line_empty(map[tmp.h]))
-		{
-			i = tmp.h;
-			while (map[++i])
-			{
-				if (!line_empty(map[i]))
-					error_exit("map: map should include no empty lines within.");
-			}
-			break ;
-		}
-	}
+	tmp = init_t_map(map);
 	tmp.top_left = calloc_check(tmp.h + 1, sizeof(t_blocks *));
 	i = -1;
 	while (++i < (int)tmp.h)
@@ -116,7 +175,7 @@ t_map	map_validation(char **map)
 	check_p_pos(&tmp);
 	tmp.player.dir = map[(int)tmp.player.y][(int)tmp.player.x];
 	DEBUG(print_map(tmp);)
-	if (invalid_perimeter(&tmp))
-		free_and_exit("map: invalid perimeter."); // OR DO IT FROM WITHIN FUNCTION
+	if (invalid_perimeter(tmp.top_left, (int)tmp.w))
+		free_and_exit("map: invalid perimeter.");
 	return (tmp);
 }

@@ -6,13 +6,12 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/14 18:02:49 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/15 17:24:29 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
-
 
 # include <mlx.h>
 # include <math.h>
@@ -41,21 +40,20 @@ enum	e_error {
 # define WIDTH 1920
 # define HEIGHT 1080
 
-typedef enum	e_blocks {
+typedef enum e_blocks {
 	VOID,
-	WALL,
 	SPACE,
-	PLAYER
+	WALL,
+	PLAYER,
 }	t_blocks;
 
-typedef struct	s_position
-{
+typedef struct s_position {
 	char	dir;
 	float	x;
 	float	y;
 }	t_position;
 
-typedef struct	s_map {
+typedef struct s_map {
 	t_blocks		**top_left;
 	unsigned int	w;
 	unsigned int	h;
@@ -110,12 +108,14 @@ typedef struct s_cub3d
 	enum e_error	status;
 }		t_cub3d;
 
+	/* RM */
 # ifdef DEBUG_MODE
 #  define DEBUG(x) x
 #  include "test.h"
 # else
 #  define DEBUG(x)
 # endif
+	/* RM */
 
 		/* Error Handling */
 int		ft_error(char *s);
@@ -127,7 +127,7 @@ int		get_next_line(char **line, int fd);
 
 		/*	Map Parsing	*/
 t_map	map_validation(char **map);
-		
+
 		/*	.cub Parsing	*/
 void	map_parsing(char *filename, t_input *input);
 
@@ -146,6 +146,5 @@ void	**twod_free(void **ptr_arr);
 void	*set_free(void **ptr);
 t_cub3d	*get_data(t_cub3d *original);
 void	*calloc_check(size_t nmemb, size_t size);
-
 
 #endif

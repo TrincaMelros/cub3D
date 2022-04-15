@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbarros <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 12:56:18 by fbarros           #+#    #+#             */
-/*   Updated: 2021/08/20 15:21:09 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/15 17:25:19 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char			*ft_strchr(const char *s, int c);
 size_t			ft_strlen(const char *s);
 size_t			ft_strlcat(char *dst, const char *src, size_t size);
 size_t			ft_strlcpy(char *dst, const char *src, size_t size);
-char			*ft_strmapi(char const *s, char(*f)(unsigned int, char));
+char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void			*ft_calloc(size_t nmemb, size_t size);
 char			*ft_strdup(const char *s);
 int				ft_atoi(const char *nptr);
