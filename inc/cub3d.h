@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/15 17:24:29 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/16 15:54:26 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int		get_next_line(char **line, int fd);
 t_map	map_validation(char **map);
 
 		/*	.cub Parsing	*/
-void	map_parsing(char *filename, t_input *input);
+void	cub_parsing(char *filename, t_input *input);
 
 		/*  Mlx utils  */
 int		create_trgb(int t, int r, int g, int b);

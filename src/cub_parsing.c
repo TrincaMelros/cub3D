@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 16:45:21 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/14 19:26:53 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/16 16:01:05 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ static char	**get_input(char *file)
 	return (txt);
 }
 
-void map_parsing(char *filename, t_input *input)
+void cub_parsing(char *filename, t_input *input)
 {
 	char	**map;
 
@@ -132,5 +132,7 @@ void map_parsing(char *filename, t_input *input)
 	map = assign_elements(input);
 	if (!map)
 		free_and_exit(".cub: File data invalid or missing.");
+	if (!map[1])
+		free_and_exit("map: invalid, missing or not positioned at the bottom.");
 	input->map = map_validation(map);
 }

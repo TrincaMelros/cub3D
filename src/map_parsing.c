@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 12:15:11 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/16 14:21:04 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/16 15:46:31 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ t_map	map_validation(char **map)
 	t_map	tmp;
 	int		i;
 
-	while (line_empty(*map))
+	while (map && line_empty(*map))
 		map++;
 	tmp = init_t_map(map);
 	tmp.top_left = calloc_check(tmp.h + 1, sizeof(t_blocks *));

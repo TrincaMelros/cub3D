@@ -1,4 +1,6 @@
-- map validation
+- Need review realloc
+- map validation:
+                 Throwing wrong errors with small maps
 - error handling
 - Check frees being made
 
@@ -23,11 +25,13 @@ Tous les trucs tricky auxquels il faut penser pour le parsing de la map :
 
     : Une ligne vide dans la map : “Sauf pour la map elle-même, les informations de chaque élément peuvent être séparées par un ou plusieurs espace(s)"
     X : Un caractère incorrect dans la map, genre un 4
-    : Une map ouverte
-    : “Les espaces sont une partie valable de la carte, c’est à vous de les gérer correctement” : pour moi les espaces vides sont VOID(enum; == 0)
+    X : Une map ouverte
+    X : “Les espaces sont une partie valable de la carte, c’est à vous de les gérer correctement” : pour moi les espaces vides sont VOID(enum; == 0)
     : La map est avant un autre élément
     : Il n’y a pas de map
     X : Pas de joueur ou plusieurs joueurs
+    
+    : Check diagonals
 
 MINIMAP
 A faire 

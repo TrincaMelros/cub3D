@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 12:12:25 by yohan             #+#    #+#             */
-/*   Updated: 2022/03/16 15:23:39 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/16 17:33:01 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ typedef struct	s_img
 
 typedef struct	s_info
 {
-	// player position
+	/* player position */
 	double posX;
 	double posY;
-	// direction, but still don't get how this works....
+	/* direction, but still don't get how this works since these are not coordinates, I assume */
 	double dirX;
 	double dirY;
-	// camera plane, allways perpendicular to dir. Also don't understand how it works in practice
+	/* camera plane, allways perpendicular to dir. Also don't understand how it works in practice */
 	double planeX;
 	double planeY;
 	/**
@@ -113,10 +113,10 @@ void	calc(t_info *info)
 {
 	int	x;
 
-	x = 0; // var used to draw whole frame each time there's an event. Position 0 to start at top left of frame
+	x = 0; /*  var used to draw whole frame each time there's an event. Position 0 to start at top left of frame */
 	while (x < width)
 	/**
-	 * Will draw a column of pixels for each pixel on a line, so width no of columns.
+	 * Will draw a column of pixels (verLine) for each pixel on a line, so WIDTH number of columns.
 	 */
 	{
 		/**Calculates ray position and direction
