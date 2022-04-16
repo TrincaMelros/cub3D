@@ -4,6 +4,7 @@
 void	init_test(t_cub3d *cub3d)
 {
 	g_test = cub3d;
+	// set_signal();
 }
 
 void	print_txt(char **print)
@@ -76,5 +77,26 @@ void	print_map(t_map map)
 		printf(".");
 	printf("\n");
 	printf("\nPlayer direction: %c", map.player.dir);
-	printf("\nHeight: %u Width: %u", map.h, map.w);
+	printf("\nHeight: %u Width: %u\n", map.h, map.w);
+}
+
+
+void segfault_sigaction(int signal, siginfo_t *si, void *arg)
+{
+	(void)signal;
+	(void)arg; //for now
+    printf("Caught segfault at address %p\n", si->si_addr);
+    error_exit(0);
+}
+
+void	set_signal(void/*  *object */)
+{
+    struct sigaction sa;
+
+    ft_bzero(&sa, sizeof(struct sigaction));
+    sigemptyset(&sa.sa_mask);
+    sa.sa_sigaction = segfault_sigaction;
+    sa.sa_flags   = SA_SIGINFO;
+
+    sigaction(SIGSEGV, &sa, NULL);
 }

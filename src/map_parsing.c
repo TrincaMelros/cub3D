@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 12:15:11 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/15 17:37:57 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/16 14:21:04 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,6 @@ static void	check_p_pos(t_map *map)
 		free_and_exit("map: no position set for player.");
 }
 
-
-
 static bool	invalid_perimeter(t_blocks **map, int width)
 /**
  * Checks if map is "fenced" with '1's
@@ -125,33 +123,15 @@ static bool	invalid_perimeter(t_blocks **map, int width)
 		{
 			if (i == 0 || map[i + 1] == NULL)
 			{
-				while (j++ < width)
-				{
-					if (map[i][j] != WALL || map[i][j] != VOID)
-						return (true);
-				}
-			}
-			while (j < width && map[i][j] == VOID)
-				++j;
-			if (j < width && map[i][j] != WALL)
-				return (true);
-			while (j < width && map[i][j + 1] != VOID)
-			{
-				if (i > 0 && map[i + 1] != NULL)
-				{
-					if (map[i][j] == SPACE
-						&& ((map[i - 1][j] != WALL && map[i - 1][j] != SPACE)
-							|| (map [i + 1][j] != WALL && map[i + 1][j] != SPACE)))
-						return (true);
-				}
-				else if (map[i][j] != VOID && map[i][j] != WALL)
+				if (map[i][j] != VOID && map[i][j] != WALL)
 					return (true);
-				j++;
 			}
-			if (j < width && map[i][j++] != WALL)
-				return (true);
-			while (j < width && map[i][j] == VOID)
-				++j;
+			else if (map[i][j] == SPACE)
+			{
+				if (map[i + 1][j] == VOID || map[i - 1] == VOID
+					|| map[i][j - 1] == VOID || map[i][j + 1] == VOID)
+					return (true);
+			}
 		}
 	}
 	return (false);
@@ -174,8 +154,8 @@ t_map	map_validation(char **map)
 		tmp.top_left[i] = init_map_row(map[i], tmp.w);
 	check_p_pos(&tmp);
 	tmp.player.dir = map[(int)tmp.player.y][(int)tmp.player.x];
-	DEBUG(print_map(tmp);)
 	if (invalid_perimeter(tmp.top_left, (int)tmp.w))
 		free_and_exit("map: invalid perimeter.");
+	DEBUG(print_map(tmp);)
 	return (tmp);
 }
