@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 12:15:11 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/16 15:46:31 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/18 10:35:20 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static t_map	init_t_map(char **map)
 			break ;
 	}
 	i = tmp.h;
-	while (map[++i])
+	while (map[i++])
 	{
 		if (!line_empty(map[i]))
 			free_and_exit("map: map should include no empty lines.");
