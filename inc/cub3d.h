@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/16 15:54:26 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/18 11:51:54 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@
 # include "events.h"
 
 # include <errno.h>
+# define BUFFER_SIZE 1
+# define ESC		53
+# define MOVE_UP	13
+# define MOVE_DOWN	3
+# define MOVE_RIGHT	7
+# define MOVE_LEFT	0
 
 enum	e_error {
 	SUCCESS,
@@ -99,13 +105,20 @@ typedef struct s_mlx {
 	t_img	*imgs;
 }	t_mlx;
 
+typedef struct s_assets {
+	void	*floor;
+	void	*wall;
+	void	*player;
+	int		player_x;
+	int		player_y;
+}	t_assets;
+
 	/*	General Struct	*/
 typedef struct s_cub3d
 {
-	t_input			input;
-	t_mlx			mlx_obj;
-	t_img			*imgs;
-	enum e_error	status;
+	t_mlx	mlx_obj;
+	t_input	input;
+	t_assets assets;
 }		t_cub3d;
 
 	/* RM */
@@ -116,6 +129,8 @@ typedef struct s_cub3d
 #  define DEBUG(x)
 # endif
 	/* RM */
+
+void	free_all(t_cub3d *cub3d);
 
 		/* Error Handling */
 int		ft_error(char *s);
@@ -146,5 +161,14 @@ void	**twod_free(void **ptr_arr);
 void	*set_free(void **ptr);
 t_cub3d	*get_data(t_cub3d *original);
 void	*calloc_check(size_t nmemb, size_t size);
+
+		/* Movements */
+void	movement(t_cub3d *cub, int new_x, int new_y);
+int	key_hook(int keycode, t_cub3d *cub);
+
+		/* Minimap */
+void	img_assignment(t_cub3d *cub);
+void	load_wall_floor(t_cub3d *cub);
+void	load_player(t_cub3d *cub);
 
 #endif
