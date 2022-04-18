@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/18 16:57:11 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/18 17:06:22 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ static void	check_ftype(const char *ftype)
 void	set_images(void *mlx_ptr, t_images *imgs)
 {
 	imgs->screen.ptr = mlx_new_image(mlx_ptr, WIDTH, HEIGHT);
-	imgs->screen.addr = mlx_get_data_addr(cub3d.imgs.screen.ptr, &cub3d.imgs.screen.bpp, &cub3d.imgs.screen.line, &cub3d.imgs.screen.endian);
-	
+	imgs->screen.addr = (int *)mlx_get_data_addr(imgs->screen.ptr, &imgs->screen.bpp, &imgs->screen.line, &imgs->screen.endian);
 }
 
 int main(int argc, char **argv)
@@ -65,8 +64,9 @@ int main(int argc, char **argv)
 	
 	
 	
-	mlx_loop_hook(cub3d.mlx_obj.mlx, &main_loop, &cub3d);
+	// mlx_loop_hook(cub3d.mlx_obj.mlx, &main_loop, &cub3d);
 	// mlx_hook(cub3d.mlx_obj.window, X_EVENT_KEY_PRESS, 0, &key_press, &cub3d); // kinda copied from l-yohai
+	mlx_hook(cub3d.mlx_obj.window, X_BUTTON_EXIT, 131072, &key_close, &cub3d);
 	
 	mlx_loop(cub3d.mlx_obj.mlx);
 	

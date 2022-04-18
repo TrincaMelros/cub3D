@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/18 16:57:28 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/18 17:08:22 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,14 +119,6 @@ typedef struct s_mlx {
 	// t_img	*imgs;
 }	t_mlx;
 
-typedef struct s_assets {
-	void	*floor;
-	void	*wall;
-	void	*player;
-	int		player_x;
-	int		player_y;
-}	t_assets;
-
 typedef struct s_images {
 	t_img	screen;
 	t_img	minimap;
@@ -172,6 +164,8 @@ void	cub_parsing(char *filename, t_input *input);
 int		create_trgb(int t, int r, int g, int b);
 void	img_put_pixel(t_img *img, int color, int y, int x);
 void	img_draw_verLine(t_img *img, int x, int y1, int y2, int color);
+int		key_close(int keycode, t_cub3d *cub3d);
+
 
 		/*	Other utils	*/
 void	ft_putstr_err(char *s);
@@ -194,7 +188,8 @@ void	img_assignment(t_cub3d *cub);
 void	load_wall_floor(t_cub3d *cub);
 void	load_player(t_cub3d *cub);
 
-		/* Raycastin */
+		/* Raycasting */
 int		main_loop(t_cub3d *cub3d);
+
 
 #endif
