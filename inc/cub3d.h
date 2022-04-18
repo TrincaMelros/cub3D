@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/18 11:51:54 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/18 16:57:28 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,17 @@
 # include <stdio.h>
 # include <string.h>
 # include <stdbool.h>
+# include <errno.h>
 
 # include "libft.h"
 # include "events.h"
 
-# include <errno.h>
+// ifeq ($(shell uname), Darwin)
+// 	# include "key_macos.h"
+// else ifeq ($(shell uname), Linux)
+// 	# include "key_linux.h"
+// endif
+
 # define BUFFER_SIZE 1
 # define ESC		53
 # define MOVE_UP	13
@@ -98,11 +104,19 @@ typedef struct s_img {
 	int		endian;
 }	t_img;
 
+typedef struct s_assets {
+	void	*floor;
+	void	*wall;
+	void	*player;
+	int		player_x;
+	int		player_y;
+}	t_assets;
+
 	/*	MLX	*/
 typedef struct s_mlx {
 	void	*mlx;
 	void	*window;
-	t_img	*imgs;
+	// t_img	*imgs;
 }	t_mlx;
 
 typedef struct s_assets {
@@ -113,12 +127,20 @@ typedef struct s_assets {
 	int		player_y;
 }	t_assets;
 
+typedef struct s_images {
+	t_img	screen;
+	t_img	minimap;
+	
+}	t_images;
+
 	/*	General Struct	*/
 typedef struct s_cub3d
 {
-	t_mlx	mlx_obj;
-	t_input	input;
-	t_assets assets;
+	t_mlx		mlx_obj;
+	t_input		input;
+	t_assets	assets;
+	t_images	imgs;
+	
 }		t_cub3d;
 
 	/* RM */
@@ -148,7 +170,8 @@ void	cub_parsing(char *filename, t_input *input);
 
 		/*  Mlx utils  */
 int		create_trgb(int t, int r, int g, int b);
-void	ft_pixel_put(int *addr, int x, int y, int color);
+void	img_put_pixel(t_img *img, int color, int y, int x);
+void	img_draw_verLine(t_img *img, int x, int y1, int y2, int color);
 
 		/*	Other utils	*/
 void	ft_putstr_err(char *s);
@@ -164,11 +187,14 @@ void	*calloc_check(size_t nmemb, size_t size);
 
 		/* Movements */
 void	movement(t_cub3d *cub, int new_x, int new_y);
-int	key_hook(int keycode, t_cub3d *cub);
+int		key_hook(int keycode, t_cub3d *cub);
 
 		/* Minimap */
 void	img_assignment(t_cub3d *cub);
 void	load_wall_floor(t_cub3d *cub);
 void	load_player(t_cub3d *cub);
+
+		/* Raycastin */
+int		main_loop(t_cub3d *cub3d);
 
 #endif
