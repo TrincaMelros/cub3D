@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/18 16:52:17 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/19 12:34:12 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ static void	ft_init(t_cub3d *obj)
 	obj->input.ceiling.trgb = -1;
 }
 
-static void	free_all(t_cub3d *obj)
+void	free_all(t_cub3d *obj)
 {
+	mlx_destroy_window(obj->mlx_obj.mlx, obj->mlx_obj.window);
 	twod_free((void **)obj->input.txt);
+	twod_free((void **)obj->input.map.top_left);
 }
 
 static void	check_ftype(const char *ftype)
@@ -33,13 +35,6 @@ static void	check_ftype(const char *ftype)
 		error_exit("Wrong file type.");
 }
 
-void	set_images(void *mlx_ptr, t_images *imgs)
-{
-	imgs->screen.ptr = mlx_new_image(mlx_ptr, WIDTH, HEIGHT);
-	imgs->screen.addr = mlx_get_data_addr(cub3d.imgs.screen.ptr, &cub3d.imgs.screen.bpp, &cub3d.imgs.screen.line, &cub3d.imgs.screen.endian);
-	
-}
-
 int main(int argc, char **argv)
 {
 	t_cub3d	cub3d;
@@ -47,27 +42,18 @@ int main(int argc, char **argv)
     if (argc != 2)
 	{
 		ft_error("Invalid number of arguments.");
-		return (1);
+		return (OTHER);
 	}
 	check_ftype(argv[1]);
 	ft_init(&cub3d);
 	get_data(&cub3d);
 	DEBUG(init_test(&cub3d);)
-    cub_parsing(argv[1], &(get_data(NULL)->input));
+	cub_parsing(argv[1], &cub3d.input);
 
-	// build images
+	set_game(&cub3d);
 
-	cub3d.mlx_obj.mlx = mlx_init();
-	cub3d.mlx_obj.window = mlx_new_window(cub3d.mlx_obj.mlx, WIDTH, HEIGHT, "Cub3D");
-	
-	
-	
 	mlx_loop_hook(cub3d.mlx_obj.mlx, &main_loop, &cub3d);
-	// mlx_hook(cub3d.mlx_obj.window, X_EVENT_KEY_PRESS, 0, &key_press, &cub3d); // kinda copied from l-yohai
-	
 	mlx_loop(cub3d.mlx_obj.mlx);
-	
-	mlx_destroy_window(cub3d.mlx_obj.mlx, cub3d.mlx_obj.window);
+
 	free_all(&cub3d);
-    return (0);
 }

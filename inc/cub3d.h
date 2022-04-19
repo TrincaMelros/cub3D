@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/18 16:45:51 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/19 12:36:00 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ enum	e_error {
 
 # define BUFFER_SIZE 1
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 1080
+# define HEIGHT 720
 
 typedef enum e_blocks {
 	VOID,
@@ -122,7 +122,6 @@ typedef struct s_mlx {
 typedef struct s_images {
 	t_img	screen;
 	t_img	minimap;
-	
 }	t_images;
 
 	/*	General Struct	*/
@@ -132,7 +131,6 @@ typedef struct s_cub3d
 	t_input		input;
 	t_assets	assets;
 	t_images	imgs;
-	
 }		t_cub3d;
 
 	/* RM */
@@ -143,6 +141,8 @@ typedef struct s_cub3d
 #  define DEBUG(x)
 # endif
 	/* RM */
+
+void	free_all(t_cub3d *obj);
 
 		/* Error Handling */
 int		ft_error(char *s);
@@ -159,9 +159,11 @@ t_map	map_validation(char **map);
 void	cub_parsing(char *filename, t_input *input);
 
 		/*  Mlx utils  */
+void	build_image(void *mlx_ptr, t_img *img, int width, int height);
 int		create_trgb(int t, int r, int g, int b);
 void	img_put_pixel(t_img *img, int color, int y, int x);
 void	img_draw_verLine(t_img *img, int x, int y1, int y2, int color);
+void	img_draw_horLine(t_img *img, int y, int x1, int x2, int color);
 
 		/*	Other utils	*/
 void	ft_putstr_err(char *s);
@@ -184,7 +186,11 @@ void	img_assignment(t_cub3d *cub);
 void	load_wall_floor(t_cub3d *cub);
 void	load_player(t_cub3d *cub);
 
-		/* Raycastin */
-int		main_loop(t_cub3d *cub3d);
+		/* Build setting */
+void	set_game(t_cub3d *cub3d);
+
+		/* Raycasting */
+// int		main_loop(t_cub3d *cub3d);
+int		main_loop(void *params);
 
 #endif

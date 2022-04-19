@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:34:50 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/14 14:39:12 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/19 10:38:28 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	*set_free(void **ptr)
 		free(*ptr);
 		*ptr = NULL;
 	}
-	return (NULL); // ??
+	return (NULL);
 }
 
 void	**twod_free(void **ptr_arr)
 {
 	void	**ptr;
-	
+
 	ptr = ptr_arr;
 	if (ptr)
 	{
@@ -58,14 +58,14 @@ void	**twod_realloc(void **ptr, const size_t size)
  * if no size returns pointer
 */
 {
-	void 	**tmp;
+	void	**tmp;
 	int		i;
 
 	i = -1;
 	tmp = ptr;
-	if(!size)
+	if (!size)
 		return (ptr); // ?? not sure
-	while(tmp[++i])
+	while (tmp[++i])
 		continue ;
 	ptr = ft_calloc(i + size + 1, sizeof(*ptr));
 	if (!ptr)
@@ -77,12 +77,11 @@ void	**twod_realloc(void **ptr, const size_t size)
 	return (ptr);
 }
 
-t_cub3d *get_data(t_cub3d *original)
+t_cub3d	*get_data(t_cub3d *original)
 {
-	static t_cub3d *data;
-	
-	if (original != NULL) {
+	static t_cub3d	*data;
+
+	if (original != NULL)
 		data = original;
-	}
 	return (data);
 }
