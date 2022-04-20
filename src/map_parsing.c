@@ -3,207 +3,159 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/10 16:45:21 by malmeida          #+#    #+#             */
-/*   Updated: 2022/02/10 16:45:22 by malmeida         ###   ########.fr       */
+/*   Created: 2022/03/29 12:15:11 by fbarros           #+#    #+#             */
+/*   Updated: 2022/04/18 10:35:20 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int	get_input_height(char *filename, t_input *input)
+static t_map	init_t_map(char **map)
+/**
+ * Gets max width, height and truncates unnecessary spaces both horizontally and vertically
+*/
 {
-	int		fd;
-	int		size;
-	char	*str;
-
-	fd = open(filename, O_RDONLY);
-	if (fd < 1)
-		return (1);
-	size = 0;
-	while (get_next_line(&str, fd))
-		size++;
-	close(fd);
-	input->height = size + 1;
-	return (0);
-}
-
-static int	get_input(char *filename, t_input *input)
-{
-	char	*str;
-	int		fd;
+	t_map	tmp;
+	size_t	trunc_l;
 	int		i;
-	int		rd;
 
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (1);
-	i = 0;
-	while (i < input->height)
+	ft_bzero(&tmp, sizeof(tmp));
+	while (map[tmp.h])
 	{
-		rd = get_next_line(&str, fd);
-		if (rd == 1)
-			input->txt[i] = str;
-		else if (rd == 0)
-		{
-			input->txt[i++] = str;
-			break;
-		}
-		else if (rd == -1)
-			return (1);
-		i++;	
-	}
-	input->txt[i] = NULL;
-	close(fd);
-	return (0);
-}
-
-static int assign_texture(t_input *input, int i, char c)
-/*No need to substr if we only free input.txt at the end of program,
-	just reference to beggining of string (same goes for map)*/
-{
-	int	j;
-
-	j = 1;
-	while (input->txt[i][j] != '.')
-		j++;
-	if (c == 'N')
-		input->north = ft_substr(input->txt[i], j, 20);
-	if (c == 'S')
-		input->south = ft_substr(input->txt[i], j, 20);
-	if (c == 'W')
-		input->west = ft_substr(input->txt[i], j, 20);
-	if (c == 'E')
-		input->east = ft_substr(input->txt[i], j, 20);
-	return (0);
-}
-
-static int	assign_RGB(t_input *input, int i, char c)
-{
-	int		j;
-	char	**f_splitter;
-	char	**c_splitter;
-
-	j = 1;
-	while (!ft_isdigit(input->txt[i][j]))
-		j++;
-	if (c == 'F')
-	{
-		input->floor_RGB = ft_substr(input->txt[i], j, 20);
-		f_splitter = ft_split(input->floor_RGB, ',');
-		input->floor_R = ft_atoi(f_splitter[0]);
-		input->floor_G = ft_atoi(f_splitter[1]);
-		input->floor_B = ft_atoi(f_splitter[2]);
-		input->floor_TRGB = create_trgb(0, input->floor_R, input->floor_G, input->floor_B);
-	}
-	if (c == 'C')
-	{
-		input->ceiling_RGB = ft_substr(input->txt[i], j, 20);
-		c_splitter = ft_split(input->ceiling_RGB, ',');
-		input->ceiling_R = ft_atoi(c_splitter[0]);
-		input->ceiling_G = ft_atoi(c_splitter[1]);
-		input->ceiling_B = ft_atoi(c_splitter[2]);
-		input->ceiling_TRGB = create_trgb(0, input->ceiling_R, input->ceiling_G, input->ceiling_B);
-	}
-	return (0);
-}
-
-static int	all_assigned(t_input *input)
-{
-	if (input->north == NULL)
-		return (1);
-	if (input->south == NULL)
-		return (1);
-	if (input->west == NULL)
-		return (1);
-	if (input->east == NULL)
-		return (1);
-	if (input->floor_RGB == NULL)
-		return (1);
-	if (input->ceiling_RGB == NULL)
-		return (1);
-	return (0);
-}
-
-static int	assign_elements(t_input *input)
-/**/
-{
-	int	i;
-
-	i = -1;
-	while(input->txt[++i][0] != '1')
-	{
-		if (input->txt[i][0] == 'N')
-		{
-			if (assign_texture(input, i, 'N'))
-				return (1);
-		}
-		else if (input->txt[i][0] == 'S')
-		{
-			if (assign_texture(input, i, 'S'))
-				return (1);
-		}
-		else if (input->txt[i][0] == 'W')
-		{
-			if (assign_texture(input, i, 'W'))
-				return (1);
-		}
-		else if (input->txt[i][0] == 'E')
-		{
-			if (assign_texture(input, i, 'E'))
-				return (1);
-		}
-		else if (input->txt[i][0] == 'F')
-		{
-			if (assign_RGB(input, i, 'F'))
-				return (1);
-		}
-		else if (input->txt[i][0] == 'C')
-		{
-			if (assign_RGB(input, i, 'C'))
-				return (1);
-		}
-		if (!all_assigned(input))
+		trunc_l = ft_strlen(map[tmp.h]);
+		trunc_l -= ft_strlen(ft_strrchr(map[tmp.h], '1'));
+		if (trunc_l + 1 > tmp.w)
+			tmp.w = trunc_l + 1;
+		tmp.h++;
+		if (line_empty(map[tmp.h]))
 			break ;
 	}
-	return (0);
+	i = tmp.h;
+	while (map[i++])
+	{
+		if (!line_empty(map[i]))
+			free_and_exit("map: map should include no empty lines.");
+	}
+	return (tmp);
 }
 
-static int	assign_map(t_input *input)
+static t_blocks	*init_map_row(char *original, size_t lenght)
+/**
+ * Scans line for validity and translates each element to t_blocks(enum) element
+ * Initially, everything is set to 0, which equals VOID and is a bit of a dangerous implementation
+*/
+{
+	int			i;
+	t_blocks	*new_map;
+
+	new_map = calloc_check(lenght, sizeof(t_blocks));
+	i = -1;
+	while (original[++i])
+	{
+		if (ft_isspace(original[i]))
+		{
+			if (original[i] == '\t')
+				i += 3;
+		}
+		else if (original[i] == '0')
+			new_map[i] = SPACE;
+		else if (original[i] == '1')
+			new_map[i] = WALL;
+		else if (ft_strchr("NSEW", original[i]))
+			new_map[i] = PLAYER;
+		else
+		{
+			free(new_map);
+			free_and_exit("map: invalid map char.");
+		}
+	}
+	return (new_map);
+}
+
+static void	check_p_pos(t_map *map)
+/**
+ * Checks player position
+ * If none or too many are found: frees everything(hopefully), outputs error and exits
+*/
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	j = -1;
+	while (map->top_left[++i])
+	{
+		j = -1;
+		while (++j < (int)map->w)
+		{
+			if (map->top_left[i][j] == PLAYER)
+			{
+				if (map->player.x != 0 || map->player.y != 0)
+				{
+					DEBUG(print_map(get_data(0)->input.map);)
+					free_and_exit("map: too many positions set for player.");
+				}
+				map->player.x = (float)j;
+				map->player.y = (float)i;
+				map->top_left[i][j] = SPACE;
+			}
+		}
+	}
+	if (!map->player.x && !map->player.y)
+		free_and_exit("map: no position set for player.");
+}
+
+static bool	invalid_perimeter(t_blocks **map, int width)
+/**
+ * Checks if map is "fenced" with '1's
+*/
 {
 	int	i;
 	int	j;
 
-	i = 0;
-	j = 0;
-	while (input->txt[i] && input->txt[i][j] != '1')
-		i++;
-	input->map = malloc(sizeof(char*) * (input->height - 8 + 1));
-	if (!input->map)
-		return (1);
-	i = 8;
-	j = 0;
-	while (i < input->height)
+	i = -1;
+	while (map[++i])
 	{
-		input->map[j] = ft_strdup(input->txt[i]);
-		i++;
-		j++;
+		j = -1;
+		while (++j < width)
+		{
+			if (i == 0 || map[i + 1] == NULL)
+			{
+				if (map[i][j] != VOID && map[i][j] != WALL)
+					return (true);
+			}
+			else if (map[i][j] == SPACE)
+			{
+				if (map[i + 1][j] == VOID || map[i - 1] == VOID
+					|| map[i][j - 1] == VOID || map[i][j + 1] == VOID)
+					return (true);
+			}
+		}
 	}
-	input->map[j] = NULL;
-	return (0);
+	return (false);
 }
 
-int map_parsing(char *filename, t_input *input)
+t_map	map_validation(char **map)
+/**
+ * "Except for the map content, each type of element can be separated by one or more empty lines."
+*/
 {
-	if (get_input_height(filename, input))
-		return (1);
-	input->txt = malloc(sizeof(char*) * input->height + 1);
-	if (get_input(filename, input))
-		return (1);
-	if (assign_elements(input))
-		return (1);
-	if (assign_map(input))
-		return (1);
-	return (0);
+	t_map	tmp;
+	int		i;
+
+	while (map && line_empty(*map))
+		map++;
+	tmp = init_t_map(map);
+	tmp.top_left = calloc_check(tmp.h + 1, sizeof(t_blocks *));
+	i = -1;
+	while (++i < (int)tmp.h)
+		tmp.top_left[i] = init_map_row(map[i], tmp.w);
+	check_p_pos(&tmp);
+	tmp.player.dir = map[(int)tmp.player.y][(int)tmp.player.x];
+	if (invalid_perimeter(tmp.top_left, (int)tmp.w))
+		free_and_exit("map: invalid perimeter.");
+	DEBUG(print_map(tmp);)
+	return (tmp);
 }

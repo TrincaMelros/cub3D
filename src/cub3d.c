@@ -3,76 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/02/14 15:06:39 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/04/18 17:06:22 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	print_input(char **print)
+static void	ft_init(t_cub3d *obj)
 {
-	int	i;
-
-	i = -1;
-	while (print[++i])
-		printf("%s\n", print[i]);
+	ft_bzero(obj, sizeof(t_cub3d));
+	obj->input.floor.trgb = -1;
+	obj->input.ceiling.trgb = -1;
 }
 
-void	print_path(t_input input)
+void	free_all(t_cub3d *cub3d)
 {
-	printf("NO -> %s\nSO -> %s\nWE -> %s\nEA -> %s\n", input.north, input.south, input.west, input.east);
+	twod_free((void **)cub3d->input.txt);
+	twod_free((void **)cub3d->input.map.top_left);
 }
 
-void	print_RGB(t_input input)
+static void	check_ftype(const char *ftype)
 {
-	printf("floor red is %d\n", input.floor_R);
-	printf("floor green is %d\n", input.floor_G);
-	printf("floor blue is %d\n", input.floor_B);
-	printf("ceiling red is %d\n", input.ceiling_R);
-	printf("ceiling green is %d\n", input.ceiling_G);
-	printf("ceiling blue is %d\n", input.ceiling_B);
+	char	*cptr;
+
+	cptr = ft_strchr(ftype, '.');
+	if (ft_strlen(cptr) != 4 || !ft_strnstr(cptr, "cub", 4))
+		error_exit("Wrong file type.");
 }
 
-void	print_map(t_input input)
+void	set_images(void *mlx_ptr, t_images *imgs)
 {
-	int i;
-
-	i = -1;
-	while (input.map[++i])
-		printf("%s\n", input.map[i]);
-}
-
-void	init_vars(t_input *input)
-{
-	input->north = NULL;
-	input->south = NULL;
-	input->west = NULL;
-	input->east = NULL;
-	input->floor_RGB = NULL;
-	input->ceiling_RGB = NULL;
+	imgs->screen.ptr = mlx_new_image(mlx_ptr, WIDTH, HEIGHT);
+	imgs->screen.addr = (int *)mlx_get_data_addr(imgs->screen.ptr, &imgs->screen.bpp, &imgs->screen.line, &imgs->screen.endian);
 }
 
 int main(int argc, char **argv)
 {
-	t_cub3d	cub;
-
+	t_cub3d	cub3d;
 
     if (argc != 2)
-    {
-        perror("Error: invalid number of arguments\n");
-        return (1);
-    }
-	init_vars(&cub.input);
-    if (map_parsing(argv[1], &cub.input))
+	{
+		ft_error("Invalid number of arguments.");
 		return (1);
-	// print_input(cub.input.txt);
-	// print_path(cub.input);
-	// print_RGB(cub.input);
-	// print_map(cub.input);
+	}
+	check_ftype(argv[1]);
+	ft_init(&cub3d);
+	get_data(&cub3d);
+	
+	DEBUG(init_test(&cub3d);)
 
-	// free_all(cub)
+    cub_parsing(argv[1], &(get_data(NULL)->input));
+
+	// build images
+
+	cub3d.mlx_obj.mlx = mlx_init();
+	cub3d.mlx_obj.window = mlx_new_window(cub3d.mlx_obj.mlx, cub3d.input.map.w * 64, cub3d.input.map.h * 64, "Cub3D");
+	
+	
+	
+	// mlx_loop_hook(cub3d.mlx_obj.mlx, &main_loop, &cub3d);
+	// mlx_hook(cub3d.mlx_obj.window, X_EVENT_KEY_PRESS, 0, &key_press, &cub3d); // kinda copied from l-yohai
+	mlx_hook(cub3d.mlx_obj.window, X_BUTTON_EXIT, 131072, &key_close, &cub3d);
+	mlx_key_hook(cub3d.mlx_obj.window, key_hook, &cub3d);
+	minimap_launcher(&cub3d);
+
+	mlx_loop(cub3d.mlx_obj.mlx);
+	
+	mlx_destroy_window(cub3d.mlx_obj.mlx, cub3d.mlx_obj.window);
+	free_all(&cub3d);
     return (0);
 }

@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 17:15:00 by malmeida          #+#    #+#             */
-/*   Updated: 2022/02/10 17:15:01 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/04/16 15:17:01 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	ft_putstr(char *s)
+void	ft_putstr_err(char *s)
 {
 	if (write(1, s, ft_strlen(s)) == -1)
-	{
-		perror(strerror(errno));	// <----------- pass to error handling function
-		exit(errno);
-	}
+		exit(SYSCALL);
 }
 
-void	ft_puttxt(char **txt)
-{
-	while (*txt)
-	{
-		ft_putstr(*txt++);
-		ft_putstr("\n");
-	}
-}
+

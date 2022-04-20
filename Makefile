@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbarros <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/08 13:26:17 by fbarros           #+#    #+#              #
-#    Updated: 2021/11/08 13:36:00 by fbarros          ###   ########.fr        #
+#    Updated: 2022/04/18 16:57:02 by fbarros          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,21 +23,43 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-DEBUG = -g -fsanitize=address
+LIBS = -lm -lmlx -Llibft -lft
 
-LIBS = -lm -L./libft -lft
+MACFW = -framework AppKit -framework OpenGL
 
-INCLUDES = -I inc/ -Imlx
+LINUXLIBS = -lXext -lX11
 
-SRCS = $(wildcard src/*.c)
+INCLUDES = -Iinc -Ilibft -Imlx
+
+SRCS =	src/cub_parsing.c \
+		src/cub3d.c \
+		src/error.c	\
+		src/gnl.c 	\
+		src/map_parsing.c \
+		src/mem.c \
+		src/minimap.c \
+		src/mlx_utils.c \
+		src/movement.c \
+		src/raycasting.c \
+		src/utils.c 
 
 RM = rm -f
-
-FW = -framework AppKit -framework OpenGL
 
 OBJ = $(SRCS:%.c=%.o)
 
 LIBFT = libft/libft.a
+
+DEBUG = -g -DDEBUG_MODE -Itest/
+
+TESTSRCS = $(wildcard test/*.c)
+
+TESTOBJ = $(TESTSRCS:%.c=%.o)
+
+ifeq ($(shell uname), Darwin)
+	LIBS += $(MACFW)
+else ifeq ($(shell uname), Linux)
+	LIBS += $(LINUXLIBS)
+endif
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
@@ -45,30 +67,30 @@ LIBFT = libft/libft.a
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBS) $(FW) -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBS) -o $(NAME)
 	echo "$(GREEN)[ cub3d COMPILED ]$(DEF)"
 
 $(LIBFT):
-	$(MAKE) -C libft
+	@make -C ./libft
 	echo "$(GREEN)[ libft COMPILED ]$(DEF)"
 
-clean: 
+clean:
 	$(MAKE) clean -C libft
-	$(RM) $(OBJ)
+	$(RM) $(OBJ) $(TESTOBJ)
 
 fclean: clean
 	$(MAKE) fclean -C libft
-	$(RM) $(NAME)
+	$(RM) $(NAME) debug
 	rm -rf *.dSYM
 
 re: fclean all
 
+debug: fclean
+debug: NAME = debug
 debug: CFLAGS += $(DEBUG)
-debug: re
+debug: OBJ += $(TESTOBJ)
+debug: $(TESTOBJ) all
+memcheck: DEBUG += -fsanitize=address
+memcheck: debug
 
 .PHONY: all re clean fclean debug
-
-
-# obj/ dir
-# change libft makefile
-# change gnl??
