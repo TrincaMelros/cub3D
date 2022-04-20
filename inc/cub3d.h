@@ -38,7 +38,7 @@
 # define ESC		53
 # define MOVE_UP	13
 # define MOVE_DOWN	1
-# define MOVE_RIGHT	7
+# define MOVE_RIGHT	2
 # define MOVE_LEFT	0
 
 enum	e_error {

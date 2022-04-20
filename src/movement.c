@@ -44,8 +44,8 @@ void	redraw_player(t_cub3d *cub)
 
 int	key_hook(int keycode, t_cub3d *cub)
 {
-	 double moveSpeed = 0.5;
-	 double rotSpeed = 0.5;
+	 double moveSpeed = 0.05;
+	 double rotSpeed = 0.05;
 
 	printf("MOVEMENT\n");
     if (keycode == MOVE_UP)
@@ -62,13 +62,13 @@ int	key_hook(int keycode, t_cub3d *cub)
     	if(cub->input.map.top_left[(int)(cub->player.posX)][(int)(cub->player.posY - cub->player.dirY * moveSpeed)] == SPACE)
 			cub->player.posY -= cub->player.dirY * moveSpeed;
     }
-	if (keycode == MOVE_RIGHT)
+	if (keycode == MOVE_LEFT)
 	{
 		double oldDirX = cub->player.dirX;
 		cub->player.dirX = cub->player.dirX * cos(-rotSpeed) - cub->player.dirY * sin(-rotSpeed);
 		cub->player.dirY = oldDirX * sin(-rotSpeed) + cub->player.dirY * cos(-rotSpeed);
 	}
-	if (keycode == MOVE_LEFT)
+	if (keycode == MOVE_RIGHT)
 	{
 		double oldDirX = cub->player.dirX;
 		cub->player.dirX = cub->player.dirX * cos(rotSpeed) - cub->player.dirY * sin(rotSpeed);
