@@ -32,10 +32,10 @@ void	load_wall_floor(t_cub3d *cub)
 	int	j;
 
 	i = 0;
-	while (i < 10)
+	while (i < (int)cub->input.map.h)
 	{
 		j = 0;
-		while (j < 10)
+		while (j < (int)cub->input.map.w)
 		{
 			if (cub->input.map.top_left[i][j] == SPACE)
 				mlx_put_image_to_window(cub->mlx_obj.mlx, cub->mlx_obj.window,
@@ -51,31 +51,22 @@ void	load_wall_floor(t_cub3d *cub)
 	}
 }
 
-void	load_player(t_cub3d *cub)
+void	load_player(t_cub3d *cub, int x)
 {
-	int	i;
-	int	j;
-	int	exit;
-
-	exit = 0;
-	i = 1;
-	while (i < 10)
+	if (x == 1)
 	{
-		j = 1;
-		while (j < 10)
-		{
-			if (cub->input.map.top_left[i][j] == SPACE)
-			{
-				cub->assets.player_x = j * 64;
-				cub->assets.player_x = j * 64;
-				mlx_put_image_to_window(cub->mlx_obj.mlx, cub->mlx_obj.window, cub->assets.player, j * 64, i * 64);
-				exit = 1;
-				break ;
-			}
-			j++;
-		}
-		if (exit)
-			break ;
-		i++;
+		cub->player.posX = cub->input.map.player.x;
+		cub->player.posY = cub->input.map.player.y;
+		cub->player.dirX = -1;
+		cub->player.dirY = 0;
 	}
+	printf("player x is %f, player y is %f\n", cub->player.posX, cub->player.posY);
+	mlx_put_image_to_window(cub->mlx_obj.mlx, cub->mlx_obj.window, cub->assets.player, cub->player.posX * 64, cub->player.posY * 64);
+}
+
+void	minimap_launcher(t_cub3d *cub)
+{
+	img_assignment(cub);
+	load_wall_floor(cub);
+	load_player(cub, 1);
 }

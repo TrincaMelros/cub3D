@@ -60,14 +60,16 @@ int main(int argc, char **argv)
 	// build images
 
 	cub3d.mlx_obj.mlx = mlx_init();
-	cub3d.mlx_obj.window = mlx_new_window(cub3d.mlx_obj.mlx, WIDTH, HEIGHT, "Cub3D");
+	cub3d.mlx_obj.window = mlx_new_window(cub3d.mlx_obj.mlx, cub3d.input.map.w * 64, cub3d.input.map.h * 64, "Cub3D");
 	
 	
 	
 	// mlx_loop_hook(cub3d.mlx_obj.mlx, &main_loop, &cub3d);
 	// mlx_hook(cub3d.mlx_obj.window, X_EVENT_KEY_PRESS, 0, &key_press, &cub3d); // kinda copied from l-yohai
 	mlx_hook(cub3d.mlx_obj.window, X_BUTTON_EXIT, 131072, &key_close, &cub3d);
-	
+	mlx_key_hook(cub3d.mlx_obj.window, key_hook, &cub3d);
+	minimap_launcher(&cub3d);
+
 	mlx_loop(cub3d.mlx_obj.mlx);
 	
 	mlx_destroy_window(cub3d.mlx_obj.mlx, cub3d.mlx_obj.window);

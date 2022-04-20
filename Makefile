@@ -31,9 +31,17 @@ LINUXLIBS = -lXext -lX11
 
 INCLUDES = -Iinc -Ilibft -Imlx
 
-SRCS = src/cub3d.c src/error.c src/gnl.c src/mem.c src/mlx_utils.c\
-		src/map_parsing.c src/cub_parsing.c src/cub_parsing_utils.c src/utils.c\
-		src/minimap.c src/movement.c src/raycasting.c \
+SRCS =	src/cub_parsing.c \
+		src/cub3d.c \
+		src/error.c	\
+		src/gnl.c 	\
+		src/map_parsing.c \
+		src/mem.c \
+		src/minimap.c \
+		src/mlx_utils.c \
+		src/movement.c \
+		src/raycasting.c \
+		src/utils.c 
 
 RM = rm -f
 

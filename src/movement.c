@@ -32,16 +32,48 @@ void	movement(t_cub3d *cub, int new_x, int new_y)
 	cub->assets.player_x = new_y;
 }
 
+void	redraw_player(t_cub3d *cub)
+{
+	int	test;
+
+	test = (int)cub->player.posX;
+	load_wall_floor(cub);
+	load_player(cub, 0);
+
+}
+
 int	key_hook(int keycode, t_cub3d *cub)
 {
+	 double moveSpeed = 0.5;
+	 double rotSpeed = 0.5;
+
 	printf("MOVEMENT\n");
-	if (keycode == MOVE_UP)
-		movement(cub, cub->assets.player_y - 2, cub->assets.player_x);
-	if (keycode == MOVE_DOWN)
-		movement(cub, cub->assets.player_y + 2, cub->assets.player_x);
-	if (keycode == MOVE_LEFT)
-		movement(cub, cub->assets.player_y, cub->assets.player_x - 2);
+    if (keycode == MOVE_UP)
+    {
+    	if(cub->input.map.top_left[(int)(cub->player.posX + cub->player.dirX * moveSpeed)][(int)(cub->player.posY)] == SPACE)
+			cub->player.posX += cub->player.dirX * moveSpeed;
+    	if(cub->input.map.top_left[(int)(cub->player.posX)][(int)(cub->player.posY + cub->player.dirY * moveSpeed)] == SPACE)
+			cub->player.posY += cub->player.dirY * moveSpeed;
+    }
+    if (keycode == MOVE_DOWN)
+    {
+    	if(cub->input.map.top_left[(int)(cub->player.posX - cub->player.dirX * moveSpeed)][(int)(cub->player.posY)] == SPACE)
+			cub->player.posX -= cub->player.dirX * moveSpeed;
+    	if(cub->input.map.top_left[(int)(cub->player.posX)][(int)(cub->player.posY - cub->player.dirY * moveSpeed)] == SPACE)
+			cub->player.posY -= cub->player.dirY * moveSpeed;
+    }
 	if (keycode == MOVE_RIGHT)
-		movement(cub, cub->assets.player_y, cub->assets.player_x + 2);
+	{
+		double oldDirX = cub->player.dirX;
+		cub->player.dirX = cub->player.dirX * cos(-rotSpeed) - cub->player.dirY * sin(-rotSpeed);
+		cub->player.dirY = oldDirX * sin(-rotSpeed) + cub->player.dirY * cos(-rotSpeed);
+	}
+	if (keycode == MOVE_LEFT)
+	{
+		double oldDirX = cub->player.dirX;
+		cub->player.dirX = cub->player.dirX * cos(rotSpeed) - cub->player.dirY * sin(rotSpeed);
+		cub->player.dirY = oldDirX * sin(rotSpeed) + cub->player.dirY * cos(rotSpeed);
+	}
+	redraw_player(cub);
 	return (0);
 }

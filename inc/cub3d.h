@@ -37,7 +37,7 @@
 # define BUFFER_SIZE 1
 # define ESC		53
 # define MOVE_UP	13
-# define MOVE_DOWN	3
+# define MOVE_DOWN	1
 # define MOVE_RIGHT	7
 # define MOVE_LEFT	0
 
@@ -112,6 +112,13 @@ typedef struct s_assets {
 	int		player_y;
 }	t_assets;
 
+typedef struct s_player {
+	double	posX;
+	double	posY;
+	double	dirX;
+	double	dirY;
+}	t_player;
+
 	/*	MLX	*/
 typedef struct s_mlx {
 	void	*mlx;
@@ -131,6 +138,7 @@ typedef struct s_cub3d
 	t_mlx		mlx_obj;
 	t_input		input;
 	t_assets	assets;
+	t_player	player;
 	t_images	imgs;
 	
 }		t_cub3d;
@@ -182,11 +190,14 @@ void	*calloc_check(size_t nmemb, size_t size);
 		/* Movements */
 void	movement(t_cub3d *cub, int new_x, int new_y);
 int		key_hook(int keycode, t_cub3d *cub);
+void	redraw_player(t_cub3d *cub);
+
 
 		/* Minimap */
 void	img_assignment(t_cub3d *cub);
 void	load_wall_floor(t_cub3d *cub);
-void	load_player(t_cub3d *cub);
+void	load_player(t_cub3d *cub, int x);
+void	minimap_launcher(t_cub3d *cub);
 
 		/* Raycasting */
 int		main_loop(t_cub3d *cub3d);
