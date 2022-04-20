@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 12:12:25 by yohan             #+#    #+#             */
-/*   Updated: 2022/04/16 17:33:01 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/20 13:24:21 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,17 @@ typedef struct	s_info
 	/* player position */
 	double posX;
 	double posY;
-	/* direction, but still don't get how this works since these are not coordinates, I assume */
+	/* direction, but still don't get how this works */
 	double dirX;
 	double dirY;
 	/* camera plane, allways perpendicular to dir. Also don't understand how it works in practice */
 	double planeX;
 	double planeY;
 	/**
-	 * These above constitute vectors with x and y coordinates. From there you can get a distance/lenght (y-x) and direction is the relation between vectors and map (?)
-	 * FOV determined by ratio between direction length and camera plane
+	 * These above constitute vectors with x and y coordinates. From there you can get a distance/lenght 
+	 * FOV determined by ratio between direction length and camera plane:
+	 * 	info.planeX = 0;
+	 *	info.planeY = 0.66;
 	 */
 
 	// mlx and window pointers
@@ -119,16 +121,17 @@ void	calc(t_info *info)
 	 * Will draw a column of pixels (verLine) for each pixel on a line, so WIDTH number of columns.
 	 */
 	{
-		/**Calculates ray position and direction
+		/**
+		 * Calculates ray position and direction
 		 * right side of screen gets coordinate 1, left side gets coordinate -1 and center gets coordinate 0
-		 *
 		*/
 		double cameraX = 2 * x / (double)width - 1; // x-coordinate in camera space
 		double rayDirX = info->dirX + info->planeX * cameraX;
 		double rayDirY = info->dirY + info->planeY * cameraX;
 
 		// represent the current square of the map the ray([rayDirX, rayDirY]) is in
-		int mapX = (int)info->posX;
+		/* ...........................................(starting from player position) */
+		int mapX = (int)info->posX; /* needs to be defined this way as first instance only, otherwise sideDist will always evaluate to 0 */
 		int mapY = (int)info->posY;
 
 		//length of ray from current position to next x or y-side
@@ -149,28 +152,28 @@ void	calc(t_info *info)
 
 		if (rayDirX < 0)
 		{
-			stepX = -1;
+			stepX = -1; /* if dir goes left */
 			sideDistX = (info->posX - mapX) * deltaDistX;
 		}
 		else
 		{
-			stepX = 1;
+			stepX = 1; /* if dir goes right */
 			sideDistX = (mapX + 1.0 - info->posX) * deltaDistX;
 		}
 		if (rayDirY < 0)
 		{
-			stepY = -1;
+			stepY = -1; /* if dir goes up */
 			sideDistY = (info->posY - mapY) * deltaDistY;
 		}
 		else
 		{
-			stepY = 1;
+			stepY = 1; /* if dir goes down */
 			sideDistY = (mapY + 1.0 - info->posY) * deltaDistY;
 		}
-
+		/* DDA in action */
 		while (hit == 0)
 		{
-			//jump to next map square, OR in x-direction, OR in y-direction
+			//jump to next map square EITHER in x-direction OR in y-direction
 			if (sideDistX < sideDistY)
 			{
 				sideDistX += deltaDistX;
@@ -186,6 +189,7 @@ void	calc(t_info *info)
 			//Check if ray has hit a wall
 			if (worldMap[mapX][mapY] > 0) hit = 1;
 		}
+		/* determines which axis (x, y) ray has hit first in order to calculate size of column depending on distance from hit*/
 		if (side == 0)
 			perpWallDist = (mapX - info->posX + (1 - stepX) / 2) / rayDirX;
 		else

@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/19 12:36:00 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/20 12:21:44 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void	load_player(t_cub3d *cub);
 void	set_game(t_cub3d *cub3d);
 
 		/* Raycasting */
-// int		main_loop(t_cub3d *cub3d);
-int		main_loop(void *params);
+int		main_loop(t_cub3d *cub3d);
+// int		main_loop(void *params);
 
 #endif
