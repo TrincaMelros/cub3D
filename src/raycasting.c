@@ -11,10 +11,3 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int	main_loop(t_cub3d *cub3d)
-{
-	(void)cub3d;
-	// Calculate and throw images to window
-	return (0);
-}

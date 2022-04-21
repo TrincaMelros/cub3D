@@ -37,3 +37,12 @@ void	free_and_exit(char *s)
 	free_all(cub3d);
 	error_exit(s);
 }
+
+void	free_and_quit(void)
+{
+	t_cub3d *cub3d;
+
+	cub3d = get_data(NULL);
+	free_all(cub3d);
+	exit (0);
+}

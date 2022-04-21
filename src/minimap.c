@@ -51,16 +51,9 @@ void	load_wall_floor(t_cub3d *cub)
 	}
 }
 
-void	load_player(t_cub3d *cub, int x)
+void	load_player(t_cub3d *cub)
 {
-	if (x == 1)
-	{
-		cub->player.posX = cub->input.map.player.x;
-		cub->player.posY = cub->input.map.player.y;
-		cub->player.dirX = -1;
-		cub->player.dirY = 0;
-	}
-	printf("player x is %f, player y is %f\n", cub->player.posX, cub->player.posY);
+	//printf("player x is %f, player y is %f\n", cub->player.posX, cub->player.posY);
 	mlx_put_image_to_window(cub->mlx_obj.mlx, cub->mlx_obj.window, cub->assets.player, cub->player.posX * 64, cub->player.posY * 64);
 }
 
@@ -68,5 +61,5 @@ void	minimap_launcher(t_cub3d *cub)
 {
 	img_assignment(cub);
 	load_wall_floor(cub);
-	load_player(cub, 1);
+	load_player(cub);
 }
