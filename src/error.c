@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:31:14 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/19 10:56:35 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/21 15:52:27 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	error_exit(char *s)
 	exit(ft_error(s));
 }
 
-void	free_and_exit(char *s)
+void	free_error_exit(char *s)
 {
 	t_cub3d	*cub3d;
 

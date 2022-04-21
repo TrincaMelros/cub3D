@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:30:50 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/19 12:17:34 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/21 15:56:59 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	img_put_pixel(t_img *img, int color, int y, int x)
 	img->addr[y * img->w + x] = color;
 }
 
-void	img_draw_verLine(t_img *img, int x, int y1, const int y2, int color)
+void	img_draw_verline(t_img *img, int x, int y1, const int y2, int color)
 {
 	while (y1 <= y2)
 	{
@@ -40,7 +40,7 @@ void	img_draw_verLine(t_img *img, int x, int y1, const int y2, int color)
 	}
 }
 
-void	img_draw_horLine(t_img *img, int y, int x1, const int x2, int color)
+void	img_draw_horline(t_img *img, int y, int x1, const int x2, int color)
 {
 	while (x1 <= x2)
 	{

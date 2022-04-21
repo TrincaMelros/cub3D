@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 11:49:58 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/18 11:50:24 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/21 23:47:57 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	movement(t_cub3d *cub, int new_x, int new_y)
 		return;
 	else
 	{
-		mlx_put_image_to_window(cub->mlx_obj.mlx, cub->mlx_obj.window, cub->assets.floor, cub->assets.player_x / 64, cub->assets.player_y / 64);
-		mlx_put_image_to_window(cub->mlx_obj.mlx, cub->mlx_obj.window, cub->assets.player, new_x, new_y);	
+		mlx_put_image_to_window(cub->mlx, cub->window, cub->assets.floor, cub->assets.player_x / 64, cub->assets.player_y / 64);
+		mlx_put_image_to_window(cub->mlx, cub->window, cub->assets.player, new_x, new_y);	
 	}
 	cub->assets.player_x = new_x;
 	cub->assets.player_x = new_y;

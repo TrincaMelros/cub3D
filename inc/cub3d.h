@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/20 12:21:44 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/22 00:11:37 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,22 +112,16 @@ typedef struct s_assets {
 	int		player_y;
 }	t_assets;
 
-	/*	MLX	*/
-typedef struct s_mlx {
-	void	*mlx;
-	void	*window;
-	// t_img	*imgs;
-}	t_mlx;
-
 typedef struct s_images {
-	t_img	screen;
-	t_img	minimap;
+	t_img		screen;
+	t_img		minimap;
 }	t_images;
 
 	/*	General Struct	*/
 typedef struct s_cub3d
 {
-	t_mlx		mlx_obj;
+	void		*mlx;
+	void		*window;
 	t_input		input;
 	t_assets	assets;
 	t_images	imgs;
@@ -146,8 +140,8 @@ void	free_all(t_cub3d *obj);
 
 		/* Error Handling */
 int		ft_error(char *s);
-void	free_and_exit(char *s);
 void	error_exit(char *s);
+void	free_error_exit(char *s);
 
 		/*	Get Next line */
 int		get_next_line(char **line, int fd);
@@ -158,12 +152,16 @@ t_map	map_validation(char **map);
 		/*	.cub Parsing	*/
 void	cub_parsing(char *filename, t_input *input);
 
+		/* Parsing utils */
+int		all_assigned(t_input *input);
+void	assign_texture(char **ptr, char *path);
+
 		/*  Mlx utils  */
 void	build_image(void *mlx_ptr, t_img *img, int width, int height);
 int		create_trgb(int t, int r, int g, int b);
 void	img_put_pixel(t_img *img, int color, int y, int x);
-void	img_draw_verLine(t_img *img, int x, int y1, int y2, int color);
-void	img_draw_horLine(t_img *img, int y, int x1, int x2, int color);
+void	img_draw_verline(t_img *img, int x, int y1, int y2, int color);
+void	img_draw_horline(t_img *img, int y, int x1, int x2, int color);
 
 		/*	Other utils	*/
 void	ft_putstr_err(char *s);
@@ -186,8 +184,10 @@ void	img_assignment(t_cub3d *cub);
 void	load_wall_floor(t_cub3d *cub);
 void	load_player(t_cub3d *cub);
 
-		/* Build setting */
+		/* Settup and Events (for now) */
 void	set_game(t_cub3d *cub3d);
+int		key_events(int keycode, t_cub3d *cub3d);
+int		button_press(int button, int x, int y, t_cub3d *cub3d);
 
 		/* Raycasting */
 int		main_loop(t_cub3d *cub3d);

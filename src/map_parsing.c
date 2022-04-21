@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 12:15:11 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/18 10:35:20 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/21 18:55:36 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static t_map	init_t_map(char **map)
 	while (map[i++])
 	{
 		if (!line_empty(map[i]))
-			free_and_exit("map: map should include no empty lines.");
+			free_error_exit("map: map should include no empty lines.");
 	}
 	return (tmp);
 }
@@ -68,7 +68,7 @@ static t_blocks	*init_map_row(char *original, size_t lenght)
 		else
 		{
 			free(new_map);
-			free_and_exit("map: invalid map char.");
+			free_error_exit("map: invalid map char.");
 		}
 	}
 	return (new_map);
@@ -95,7 +95,7 @@ static void	check_p_pos(t_map *map)
 				if (map->player.x != 0 || map->player.y != 0)
 				{
 					DEBUG(print_map(get_data(0)->input.map);)
-					free_and_exit("map: too many positions set for player.");
+					free_error_exit("map: too many positions set for player.");
 				}
 				map->player.x = (float)j;
 				map->player.y = (float)i;
@@ -104,7 +104,7 @@ static void	check_p_pos(t_map *map)
 		}
 	}
 	if (!map->player.x && !map->player.y)
-		free_and_exit("map: no position set for player.");
+		free_error_exit("map: no position set for player.");
 }
 
 static bool	invalid_perimeter(t_blocks **map, int width)
@@ -129,7 +129,9 @@ static bool	invalid_perimeter(t_blocks **map, int width)
 			else if (map[i][j] == SPACE)
 			{
 				if (map[i + 1][j] == VOID || map[i - 1] == VOID
-					|| map[i][j - 1] == VOID || map[i][j + 1] == VOID)
+					|| map[i][j - 1] == VOID || map[i][j + 1] == VOID
+					|| map[i + 1][j + 1] == VOID || map[i + 1][j - 1] == VOID
+					|| map[i - 1][j + 1] == VOID || map[i - 1][j - 1] == VOID)
 					return (true);
 			}
 		}
@@ -145,8 +147,6 @@ t_map	map_validation(char **map)
 	t_map	tmp;
 	int		i;
 
-	while (map && line_empty(*map))
-		map++;
 	tmp = init_t_map(map);
 	tmp.top_left = calloc_check(tmp.h + 1, sizeof(t_blocks *));
 	i = -1;
@@ -155,7 +155,7 @@ t_map	map_validation(char **map)
 	check_p_pos(&tmp);
 	tmp.player.dir = map[(int)tmp.player.y][(int)tmp.player.x];
 	if (invalid_perimeter(tmp.top_left, (int)tmp.w))
-		free_and_exit("map: invalid perimeter.");
+		free_error_exit("map: invalid perimeter.");
 	DEBUG(print_map(tmp);)
 	return (tmp);
 }

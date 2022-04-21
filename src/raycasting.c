@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 16:20:13 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/20 12:10:23 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/22 00:04:58 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int	main_loop(/* void *params */t_cub3d *cub3d)
 	// Calculate and throw images to window
 	
 	// put screen to window
-	mlx_put_image_to_window(cub3d->mlx_obj.mlx, cub3d->mlx_obj.window,
+	mlx_put_image_to_window(cub3d->mlx, cub3d->window,
 		cub3d->imgs.screen.ptr, 0, 0);
 
 	// put minimap to window
 	// mlx_put_image_to_window(cub3d->mlx_obj.mlx, cub3d->mlx_obj.window,
 	// 	cub3d->imgs.minimap.ptr, 0, 0);
 	
-	return (0);
+	return (SUCCESS);
 }

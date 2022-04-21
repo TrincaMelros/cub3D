@@ -6,24 +6,25 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/20 12:21:24 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/22 00:17:57 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	ft_init(t_cub3d *obj)
+static void	ft_init(t_cub3d *cub)
 {
-	ft_memset(obj, 0, sizeof(t_cub3d));
-	obj->input.floor.trgb = -1;
-	obj->input.ceiling.trgb = -1;
+	ft_memset(cub, 0, sizeof(t_cub3d));
+	cub->input.floor.trgb = -1;
+	cub->input.ceiling.trgb = -1;
 }
 
-void	free_all(t_cub3d *obj)
+void	free_all(t_cub3d *cub)
 {
-	mlx_destroy_window(obj->mlx_obj.mlx, obj->mlx_obj.window);
-	twod_free((void **)obj->input.txt);
-	twod_free((void **)obj->input.map.top_left);
+	if (cub->window)
+		mlx_destroy_window(cub->mlx, cub->window);
+	twod_free((void **)cub->input.txt);
+	twod_free((void **)cub->input.map.top_left);
 }
 
 static void	check_ftype(const char *ftype)
@@ -49,13 +50,18 @@ int main(int argc, char **argv)
 	check_ftype(argv[1]);
 	ft_init(&cub3d);
 	get_data(&cub3d);
-	DEBUG(init_test(&cub3d);)
+	// DEBUG(init_test(&cub3d);)
 	cub_parsing(argv[1], &cub3d.input);
 
 	set_game(&cub3d);
 
-	mlx_loop_hook(cub3d.mlx_obj.mlx, &main_loop, &cub3d);
-	mlx_loop(cub3d.mlx_obj.mlx);
+	// mlx_hook(cub3d.window, 2, 1L<<0, key_events, &cub3d);
+	mlx_hook(cub3d.window, 2, 0, key_events, &cub3d);
+
+	// mlx_hook(cub3d.window, 4, 1L<<15, button_press, &cub3d);
+	// mlx_key_hook(cub3d.window, key_events, &cub3d);
+	mlx_loop_hook(cub3d.mlx, &main_loop, &cub3d);
+	mlx_loop(cub3d.mlx);
 
 	free_all(&cub3d);
 }

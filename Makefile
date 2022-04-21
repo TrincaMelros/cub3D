@@ -6,7 +6,7 @@
 #    By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/08 13:26:17 by fbarros           #+#    #+#              #
-#    Updated: 2022/04/19 12:37:11 by fbarros          ###   ########.fr        #
+#    Updated: 2022/04/21 16:43:33 by fbarros          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ LINUXLIBS = -lXext -lX11
 INCLUDES = -Iinc -Ilibft -Imlx
 
 SRCS = src/cub3d.c src/error.c src/gnl.c src/mem.c src/mlx_utils.c\
-		src/map_parsing.c src/cub_parsing.c src/utils.c\
+		src/map_parsing.c src/cub_parsing.c src/parsing_utils.c\
 		src/minimap.c src/movement.c src/raycasting.c \
 		src/set_game.c
 

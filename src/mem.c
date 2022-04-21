@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:34:50 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/19 10:38:28 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/21 21:25:24 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*calloc_check(size_t nmemb, size_t size)
 
 	ptr = ft_calloc(nmemb, size);
 	if (!ptr)
-		free_and_exit(NULL);
+		free_error_exit(NULL);
 	return (ptr);
 }
 
@@ -54,7 +54,7 @@ void	**twod_free(void **ptr_arr)
 
 void	**twod_realloc(void **ptr, const size_t size)
 /**
- * allocates size pointers set to NULL and "adds" to pointer
+ * allocates size pointers set to NULL and "appends" to pointer
  * if no size returns pointer
 */
 {
@@ -64,7 +64,7 @@ void	**twod_realloc(void **ptr, const size_t size)
 	i = -1;
 	tmp = ptr;
 	if (!size)
-		return (ptr); // ?? not sure
+		return (ptr);
 	while (tmp[++i])
 		continue ;
 	ptr = ft_calloc(i + size + 1, sizeof(*ptr));
@@ -72,7 +72,7 @@ void	**twod_realloc(void **ptr, const size_t size)
 		return (NULL);
 	i = -1;
 	while (tmp[++i])
-		ptr[i] = tmp[i]; // or memccpy for each string ??
+		ptr[i] = tmp[i];
 	free(tmp);
 	return (ptr);
 }

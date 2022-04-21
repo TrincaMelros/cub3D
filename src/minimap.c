@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 11:38:38 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/18 16:36:22 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/21 23:54:42 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	img_assignment(t_cub3d *cub)
 	char	*path;
 
 	path = "./assets/floor.xpm";
-	cub->assets.floor = mlx_xpm_file_to_image(cub->mlx_obj.mlx, path, &width, &height);
+	cub->assets.floor = mlx_xpm_file_to_image(cub->mlx, path, &width, &height);
 	path = "./assets/wall.xpm";
-	cub->assets.wall = mlx_xpm_file_to_image(cub->mlx_obj.mlx, path, &width, &height);
+	cub->assets.wall = mlx_xpm_file_to_image(cub->mlx, path, &width, &height);
 	path = "./assets/player.xpm";
-	cub->assets.player = mlx_xpm_file_to_image(cub->mlx_obj.mlx, path, &width, &height);
+	cub->assets.player = mlx_xpm_file_to_image(cub->mlx, path, &width, &height);
 }
 
 void	load_wall_floor(t_cub3d *cub)
@@ -38,11 +38,11 @@ void	load_wall_floor(t_cub3d *cub)
 		while (j < 10)
 		{
 			if (cub->input.map.top_left[i][j] == SPACE)
-				mlx_put_image_to_window(cub->mlx_obj.mlx, cub->mlx_obj.window,
+				mlx_put_image_to_window(cub->mlx, cub->window,
 						cub->assets.floor, j * 64, i * 64);
 			else if (cub->input.map.top_left[i][j] == WALL)
 			{
-				mlx_put_image_to_window(cub->mlx_obj.mlx, cub->mlx_obj.window,
+				mlx_put_image_to_window(cub->mlx, cub->window,
 						cub->assets.wall, j * 64, i * 64);
 			}
 			j++;
@@ -68,7 +68,7 @@ void	load_player(t_cub3d *cub)
 			{
 				cub->assets.player_x = j * 64;
 				cub->assets.player_x = j * 64;
-				mlx_put_image_to_window(cub->mlx_obj.mlx, cub->mlx_obj.window, cub->assets.player, j * 64, i * 64);
+				mlx_put_image_to_window(cub->mlx, cub->window, cub->assets.player, j * 64, i * 64);
 				exit = 1;
 				break ;
 			}
