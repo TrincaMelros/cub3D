@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/22 17:50:18 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/22 17:55:18 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,9 @@ int main(int argc, char **argv)
 
 	minimap_launcher(&cub3d);
 	mlx_loop_hook(cub3d.mlx, &main_loop, &cub3d);
-	// mlx_hook(cub3d.window, X_EVENT_KEY_PRESS, 0, &key_press, &cub3d); // kinda copied from l-yohai
 	mlx_hook(cub3d.window, X_BUTTON_EXIT, 131072, &key_close, &cub3d);
-	mlx_hook(cub3d.window, 02, 0, &key_press, &cub3d);
-	mlx_hook(cub3d.window, 03, 0, &key_release, &cub3d);
+	mlx_hook(cub3d.window, KEY_PRESS, 0, &key_press, &cub3d);
+	mlx_hook(cub3d.window, KEY_RELEASE, 0, &key_release, &cub3d);
 
 	mlx_loop(cub3d.mlx);
 	

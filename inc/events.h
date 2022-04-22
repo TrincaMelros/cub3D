@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 17:24:41 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/21 23:29:26 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/22 17:54:04 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
  */
 
 # define KEY_PRESS 1L
+# define KEY_RELEASE 03
 # define KEY_ESC 53
 # define X_BUTTON_EXIT 17
 # define UP 13

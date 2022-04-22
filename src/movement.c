@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 11:49:58 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/22 17:53:35 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/22 17:55:26 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,19 @@ void	move(t_cub3d *cub, int movement)
 {
 	if (movement == UP)
 	{
-	    if(cub->input.map.top_left[(int)(cub->player.posX + cub->player.dirX * \
+	    if(cub->input.map.top_left[(int)(cub->player.posX + cub->player.dirX *
 		MOVESPEED)][(int)(cub->player.posY)] == SPACE)
 			cub->player.posX += cub->player.dirX * MOVESPEED;
-    	if(cub->input.map.top_left[(int)(cub->player.posX)][(int)\
+    	if(cub->input.map.top_left[(int)(cub->player.posX)][(int)
 		(cub->player.posY + cub->player.dirY * MOVESPEED)] == SPACE)
 			cub->player.posY += cub->player.dirY * MOVESPEED;	
 	}
 	if (movement == DOWN)
 	{
-		if(cub->input.map.top_left[(int)(cub->player.posX - cub->player.dirX * \
+		if(cub->input.map.top_left[(int)(cub->player.posX - cub->player.dirX *
 		MOVESPEED)][(int)(cub->player.posY)] == SPACE)
 			cub->player.posX -= cub->player.dirX * MOVESPEED;
-    	if(cub->input.map.top_left[(int)(cub->player.posX)][(int)\
+    	if(cub->input.map.top_left[(int)(cub->player.posX)][(int)
 		(cub->player.posY - cub->player.dirY * MOVESPEED)] == SPACE)
 			cub->player.posY -= cub->player.dirY * MOVESPEED;	
 	}
