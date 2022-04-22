@@ -12,11 +12,15 @@
 
 #include "cub3d.h"
 
-static void	ft_init(t_cub3d *obj)
+static void	ft_init(t_cub3d *cub)
 {
-	ft_bzero(obj, sizeof(t_cub3d));
-	obj->input.floor.trgb = -1;
-	obj->input.ceiling.trgb = -1;
+	ft_bzero(cub, sizeof(t_cub3d));
+	cub->input.floor.trgb = -1;
+	cub->input.ceiling.trgb = -1;
+	cub->player.posX = cub->input.map.player.x;
+	cub->player.posY = cub->input.map.player.y;
+	cub->player.dirX = -1;
+	cub->player.dirY = 0;
 }
 
 void	free_all(t_cub3d *cub3d)
@@ -38,6 +42,13 @@ void	set_images(void *mlx_ptr, t_images *imgs)
 {
 	imgs->screen.ptr = mlx_new_image(mlx_ptr, WIDTH, HEIGHT);
 	imgs->screen.addr = (int *)mlx_get_data_addr(imgs->screen.ptr, &imgs->screen.bpp, &imgs->screen.line, &imgs->screen.endian);
+}
+
+int	main_loop(t_cub3d *cub)
+{
+	redraw_player(cub);
+	movement(cub);
+	return (0);
 }
 
 int main(int argc, char **argv)
@@ -62,13 +73,13 @@ int main(int argc, char **argv)
 	cub3d.mlx_obj.mlx = mlx_init();
 	cub3d.mlx_obj.window = mlx_new_window(cub3d.mlx_obj.mlx, cub3d.input.map.w * 64, cub3d.input.map.h * 64, "Cub3D");
 	
-	
-	
-	// mlx_loop_hook(cub3d.mlx_obj.mlx, &main_loop, &cub3d);
+
+	minimap_launcher(&cub3d);
+	mlx_loop_hook(cub3d.mlx_obj.mlx, &main_loop, &cub3d);
 	// mlx_hook(cub3d.mlx_obj.window, X_EVENT_KEY_PRESS, 0, &key_press, &cub3d); // kinda copied from l-yohai
 	mlx_hook(cub3d.mlx_obj.window, X_BUTTON_EXIT, 131072, &key_close, &cub3d);
-	mlx_key_hook(cub3d.mlx_obj.window, key_hook, &cub3d);
-	minimap_launcher(&cub3d);
+	mlx_hook(cub3d.mlx_obj.window, 02, 0, &key_press, &cub3d);
+	mlx_hook(cub3d.mlx_obj.window, 03, 0, &key_release, &cub3d);
 
 	mlx_loop(cub3d.mlx_obj.mlx);
 	

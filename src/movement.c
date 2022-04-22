@@ -12,68 +12,92 @@
 
 #include "cub3d.h"
 
-void	movement(t_cub3d *cub, int new_x, int new_y)
-{
-	int x;
-	int	y;
-
-	x = (new_x + 1) / 64;
-	y = (new_y + 1) / 64;
-
-	printf("y is %d, x is %d", y, x);
-	if (cub->input.map.top_left[y][x] == WALL)
-		return;
-	else
-	{
-		mlx_put_image_to_window(cub->mlx_obj.mlx, cub->mlx_obj.window, cub->assets.floor, cub->assets.player_x / 64, cub->assets.player_y / 64);
-		mlx_put_image_to_window(cub->mlx_obj.mlx, cub->mlx_obj.window, cub->assets.player, new_x, new_y);	
-	}
-	cub->assets.player_x = new_x;
-	cub->assets.player_x = new_y;
-}
-
 void	redraw_player(t_cub3d *cub)
 {
-	int	test;
-
-	test = (int)cub->player.posX;
 	load_wall_floor(cub);
-	load_player(cub, 0);
+	load_player(cub);
 
 }
 
-int	key_hook(int keycode, t_cub3d *cub)
+int	key_press(int keycode, t_cub3d *cub)
 {
-	 double moveSpeed = 0.5;
-	 double rotSpeed = 0.5;
-
-	printf("MOVEMENT\n");
-    if (keycode == MOVE_UP)
-    {
-    	if(cub->input.map.top_left[(int)(cub->player.posX + cub->player.dirX * moveSpeed)][(int)(cub->player.posY)] == SPACE)
-			cub->player.posX += cub->player.dirX * moveSpeed;
-    	if(cub->input.map.top_left[(int)(cub->player.posX)][(int)(cub->player.posY + cub->player.dirY * moveSpeed)] == SPACE)
-			cub->player.posY += cub->player.dirY * moveSpeed;
-    }
-    if (keycode == MOVE_DOWN)
-    {
-    	if(cub->input.map.top_left[(int)(cub->player.posX - cub->player.dirX * moveSpeed)][(int)(cub->player.posY)] == SPACE)
-			cub->player.posX -= cub->player.dirX * moveSpeed;
-    	if(cub->input.map.top_left[(int)(cub->player.posX)][(int)(cub->player.posY - cub->player.dirY * moveSpeed)] == SPACE)
-			cub->player.posY -= cub->player.dirY * moveSpeed;
-    }
-	if (keycode == MOVE_RIGHT)
-	{
-		double oldDirX = cub->player.dirX;
-		cub->player.dirX = cub->player.dirX * cos(-rotSpeed) - cub->player.dirY * sin(-rotSpeed);
-		cub->player.dirY = oldDirX * sin(-rotSpeed) + cub->player.dirY * cos(-rotSpeed);
-	}
-	if (keycode == MOVE_LEFT)
-	{
-		double oldDirX = cub->player.dirX;
-		cub->player.dirX = cub->player.dirX * cos(rotSpeed) - cub->player.dirY * sin(rotSpeed);
-		cub->player.dirY = oldDirX * sin(rotSpeed) + cub->player.dirY * cos(rotSpeed);
-	}
-	redraw_player(cub);
+	if (keycode == MOVE_UP)
+		cub->keys.up = 1;
+	else if (keycode == MOVE_DOWN)
+		cub->keys.down = 1;
+	else if (keycode == MOVE_LEFT)
+		cub->keys.left = 1;
+	else if (keycode == MOVE_RIGHT)
+		cub->keys.right = 1;
+	else if (keycode == ESC)
+		free_and_quit();
 	return (0);
+}
+
+int	key_release(int keycode, t_cub3d *cub)
+{
+	if (keycode == MOVE_UP)
+		cub->keys.up = 0;
+	else if (keycode == MOVE_DOWN)
+		cub->keys.down = 0;
+	else if (keycode == MOVE_LEFT)
+		cub->keys.left = 0;
+	else if (keycode == MOVE_RIGHT)
+		cub->keys.right = 0;
+	else if (keycode == ESC)
+		free_and_quit();
+	return (0);
+}
+
+void	move(t_cub3d *cub, int movement)
+{
+	if (movement == UP)
+	{
+	    if(cub->input.map.top_left[(int)(cub->player.posX + cub->player.dirX * \
+		MOVESPEED)][(int)(cub->player.posY)] == SPACE)
+			cub->player.posX += cub->player.dirX * MOVESPEED;
+    	if(cub->input.map.top_left[(int)(cub->player.posX)][(int)\
+		(cub->player.posY + cub->player.dirY * MOVESPEED)] == SPACE)
+			cub->player.posY += cub->player.dirY * MOVESPEED;	
+	}
+	if (movement == DOWN)
+	{
+		if(cub->input.map.top_left[(int)(cub->player.posX - cub->player.dirX * \
+		MOVESPEED)][(int)(cub->player.posY)] == SPACE)
+			cub->player.posX -= cub->player.dirX * MOVESPEED;
+    	if(cub->input.map.top_left[(int)(cub->player.posX)][(int)\
+		(cub->player.posY - cub->player.dirY * MOVESPEED)] == SPACE)
+			cub->player.posY -= cub->player.dirY * MOVESPEED;	
+	}
+}
+
+void	rotate(t_cub3d *cub, int rotate)
+{
+	double olddirx;
+	
+	olddirx = 0;
+	if (rotate == RIGHT)
+	{
+		olddirx = cub->player.dirX;
+		cub->player.dirX = cub->player.dirX * cos(cub->player.rotspeed) - cub->player.dirY * sin(cub->player.rotspeed);
+		cub->player.dirY = olddirx * sin(cub->player.rotspeed) + cub->player.dirY * cos(cub->player.rotspeed);	
+	}
+	if (rotate == LEFT)
+	{
+		olddirx = cub->player.dirX;
+		cub->player.dirX = cub->player.dirX * cos(-cub->player.rotspeed) - cub->player.dirY * sin(-cub->player.rotspeed);
+		cub->player.dirY = olddirx * sin(-cub->player.rotspeed) + cub->player.dirY * cos(-cub->player.rotspeed);
+	}
+}
+
+void	movement(t_cub3d *cub)
+{
+	if (cub->keys.up)
+		move(cub, UP);
+	if (cub->keys.down)
+		move(cub, DOWN);
+	if (cub->keys.left)
+		rotate(cub, LEFT);
+	if (cub->keys.right)
+		rotate(cub, RIGHT);
 }

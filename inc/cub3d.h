@@ -38,8 +38,11 @@
 # define ESC		53
 # define MOVE_UP	13
 # define MOVE_DOWN	1
-# define MOVE_RIGHT	7
+# define MOVE_RIGHT	2
 # define MOVE_LEFT	0
+
+# define ROTSPEED 0.05
+# define MOVESPEED 0.05
 
 enum	e_error {
 	SUCCESS,
@@ -119,6 +122,13 @@ typedef struct s_player {
 	double	dirY;
 }	t_player;
 
+typedef struct s_keys {
+	int		up;
+	int		down;
+	int		left;
+	int		right;
+}	t_keys;
+
 	/*	MLX	*/
 typedef struct s_mlx {
 	void	*mlx;
@@ -140,7 +150,7 @@ typedef struct s_cub3d
 	t_assets	assets;
 	t_player	player;
 	t_images	imgs;
-	
+	t_keys		keys;
 }		t_cub3d;
 
 	/* RM */
@@ -158,6 +168,7 @@ void	free_all(t_cub3d *cub3d);
 int		ft_error(char *s);
 void	free_and_exit(char *s);
 void	error_exit(char *s);
+void	free_and_quit(void);
 
 		/*	Get Next line */
 int		get_next_line(char **line, int fd);
@@ -179,6 +190,7 @@ int		key_close(int keycode, t_cub3d *cub3d);
 void	ft_putstr_err(char *s);
 void	ft_puttxt(char **txt);
 bool	line_empty(char *line);
+void	init_vars(t_cub3d *cub);
 
 		/* Memory Management */
 void	**twod_realloc(void **ptr, size_t size);
@@ -188,15 +200,17 @@ t_cub3d	*get_data(t_cub3d *original);
 void	*calloc_check(size_t nmemb, size_t size);
 
 		/* Movements */
-void	movement(t_cub3d *cub, int new_x, int new_y);
+void	movement(t_cub3d *cub);
 int		key_hook(int keycode, t_cub3d *cub);
 void	redraw_player(t_cub3d *cub);
+int		key_press(int keycode, t_cub3d *cub);
+int		key_release(int keycode, t_cub3d *cub);
 
 
 		/* Minimap */
 void	img_assignment(t_cub3d *cub);
 void	load_wall_floor(t_cub3d *cub);
-void	load_player(t_cub3d *cub, int x);
+void	load_player(t_cub3d *cub);
 void	minimap_launcher(t_cub3d *cub);
 
 		/* Raycasting */
