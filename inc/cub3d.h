@@ -6,7 +6,11 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/04/22 00:11:37 by fbarros          ###   ########.fr       */
+=======
+/*   Updated: 2022/04/18 17:08:22 by fbarros          ###   ########.fr       */
+>>>>>>> manuel
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +41,12 @@
 # define BUFFER_SIZE 1
 # define ESC		53
 # define MOVE_UP	13
-# define MOVE_DOWN	3
-# define MOVE_RIGHT	7
+# define MOVE_DOWN	1
+# define MOVE_RIGHT	2
 # define MOVE_LEFT	0
+
+# define ROTSPEED 0.05
+# define MOVESPEED 0.05
 
 enum	e_error {
 	SUCCESS,
@@ -112,6 +119,20 @@ typedef struct s_assets {
 	int		player_y;
 }	t_assets;
 
+typedef struct s_player {
+	double	posX;
+	double	posY;
+	double	dirX;
+	double	dirY;
+}	t_player;
+
+typedef struct s_keys {
+	int		up;
+	int		down;
+	int		left;
+	int		right;
+}	t_keys;
+
 typedef struct s_images {
 	t_img		screen;
 	t_img		minimap;
@@ -124,7 +145,9 @@ typedef struct s_cub3d
 	void		*window;
 	t_input		input;
 	t_assets	assets;
+	t_player	player;
 	t_images	imgs;
+	t_keys		keys;
 }		t_cub3d;
 
 	/* RM */
@@ -136,12 +159,13 @@ typedef struct s_cub3d
 # endif
 	/* RM */
 
-void	free_all(t_cub3d *obj);
+void	free_all(t_cub3d *cub3d);
 
 		/* Error Handling */
 int		ft_error(char *s);
 void	error_exit(char *s);
 void	free_error_exit(char *s);
+void	free_and_quit(void);
 
 		/*	Get Next line */
 int		get_next_line(char **line, int fd);
@@ -162,11 +186,15 @@ int		create_trgb(int t, int r, int g, int b);
 void	img_put_pixel(t_img *img, int color, int y, int x);
 void	img_draw_verline(t_img *img, int x, int y1, int y2, int color);
 void	img_draw_horline(t_img *img, int y, int x1, int x2, int color);
+void	img_draw_verLine(t_img *img, int x, int y1, int y2, int color);
+int		key_close(int keycode, t_cub3d *cub3d);
+
 
 		/*	Other utils	*/
 void	ft_putstr_err(char *s);
 void	ft_puttxt(char **txt);
 bool	line_empty(char *line);
+void	init_vars(t_cub3d *cub);
 
 		/* Memory Management */
 void	**twod_realloc(void **ptr, size_t size);
@@ -176,13 +204,18 @@ t_cub3d	*get_data(t_cub3d *original);
 void	*calloc_check(size_t nmemb, size_t size);
 
 		/* Movements */
-void	movement(t_cub3d *cub, int new_x, int new_y);
+void	movement(t_cub3d *cub);
 int		key_hook(int keycode, t_cub3d *cub);
+void	redraw_player(t_cub3d *cub);
+int		key_press(int keycode, t_cub3d *cub);
+int		key_release(int keycode, t_cub3d *cub);
+
 
 		/* Minimap */
 void	img_assignment(t_cub3d *cub);
 void	load_wall_floor(t_cub3d *cub);
 void	load_player(t_cub3d *cub);
+void	minimap_launcher(t_cub3d *cub);
 
 		/* Settup and Events (for now) */
 void	set_game(t_cub3d *cub3d);
@@ -192,5 +225,6 @@ int		button_press(int button, int x, int y, t_cub3d *cub3d);
 		/* Raycasting */
 int		main_loop(t_cub3d *cub3d);
 // int		main_loop(void *params);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:30:50 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/21 15:56:59 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/22 17:53:02 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,12 @@ void	img_draw_horline(t_img *img, int y, int x1, const int x2, int color)
 		img_put_pixel(img, color, y, x1);
 		x1++;
 	}
+}
+
+int	key_close(int keycode, t_cub3d *cub3d)
+{
+	(void)keycode;
+	mlx_destroy_window(cub3d->mlx, cub3d->window);
+	free_all(cub3d);
+	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 11:38:38 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/21 23:54:42 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/22 17:52:33 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	load_wall_floor(t_cub3d *cub)
 	int	j;
 
 	i = 0;
-	while (i < 10)
+	while (i < (int)cub->input.map.h)
 	{
 		j = 0;
-		while (j < 10)
+		while (j < (int)cub->input.map.w)
 		{
 			if (cub->input.map.top_left[i][j] == SPACE)
 				mlx_put_image_to_window(cub->mlx, cub->window,
@@ -53,29 +53,13 @@ void	load_wall_floor(t_cub3d *cub)
 
 void	load_player(t_cub3d *cub)
 {
-	int	i;
-	int	j;
-	int	exit;
+	//printf("player x is %f, player y is %f\n", cub->player.posX, cub->player.posY);
+	mlx_put_image_to_window(cub->mlx, cub->window, cub->assets.player, cub->player.posX * 64, cub->player.posY * 64);
+}
 
-	exit = 0;
-	i = 1;
-	while (i < 10)
-	{
-		j = 1;
-		while (j < 10)
-		{
-			if (cub->input.map.top_left[i][j] == SPACE)
-			{
-				cub->assets.player_x = j * 64;
-				cub->assets.player_x = j * 64;
-				mlx_put_image_to_window(cub->mlx, cub->window, cub->assets.player, j * 64, i * 64);
-				exit = 1;
-				break ;
-			}
-			j++;
-		}
-		if (exit)
-			break ;
-		i++;
-	}
+void	minimap_launcher(t_cub3d *cub)
+{
+	img_assignment(cub);
+	load_wall_floor(cub);
+	load_player(cub);
 }
