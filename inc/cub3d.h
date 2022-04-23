@@ -52,8 +52,9 @@ enum	e_error {
 
 # define BUFFER_SIZE 1
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 640
+# define HEIGHT 480
+# define TEXSIZE 64
 
 typedef enum e_blocks {
 	VOID,
@@ -97,15 +98,27 @@ typedef struct s_input {
 }		t_input;
 
 	/*	Images	*/
-typedef struct s_img {
-	void	*ptr;
-	int		w;
-	int		h;
-	int		*addr;
+//typedef struct s_img {
+//	void	*ptr;
+//	int		w;
+//	int		h;
+//	int		*addr;
+//	int		bpp;
+//	int		line;
+//	int		endian;
+//}	t_img;
+
+typedef struct	s_img
+{
+	void	*img;
+	int		*data;
+
+	int		size_l;
 	int		bpp;
-	int		line;
 	int		endian;
-}	t_img;
+	int		img_width;
+	int		img_height;
+}				t_img;
 
 typedef struct s_assets {
 	void	*floor;
@@ -120,6 +133,8 @@ typedef struct s_player {
 	double	posY;
 	double	dirX;
 	double	dirY;
+	double	planeX;
+	double	planeY;
 }	t_player;
 
 typedef struct s_keys {
@@ -150,7 +165,10 @@ typedef struct s_cub3d
 	t_assets	assets;
 	t_player	player;
 	t_images	imgs;
+	t_img		img;
 	t_keys		keys;
+	int			map_buff[HEIGHT][WIDTH];
+	int			**texture;
 }		t_cub3d;
 
 	/* RM */
@@ -206,6 +224,9 @@ void	redraw_player(t_cub3d *cub);
 int		key_press(int keycode, t_cub3d *cub);
 int		key_release(int keycode, t_cub3d *cub);
 
+		/* Textures */
+void	load_image(t_cub3d *cub, int *texture, char *path, t_img *img);
+void	load_texture(t_cub3d *cub);
 
 		/* Minimap */
 void	img_assignment(t_cub3d *cub);
@@ -214,7 +235,7 @@ void	load_player(t_cub3d *cub);
 void	minimap_launcher(t_cub3d *cub);
 
 		/* Raycasting */
-int		main_loop(t_cub3d *cub3d);
-
+void	draw_lines(t_cub3d *cub);
+void	raycaster(t_cub3d *cub);
 
 #endif

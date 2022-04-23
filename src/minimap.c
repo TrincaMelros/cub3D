@@ -53,7 +53,7 @@ void	load_wall_floor(t_cub3d *cub)
 
 void	load_player(t_cub3d *cub)
 {
-	//printf("player x is %f, player y is %f\n", cub->player.posX, cub->player.posY);
+	printf("player x is %f, player y is %f\n", cub->player.posX, cub->player.posY);
 	mlx_put_image_to_window(cub->mlx_obj.mlx, cub->mlx_obj.window, cub->assets.player, cub->player.posX * 64, cub->player.posY * 64);
 }
 

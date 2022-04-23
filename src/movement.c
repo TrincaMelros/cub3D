@@ -73,20 +73,27 @@ void	move(t_cub3d *cub, int movement)
 
 void	rotate(t_cub3d *cub, int rotate)
 {
-	double olddirx;
+	double	olddirx;
+	double	oldplanex;
 	
 	olddirx = 0;
 	if (rotate == RIGHT)
 	{
 		olddirx = cub->player.dirX;
-		cub->player.dirX = cub->player.dirX * cos(cub->player.rotspeed) - cub->player.dirY * sin(cub->player.rotspeed);
-		cub->player.dirY = olddirx * sin(cub->player.rotspeed) + cub->player.dirY * cos(cub->player.rotspeed);	
+		cub->player.dirX = cub->player.dirX * cos(ROTSPEED) - cub->player.dirY * sin(ROTSPEED);
+		cub->player.dirY = olddirx * sin(ROTSPEED) + cub->player.dirY * cos(ROTSPEED);
+		oldplanex = cub->player.planeX;
+		cub->player.planeX = cub->player.planeX * cos(ROTSPEED) - cub->player.planeY * sin(ROTSPEED);
+		cub->player.planeY = oldplanex * sin(ROTSPEED + cub->player.planeY * cos(ROTSPEED));	
 	}
 	if (rotate == LEFT)
 	{
 		olddirx = cub->player.dirX;
-		cub->player.dirX = cub->player.dirX * cos(-cub->player.rotspeed) - cub->player.dirY * sin(-cub->player.rotspeed);
-		cub->player.dirY = olddirx * sin(-cub->player.rotspeed) + cub->player.dirY * cos(-cub->player.rotspeed);
+		cub->player.dirX = cub->player.dirX * cos(-ROTSPEED) - cub->player.dirY * sin(-ROTSPEED);
+		cub->player.dirY = olddirx * sin(-ROTSPEED) + cub->player.dirY * cos(-ROTSPEED);
+		oldplanex = cub->player.planeX;
+		cub->player.planeX = cub->player.planeX * cos(-ROTSPEED) - cub->player.planeY * sin(-ROTSPEED);
+		cub->player.planeY = oldplanex * sin(-ROTSPEED + cub->player.planeY * cos(-ROTSPEED));
 	}
 }
 

@@ -100,8 +100,8 @@ void	verLine(t_info *info, int x, int y1, int y2, int color)
 	while (y <= y2)
 	{
 		info->img.addr[y * width + x] = color; // put_pixel_to_image(...)
-		// put_pixel_to_img(&info->img, x, y, color);
-		// mlx_pixel_put(info->mlx, info->win, x, y, color);
+		//put_pixel_to_img(&info->img, x, y, color);
+		//mlx_pixel_put(info->mlx, info->win, x, y, color);
 		y++;
 	}
 }

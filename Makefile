@@ -41,7 +41,8 @@ SRCS =	src/cub_parsing.c \
 		src/mlx_utils.c \
 		src/movement.c \
 		src/raycasting.c \
-		src/utils.c 
+		src/utils.c \
+		src/textures.c
 
 RM = rm -f
 
