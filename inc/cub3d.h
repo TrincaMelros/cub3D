@@ -52,6 +52,20 @@ enum	e_error {
 # define WIDTH 1080
 # define HEIGHT 720
 
+# define MINIMAP_W 432
+# define MINIMAP_H 288
+# define MINIMAP_WALL 0x88000088
+# define MINIMAP_SPACE 0x88AAAAAA
+# define MINIMAP_PLAYER 0x88880000
+# define TRANSPARENT 0xFF000000
+
+// in radians
+# define DEG90 1.57079633
+# define DEG180 3.14159265
+# define DEG270 4.71238898
+# define DEG360 6.28318531
+# define VECTORSIZE 5
+
 typedef enum e_blocks {
 	VOID,
 	SPACE,
@@ -59,10 +73,15 @@ typedef enum e_blocks {
 	PLAYER,
 }	t_blocks;
 
+typedef struct s_point {
+	int	x;
+	int	y;
+}	t_point;
+
 typedef struct s_position {
-	char	dir;
-	float	x;
-	float	y;
+	double	dir;
+	double	x;
+	double	y;
 }	t_position;
 
 typedef struct s_map {
@@ -104,18 +123,19 @@ typedef struct s_img {
 	int		endian;
 }	t_img;
 
-typedef struct s_assets {
-	void	*floor;
-	void	*wall;
-	void	*player;
-	int		player_x;
-	int		player_y;
-}	t_assets;
-
-typedef struct s_images {
+typedef struct s_layer {
 	t_img		screen;
 	t_img		minimap;
-}	t_images;
+	t_img		wall;
+	t_img		player;
+}	t_layer;
+
+typedef struct s_keys {
+	bool	up;
+	bool	down;
+	bool	left;
+	bool	right;
+}	t_keys;
 
 	/*	General Struct	*/
 typedef struct s_cub3d
@@ -124,7 +144,8 @@ typedef struct s_cub3d
 	void		*window;
 	t_input		input;
 	t_assets	assets;
-	t_images	imgs;
+	t_layer		layers;
+	t_keys		keys;
 }		t_cub3d;
 
 	/* RM */
@@ -142,6 +163,7 @@ void	free_all(t_cub3d *obj);
 int		ft_error(char *s);
 void	error_exit(char *s);
 void	free_error_exit(char *s);
+void	free_and_quit(void);
 
 		/*	Get Next line */
 int		get_next_line(char **line, int fd);
@@ -163,6 +185,9 @@ void	img_put_pixel(t_img *img, int color, int y, int x);
 void	img_draw_verline(t_img *img, int x, int y1, int y2, int color);
 void	img_draw_horline(t_img *img, int y, int x1, int x2, int color);
 
+		/* Drawing Utils */
+void	draw_rect(t_point coord, const t_point size, int color, t_img *img);
+
 		/*	Other utils	*/
 void	ft_putstr_err(char *s);
 void	ft_puttxt(char **txt);
@@ -178,6 +203,8 @@ void	*calloc_check(size_t nmemb, size_t size);
 		/* Movements */
 void	movement(t_cub3d *cub, int new_x, int new_y);
 int		key_hook(int keycode, t_cub3d *cub);
+int		key_release(int keycode, t_cub3d *cub);
+int		key_press(int keycode, t_cub3d *cub);
 
 		/* Minimap */
 void	img_assignment(t_cub3d *cub);

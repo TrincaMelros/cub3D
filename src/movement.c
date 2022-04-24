@@ -45,3 +45,33 @@ int	key_hook(int keycode, t_cub3d *cub)
 		movement(cub, cub->assets.player_y, cub->assets.player_x + 2);
 	return (0);
 }
+
+int	key_press(int keycode, t_cub3d *cub)
+{
+	if (keycode == MOVE_UP)
+		cub->keys.up = true;
+	else if (keycode == MOVE_DOWN)
+		cub->keys.down = true;
+	else if (keycode == MOVE_LEFT)
+		cub->keys.left = true;
+	else if (keycode == MOVE_RIGHT)
+		cub->keys.right = true;
+	else if (keycode == ESC)y
+		free_and_quit();
+	return (0);
+}
+
+int	key_release(int keycode, t_cub3d *cub)
+{
+	if (keycode == MOVE_UP)
+		cub->keys.up = false;
+	else if (keycode == MOVE_DOWN)
+		cub->keys.down = false;
+	else if (keycode == MOVE_LEFT)
+		cub->keys.left = false;
+	else if (keycode == MOVE_RIGHT)
+		cub->keys.right = false;
+	else if (keycode == ESC)
+		free_and_quit();
+	return (0);
+}

@@ -21,6 +21,10 @@ static void	ft_init(t_cub3d *cub)
 
 void	free_all(t_cub3d *cub)
 {
+	if (cub->layers.screen.ptr)
+		mlx_destroy_image(cub->mlx, cub->layers.screen.ptr);
+	if (cub->layers.minimap.ptr)
+		mlx_destroy_image(cub->mlx, cub->layers.minimap.ptr);
 	if (cub->window)
 		mlx_destroy_window(cub->mlx, cub->window);
 	twod_free((void **)cub->input.txt);
@@ -53,13 +57,20 @@ int main(int argc, char **argv)
 	// DEBUG(init_test(&cub3d);)
 	cub_parsing(argv[1], &cub3d.input);
 
+	/**
+	 * for minimap
+	 * 	build_image for tiles
+	 *  build_image for player
+	 * 	direction vector
+	 * movements
+	 * 	implement radiants
+	 * 	calculate new direction/position
+	 * 	put image to window
+	 */
 	set_game(&cub3d);
 
-	// mlx_hook(cub3d.window, 2, 1L<<0, key_events, &cub3d);
-	mlx_hook(cub3d.window, 2, 0, key_events, &cub3d);
 
-	// mlx_hook(cub3d.window, 4, 1L<<15, button_press, &cub3d);
-	// mlx_key_hook(cub3d.window, key_events, &cub3d);
+
 	mlx_loop_hook(cub3d.mlx, &main_loop, &cub3d);
 	mlx_loop(cub3d.mlx);
 
