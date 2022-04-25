@@ -151,6 +151,38 @@ typedef struct s_mlx {
 	// t_img	*imgs;
 }	t_mlx;
 
+typedef struct s_rc {
+	double	camerax;
+	double	raydirx;
+	double	raydiry;
+	
+	int		mapx;
+	int		mapy;
+
+	double	sidedistx;
+	double	sidedisty;
+
+	double	deltadistx;
+	double	deltadisty;
+	double	perpwalldist;
+
+	int		stepx;
+	int		stepy;
+
+	int		hit;
+	int		side;
+
+	int		lineheight;
+	int		drawstart;
+	int		drawend;
+
+	int		texnum;
+	double	wallx;
+	int		texx;
+
+	double	step;
+}	t_rc;
+
 typedef struct s_images {
 	t_img	screen;
 	t_img	minimap;
@@ -167,6 +199,7 @@ typedef struct s_cub3d
 	t_images	imgs;
 	t_img		img;
 	t_keys		keys;
+	t_rc		rc;
 	int			map_buff[HEIGHT][WIDTH];
 	int			**texture;
 }		t_cub3d;
