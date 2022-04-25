@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/25 13:22:12 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/25 14:05:36 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ static void	ft_init(t_cub3d *cub)
 	ft_bzero(cub, sizeof(t_cub3d));
 	cub->input.floor.trgb = -1;
 	cub->input.ceiling.trgb = -1;
-	cub->player.posX = cub->input.map.player.x;
-	cub->player.posY = cub->input.map.player.y;
-	cub->player.dirX = -1;
-	cub->player.dirY = 0;
+	// cub->player.posX = cub->input.map.player.x;
+	// cub->player.posY = cub->input.map.player.y;
+	// cub->player.dirX = -1;
+	// cub->player.dirY = 0;
 }
 
 void	free_all(t_cub3d *cub)
@@ -46,18 +46,18 @@ static void	check_ftype(const char *ftype)
 		error_exit("Wrong file type.");
 }
 
-void	set_images(void *mlx_ptr, t_images *imgs)
-{
-	imgs->screen.ptr = mlx_new_image(mlx_ptr, WIDTH, HEIGHT);
-	imgs->screen.addr = (int *)mlx_get_data_addr(imgs->screen.ptr, &imgs->screen.bpp, &imgs->screen.line, &imgs->screen.endian);
-}
+// void	set_images(void *mlx_ptr, t_layers *imgs)
+// {
+// 	imgs->screen.ptr = mlx_new_image(mlx_ptr, WIDTH, HEIGHT);
+// 	imgs->screen.addr = (int *)mlx_get_data_addr(imgs->screen.ptr, &imgs->screen.bpp, &imgs->screen.line, &imgs->screen.endian);
+// }
 
-int	main_loop(t_cub3d *cub)
-{
-	redraw_player(cub);
-	movement(cub);
-	return (0);
-}
+// int	main_loop(t_cub3d *cub)
+// {
+// 	// redraw_player(cub);
+// 	movement(cub);
+// 	return (0);
+// }
 
 int main(int argc, char **argv)
 {
@@ -93,7 +93,6 @@ int main(int argc, char **argv)
 	cub3d.window = mlx_new_window(cub3d.mlx, cub3d.input.map.w * 64, cub3d.input.map.h * 64, "Cub3D");
 	
 
-	minimap_launcher(&cub3d);
 	mlx_loop_hook(cub3d.mlx, &main_loop, &cub3d);
 	mlx_hook(cub3d.window, X_BUTTON_EXIT, 131072, &key_close, &cub3d);
 	mlx_hook(cub3d.window, KEY_PRESS, 0, &key_press, &cub3d);

@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/25 13:21:02 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/25 19:07:50 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <string.h>
 # include <stdbool.h>
 # include <errno.h>
+# include <limits.h>
 
 # include "libft.h"
 # include "events.h"
@@ -35,11 +36,6 @@
 // endif
 
 # define BUFFER_SIZE 1
-# define ESC		53
-# define MOVE_UP	13
-# define MOVE_DOWN	1
-# define MOVE_RIGHT	2
-# define MOVE_LEFT	0
 
 # define ROTSPEED 0.05
 # define MOVESPEED 0.05
@@ -146,7 +142,6 @@ typedef struct s_cub3d
 	void		*mlx;
 	void		*window;
 	t_input		input;
-	t_assets	assets;
 	t_layer		layers;
 	t_keys		keys;
 }		t_cub3d;
@@ -180,25 +175,18 @@ void	cub_parsing(char *filename, t_input *input);
 		/* Parsing utils */
 int		all_assigned(t_input *input);
 void	assign_texture(char **ptr, char *path);
+double	set_direction(char cardinal);
 
 		/*  Mlx utils  */
 void	build_image(void *mlx_ptr, t_img *img, int width, int height);
 int		create_trgb(int t, int r, int g, int b);
 void	img_put_pixel(t_img *img, int color, int y, int x);
-void	img_draw_verline(t_img *img, int x, int y1, int y2, int color);
-void	img_draw_horline(t_img *img, int y, int x1, int x2, int color);
-void	img_draw_verLine(t_img *img, int x, int y1, int y2, int color);
 int		key_close(int keycode, t_cub3d *cub3d);
 
-
 		/* Drawing Utils */
+void	img_draw_verline(t_img *img, t_point p, const int y2, int color);
+void	img_draw_horline(t_img *img, t_point p, const int x2, int color);
 void	draw_rect(t_point coord, const t_point size, int color, t_img *img);
-
-		/*	Other utils	*/
-void	ft_putstr_err(char *s);
-void	ft_puttxt(char **txt);
-bool	line_empty(char *line);
-void	init_vars(t_cub3d *cub);
 
 		/* Memory Management */
 void	**twod_realloc(void **ptr, size_t size);
@@ -207,17 +195,16 @@ void	*set_free(void **ptr);
 t_cub3d	*get_data(t_cub3d *original);
 void	*calloc_check(size_t nmemb, size_t size);
 
-		/* Movements */
-void	movement(t_cub3d *cub);
+		/* Keys / Events */
 int		key_hook(int keycode, t_cub3d *cub);
 int		key_release(int keycode, t_cub3d *cub);
 int		key_press(int keycode, t_cub3d *cub);
 
+		/* Movements */
+void	movement(t_cub3d *cub);
+
 		/* Minimap */
-void	img_assignment(t_cub3d *cub);
-void	load_wall_floor(t_cub3d *cub);
-void	load_player(t_cub3d *cub);
-void	minimap_launcher(t_cub3d *cub);
+void	build_minimap(t_cub3d *cub3d);
 
 		/* Settup and Events (for now) */
 void	set_game(t_cub3d *cub3d);
@@ -227,6 +214,5 @@ int		button_press(int button, int x, int y, t_cub3d *cub3d);
 		/* Raycasting */
 int		main_loop(t_cub3d *cub3d);
 // int		main_loop(void *params);
-
 
 #endif

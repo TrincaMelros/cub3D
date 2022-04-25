@@ -6,60 +6,73 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 11:38:38 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/22 17:52:33 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/25 19:08:07 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	img_assignment(t_cub3d *cub)
-{
-	int		width;
-	int		height;
-	char	*path;
-
-	path = "./assets/floor.xpm";
-	cub->assets.floor = mlx_xpm_file_to_image(cub->mlx, path, &width, &height);
-	path = "./assets/wall.xpm";
-	cub->assets.wall = mlx_xpm_file_to_image(cub->mlx, path, &width, &height);
-	path = "./assets/player.xpm";
-	cub->assets.player = mlx_xpm_file_to_image(cub->mlx, path, &width, &height);
-}
-
-void	load_wall_floor(t_cub3d *cub)
+static void	draw_player_vector(t_cub3d cub3d, int step, int posx, int posy)
 {
 	int	i;
-	int	j;
+	int	increment;
 
-	i = 0;
-	while (i < (int)cub->input.map.h)
+	i = -1;
+	while (++i < VECTORSIZE)
 	{
-		j = 0;
-		while (j < (int)cub->input.map.w)
-		{
-			if (cub->input.map.top_left[i][j] == SPACE)
-				mlx_put_image_to_window(cub->mlx, cub->window,
-						cub->assets.floor, j * 64, i * 64);
-			else if (cub->input.map.top_left[i][j] == WALL)
-			{
-				mlx_put_image_to_window(cub->mlx, cub->window,
-						cub->assets.wall, j * 64, i * 64);
-			}
-			j++;
-		}
-		i++;
+		// 
 	}
 }
 
-void	load_player(t_cub3d *cub)
+static int	get_minimap_color(t_blocks block)
 {
-	//printf("player x is %f, player y is %f\n", cub->player.posX, cub->player.posY);
-	mlx_put_image_to_window(cub->mlx, cub->window, cub->assets.player, cub->player.posX * 64, cub->player.posY * 64);
+	if (block == WALL)
+		return (MINIMAP_WALL);
+	if (block == SPACE)
+		return (MINIMAP_SPACE);
+	return (TRANSPARENT);
 }
 
-void	minimap_launcher(t_cub3d *cub)
+static void	draw_player(const int step, t_cub3d *cub3d)
 {
-	img_assignment(cub);
-	load_wall_floor(cub);
-	load_player(cub);
+	const int	posx = (int)(cub3d->input.map.player.x * step - step / 4);
+	const int	posy = (int)(cub3d->input.map.player.y * step - step / 4);
+
+	draw_rect((t_point){.x = posx, .y = posy},
+		(t_point){.x = step / 2 , .y = step / 2},
+			MINIMAP_PLAYER, &cub3d->layers.minimap);
+	// draw_player_vector(cub3d, step, posx, posy);
+}
+
+static void	draw_minimap(t_cub3d *cub3d, int step)
+{
+	int 		x;
+	int 		h;
+
+	x = -1;
+	while (++x < (int)cub3d->input.map.w)
+	{
+		h = -1;
+		while (++h < (int)cub3d->input.map.h)
+		{
+			draw_rect((t_point){.x = x * step, .y = h * step},
+				(t_point){.x = step - 1, .y = step - 1},
+				get_minimap_color(cub3d->input.map.top_left[h][x]),
+				&cub3d->layers.minimap);
+		}
+	}
+}
+
+void	build_minimap(t_cub3d *cub3d)
+{
+	const int	width_step = MINIMAP_W / cub3d->input.map.w;
+	const int	height_step = MINIMAP_H / cub3d->input.map.h;
+	int			fixed_step;	
+
+	build_image(cub3d->mlx, &cub3d->layers.minimap, MINIMAP_W, MINIMAP_H);
+	fixed_step = width_step;
+	if (width_step > height_step)
+		fixed_step = height_step;
+	draw_minimap(cub3d, fixed_step);
+	draw_player(fixed_step, cub3d);
 }

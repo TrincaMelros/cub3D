@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 17:15:00 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/21 16:44:19 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/25 17:48:09 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,15 @@ void	assign_texture(char **ptr, char *path)
 		free_error_exit(".cub: texture assigned twice or more times.");
 	else
 		*ptr = path;
+}
+
+double	set_direction(char cardinal)
+{
+	if (cardinal == 'N')
+		return (DEG90);
+	if (cardinal == 'S')
+		return (DEG270);
+	if (cardinal == 'E')
+		return (0);
+	return (DEG180);
 }

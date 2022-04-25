@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 12:15:11 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/21 18:55:36 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/25 17:20:49 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,18 +137,6 @@ static bool	invalid_perimeter(t_blocks **map, int width)
 		}
 	}
 	return (false);
-}
-
-static double	set_direction(char cardinal)
-{
-	if (cardinal == 'N')
-		return (DEG90);
-	if (cardinal == 'S')
-		return (DEG270);
-	if (cardinal == 'E')
-		return (0);
-	else if (cardinal == 'W')
-		return (DEG180);
 }
 
 t_map	map_validation(char **map)
