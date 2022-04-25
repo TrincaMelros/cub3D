@@ -20,12 +20,11 @@ int	main_loop(/* void *params */t_cub3d *cub3d)
 	// Calculate and throw images to window
 	
 	// put screen to window
-	mlx_put_image_to_window(cub3d->mlx, cub3d->window,
-		cub3d->imgs.screen.ptr, 0, 0);
-
+	// mlx_put_image_to_window(cub3d->mlx, cub3d->window,
+	// 	cub3d->layers.screen.ptr, 0, 0);
 	// put minimap to window
-	// mlx_put_image_to_window(cub3d->mlx_obj.mlx, cub3d->mlx_obj.window,
-	// 	cub3d->imgs.minimap.ptr, 0, 0);
-	
+	mlx_put_image_to_window(cub3d->mlx, cub3d->window,
+		cub3d->layers.minimap.ptr, 10, 10);
+
 	return (SUCCESS);
 }

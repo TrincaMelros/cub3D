@@ -97,8 +97,8 @@ static void	check_p_pos(t_map *map)
 					DEBUG(print_map(get_data(0)->input.map);)
 					free_error_exit("map: too many positions set for player.");
 				}
-				map->player.x = (float)j;
-				map->player.y = (float)i;
+				map->player.x = (float)j + 0.5;
+				map->player.y = (float)i + 0.5;
 				map->top_left[i][j] = SPACE;
 			}
 		}
@@ -139,6 +139,18 @@ static bool	invalid_perimeter(t_blocks **map, int width)
 	return (false);
 }
 
+static double	set_direction(char cardinal)
+{
+	if (cardinal == 'N')
+		return (DEG90);
+	if (cardinal == 'S')
+		return (DEG270);
+	if (cardinal == 'E')
+		return (0);
+	else if (cardinal == 'W')
+		return (DEG180);
+}
+
 t_map	map_validation(char **map)
 /**
  * "Except for the map content, each type of element can be separated by one or more empty lines."
@@ -153,7 +165,7 @@ t_map	map_validation(char **map)
 	while (++i < (int)tmp.h)
 		tmp.top_left[i] = init_map_row(map[i], tmp.w);
 	check_p_pos(&tmp);
-	tmp.player.dir = map[(int)tmp.player.y][(int)tmp.player.x];
+	tmp.player.dir = set_direction(map[(int)tmp.player.y][(int)tmp.player.x]);
 	if (invalid_perimeter(tmp.top_left, (int)tmp.w))
 		free_error_exit("map: invalid perimeter.");
 	DEBUG(print_map(tmp);)

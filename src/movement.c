@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 11:49:58 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/22 17:55:26 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/25 13:22:31 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,55 +49,32 @@ int	key_release(int keycode, t_cub3d *cub)
 	return (0);
 }
 
-void	move(t_cub3d *cub, int movement)
+int	key_press(int keycode, t_cub3d *cub)
 {
-	if (movement == UP)
-	{
-	    if(cub->input.map.top_left[(int)(cub->player.posX + cub->player.dirX *
-		MOVESPEED)][(int)(cub->player.posY)] == SPACE)
-			cub->player.posX += cub->player.dirX * MOVESPEED;
-    	if(cub->input.map.top_left[(int)(cub->player.posX)][(int)
-		(cub->player.posY + cub->player.dirY * MOVESPEED)] == SPACE)
-			cub->player.posY += cub->player.dirY * MOVESPEED;	
-	}
-	if (movement == DOWN)
-	{
-		if(cub->input.map.top_left[(int)(cub->player.posX - cub->player.dirX *
-		MOVESPEED)][(int)(cub->player.posY)] == SPACE)
-			cub->player.posX -= cub->player.dirX * MOVESPEED;
-    	if(cub->input.map.top_left[(int)(cub->player.posX)][(int)
-		(cub->player.posY - cub->player.dirY * MOVESPEED)] == SPACE)
-			cub->player.posY -= cub->player.dirY * MOVESPEED;	
-	}
+	if (keycode == MOVE_UP)
+		cub->keys.up = true;
+	else if (keycode == MOVE_DOWN)
+		cub->keys.down = true;
+	else if (keycode == MOVE_LEFT)
+		cub->keys.left = true;
+	else if (keycode == MOVE_RIGHT)
+		cub->keys.right = true;
+	else if (keycode == ESC)y
+		free_and_quit();
+	return (0);
 }
 
-void	rotate(t_cub3d *cub, int rotate)
+int	key_release(int keycode, t_cub3d *cub)
 {
-	double olddirx;
-	
-	olddirx = 0;
-	if (rotate == RIGHT)
-	{
-		olddirx = cub->player.dirX;
-		cub->player.dirX = cub->player.dirX * cos(ROTSPEED) - cub->player.dirY * sin(ROTSPEED);
-		cub->player.dirY = olddirx * sin(ROTSPEED) + cub->player.dirY * cos(ROTSPEED);	
-	}
-	if (rotate == LEFT)
-	{
-		olddirx = cub->player.dirX;
-		cub->player.dirX = cub->player.dirX * cos(-ROTSPEED) - cub->player.dirY * sin(-ROTSPEED);
-		cub->player.dirY = olddirx * sin(-ROTSPEED) + cub->player.dirY * cos(-ROTSPEED);
-	}
-}
-
-void	movement(t_cub3d *cub)
-{
-	if (cub->keys.up)
-		move(cub, UP);
-	if (cub->keys.down)
-		move(cub, DOWN);
-	if (cub->keys.left)
-		rotate(cub, LEFT);
-	if (cub->keys.right)
-		rotate(cub, RIGHT);
+	if (keycode == MOVE_UP)
+		cub->keys.up = false;
+	else if (keycode == MOVE_DOWN)
+		cub->keys.down = false;
+	else if (keycode == MOVE_LEFT)
+		cub->keys.left = false;
+	else if (keycode == MOVE_RIGHT)
+		cub->keys.right = false;
+	else if (keycode == ESC)
+		free_and_quit();
+	return (0);
 }

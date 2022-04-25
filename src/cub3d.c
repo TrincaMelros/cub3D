@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/22 17:55:18 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/25 13:22:12 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,16 @@ static void	ft_init(t_cub3d *cub)
 	cub->player.dirY = 0;
 }
 
-void	free_all(t_cub3d *cub3d)
+void	free_all(t_cub3d *cub)
 {
-	if (cub3d->window)
-		mlx_destroy_window(cub3d->mlx, cub3d->window);
-	twod_free((void **)cub3d->input.txt);
-	twod_free((void **)cub3d->input.map.top_left);
+	if (cub->layers.screen.ptr)
+		mlx_destroy_image(cub->mlx, cub->layers.screen.ptr);
+	if (cub->layers.minimap.ptr)
+		mlx_destroy_image(cub->mlx, cub->layers.minimap.ptr);
+	if (cub->window)
+		mlx_destroy_window(cub->mlx, cub->window);
+	twod_free((void **)cub->input.txt);
+	twod_free((void **)cub->input.map.top_left);
 }
 
 static void	check_ftype(const char *ftype)
@@ -70,17 +74,18 @@ int main(int argc, char **argv)
 	// DEBUG(init_test(&cub3d);)
 	cub_parsing(argv[1], &cub3d.input);
 
+	/**
+	 * for minimap
+	 * 	build_image for tiles
+	 *  build_image for player
+	 * 	direction vector
+	 * movements
+	 * 	implement radiants
+	 * 	calculate new direction/position
+	 * 	put image to window
+	 */
 	set_game(&cub3d);
 
-	// mlx_hook(cub3d.window, 2, 1L<<0, key_events, &cub3d);
-	mlx_hook(cub3d.window, 2, 0, key_events, &cub3d);
-	
-	DEBUG(init_test(&cub3d);)
-
-    cub_parsing(argv[1], &(get_data(NULL)->input));
-
-	// mlx_hook(cub3d.window, 4, 1L<<15, button_press, &cub3d);
-	// mlx_key_hook(cub3d.window, key_events, &cub3d);
 	mlx_loop_hook(cub3d.mlx, &main_loop, &cub3d);
 	mlx_loop(cub3d.mlx);
 

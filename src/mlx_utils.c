@@ -17,8 +17,12 @@ void	build_image(void *mlx_ptr, t_img *img, int width, int height)
 	img->w = width;
 	img->h = height;
 	img->ptr = mlx_new_image(mlx_ptr, width, height);
+	if (!img->ptr)
+		free_error_exit(NULL);
 	img->addr = (int *)mlx_get_data_addr(img->ptr, &img->bpp,
 			&img->line, &img->endian);
+	if (!img->addr)
+		free_error_exit(NULL);
 }
 
 int	create_trgb(int t, int r, int g, int b)

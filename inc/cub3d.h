@@ -6,11 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/04/22 00:11:37 by fbarros          ###   ########.fr       */
-=======
-/*   Updated: 2022/04/18 17:08:22 by fbarros          ###   ########.fr       */
->>>>>>> manuel
+/*   Updated: 2022/04/25 13:21:02 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +55,20 @@ enum	e_error {
 # define WIDTH 1080
 # define HEIGHT 720
 
+# define MINIMAP_W 432
+# define MINIMAP_H 288
+# define MINIMAP_WALL 0x88000088
+# define MINIMAP_SPACE 0x88AAAAAA
+# define MINIMAP_PLAYER 0x88880000
+# define TRANSPARENT 0xFF000000
+
+// in radians
+# define DEG90 1.57079633
+# define DEG180 3.14159265
+# define DEG270 4.71238898
+# define DEG360 6.28318531
+# define VECTORSIZE 5
+
 typedef enum e_blocks {
 	VOID,
 	SPACE,
@@ -66,10 +76,15 @@ typedef enum e_blocks {
 	PLAYER,
 }	t_blocks;
 
+typedef struct s_point {
+	int	x;
+	int	y;
+}	t_point;
+
 typedef struct s_position {
-	char	dir;
-	float	x;
-	float	y;
+	double	dir;
+	double	x;
+	double	y;
 }	t_position;
 
 typedef struct s_map {
@@ -111,32 +126,19 @@ typedef struct s_img {
 	int		endian;
 }	t_img;
 
-typedef struct s_assets {
-	void	*floor;
-	void	*wall;
-	void	*player;
-	int		player_x;
-	int		player_y;
-}	t_assets;
-
-typedef struct s_player {
-	double	posX;
-	double	posY;
-	double	dirX;
-	double	dirY;
-}	t_player;
-
-typedef struct s_keys {
-	int		up;
-	int		down;
-	int		left;
-	int		right;
-}	t_keys;
-
-typedef struct s_images {
+typedef struct s_layer {
 	t_img		screen;
 	t_img		minimap;
-}	t_images;
+	t_img		wall;
+	t_img		player;
+}	t_layer;
+
+typedef struct s_keys {
+	bool	up;
+	bool	down;
+	bool	left;
+	bool	right;
+}	t_keys;
 
 	/*	General Struct	*/
 typedef struct s_cub3d
@@ -145,8 +147,7 @@ typedef struct s_cub3d
 	void		*window;
 	t_input		input;
 	t_assets	assets;
-	t_player	player;
-	t_images	imgs;
+	t_layer		layers;
 	t_keys		keys;
 }		t_cub3d;
 
@@ -190,6 +191,9 @@ void	img_draw_verLine(t_img *img, int x, int y1, int y2, int color);
 int		key_close(int keycode, t_cub3d *cub3d);
 
 
+		/* Drawing Utils */
+void	draw_rect(t_point coord, const t_point size, int color, t_img *img);
+
 		/*	Other utils	*/
 void	ft_putstr_err(char *s);
 void	ft_puttxt(char **txt);
@@ -206,10 +210,8 @@ void	*calloc_check(size_t nmemb, size_t size);
 		/* Movements */
 void	movement(t_cub3d *cub);
 int		key_hook(int keycode, t_cub3d *cub);
-void	redraw_player(t_cub3d *cub);
-int		key_press(int keycode, t_cub3d *cub);
 int		key_release(int keycode, t_cub3d *cub);
-
+int		key_press(int keycode, t_cub3d *cub);
 
 		/* Minimap */
 void	img_assignment(t_cub3d *cub);
