@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/18 17:08:22 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/25 19:07:50 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <string.h>
 # include <stdbool.h>
 # include <errno.h>
+# include <limits.h>
 
 # include "libft.h"
 # include "events.h"
@@ -35,11 +36,6 @@
 // endif
 
 # define BUFFER_SIZE 1
-# define ESC		53
-# define MOVE_UP	13
-# define MOVE_DOWN	1
-# define MOVE_RIGHT	2
-# define MOVE_LEFT	0
 
 # define ROTSPEED 0.05
 # define MOVESPEED 0.05
@@ -52,9 +48,28 @@ enum	e_error {
 
 # define BUFFER_SIZE 1
 
+<<<<<<< HEAD
 # define WIDTH 640
 # define HEIGHT 480
 # define TEXSIZE 64
+=======
+# define WIDTH 1080
+# define HEIGHT 720
+
+# define MINIMAP_W 432
+# define MINIMAP_H 288
+# define MINIMAP_WALL 0x88000088
+# define MINIMAP_SPACE 0x88AAAAAA
+# define MINIMAP_PLAYER 0x88880000
+# define TRANSPARENT 0xFF000000
+
+// in radians
+# define DEG90 1.57079633
+# define DEG180 3.14159265
+# define DEG270 4.71238898
+# define DEG360 6.28318531
+# define VECTORSIZE 5
+>>>>>>> origin/barros
 
 typedef enum e_blocks {
 	VOID,
@@ -63,10 +78,15 @@ typedef enum e_blocks {
 	PLAYER,
 }	t_blocks;
 
+typedef struct s_point {
+	int	x;
+	int	y;
+}	t_point;
+
 typedef struct s_position {
-	char	dir;
-	float	x;
-	float	y;
+	double	dir;
+	double	x;
+	double	y;
 }	t_position;
 
 typedef struct s_map {
@@ -120,6 +140,7 @@ typedef struct	s_img
 	int		img_height;
 }				t_img;
 
+<<<<<<< HEAD
 typedef struct s_assets {
 	void	*floor;
 	void	*wall;
@@ -136,14 +157,23 @@ typedef struct s_player {
 	double	planeX;
 	double	planeY;
 }	t_player;
+=======
+typedef struct s_layer {
+	t_img		screen;
+	t_img		minimap;
+	t_img		wall;
+	t_img		player;
+}	t_layer;
+>>>>>>> origin/barros
 
 typedef struct s_keys {
-	int		up;
-	int		down;
-	int		left;
-	int		right;
+	bool	up;
+	bool	down;
+	bool	left;
+	bool	right;
 }	t_keys;
 
+<<<<<<< HEAD
 	/*	MLX	*/
 typedef struct s_mlx {
 	void	*mlx;
@@ -189,15 +219,22 @@ typedef struct s_images {
 	
 }	t_images;
 
+=======
+>>>>>>> origin/barros
 	/*	General Struct	*/
 typedef struct s_cub3d
 {
-	t_mlx		mlx_obj;
+	void		*mlx;
+	void		*window;
 	t_input		input;
+<<<<<<< HEAD
 	t_assets	assets;
 	t_player	player;
 	t_images	imgs;
 	t_img		img;
+=======
+	t_layer		layers;
+>>>>>>> origin/barros
 	t_keys		keys;
 	t_rc		rc;
 	int			map_buff[HEIGHT][WIDTH];
@@ -217,8 +254,8 @@ void	free_all(t_cub3d *cub3d);
 
 		/* Error Handling */
 int		ft_error(char *s);
-void	free_and_exit(char *s);
 void	error_exit(char *s);
+void	free_error_exit(char *s);
 void	free_and_quit(void);
 
 		/*	Get Next line */
@@ -230,18 +267,21 @@ t_map	map_validation(char **map);
 		/*	.cub Parsing	*/
 void	cub_parsing(char *filename, t_input *input);
 
+		/* Parsing utils */
+int		all_assigned(t_input *input);
+void	assign_texture(char **ptr, char *path);
+double	set_direction(char cardinal);
+
 		/*  Mlx utils  */
+void	build_image(void *mlx_ptr, t_img *img, int width, int height);
 int		create_trgb(int t, int r, int g, int b);
 void	img_put_pixel(t_img *img, int color, int y, int x);
-void	img_draw_verLine(t_img *img, int x, int y1, int y2, int color);
 int		key_close(int keycode, t_cub3d *cub3d);
 
-
-		/*	Other utils	*/
-void	ft_putstr_err(char *s);
-void	ft_puttxt(char **txt);
-bool	line_empty(char *line);
-void	init_vars(t_cub3d *cub);
+		/* Drawing Utils */
+void	img_draw_verline(t_img *img, t_point p, const int y2, int color);
+void	img_draw_horline(t_img *img, t_point p, const int x2, int color);
+void	draw_rect(t_point coord, const t_point size, int color, t_img *img);
 
 		/* Memory Management */
 void	**twod_realloc(void **ptr, size_t size);
@@ -250,25 +290,35 @@ void	*set_free(void **ptr);
 t_cub3d	*get_data(t_cub3d *original);
 void	*calloc_check(size_t nmemb, size_t size);
 
-		/* Movements */
-void	movement(t_cub3d *cub);
+		/* Keys / Events */
 int		key_hook(int keycode, t_cub3d *cub);
-void	redraw_player(t_cub3d *cub);
-int		key_press(int keycode, t_cub3d *cub);
 int		key_release(int keycode, t_cub3d *cub);
+int		key_press(int keycode, t_cub3d *cub);
 
+<<<<<<< HEAD
 		/* Textures */
 void	load_image(t_cub3d *cub, int *texture, char *path, t_img *img);
 void	load_texture(t_cub3d *cub);
+=======
+		/* Movements */
+void	movement(t_cub3d *cub);
+>>>>>>> origin/barros
 
 		/* Minimap */
-void	img_assignment(t_cub3d *cub);
-void	load_wall_floor(t_cub3d *cub);
-void	load_player(t_cub3d *cub);
-void	minimap_launcher(t_cub3d *cub);
+void	build_minimap(t_cub3d *cub3d);
+
+		/* Settup and Events (for now) */
+void	set_game(t_cub3d *cub3d);
+int		key_events(int keycode, t_cub3d *cub3d);
+int		button_press(int button, int x, int y, t_cub3d *cub3d);
 
 		/* Raycasting */
+<<<<<<< HEAD
 void	draw_lines(t_cub3d *cub);
 void	raycaster(t_cub3d *cub);
+=======
+int		main_loop(t_cub3d *cub3d);
+// int		main_loop(void *params);
+>>>>>>> origin/barros
 
 #endif

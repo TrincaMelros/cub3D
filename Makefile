@@ -6,7 +6,7 @@
 #    By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/08 13:26:17 by fbarros           #+#    #+#              #
-#    Updated: 2022/04/18 16:57:02 by fbarros          ###   ########.fr        #
+#    Updated: 2022/04/25 17:27:25 by fbarros          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,18 +31,25 @@ LINUXLIBS = -lXext -lX11
 
 INCLUDES = -Iinc -Ilibft -Imlx
 
-SRCS =	src/cub_parsing.c \
-		src/cub3d.c \
-		src/error.c	\
-		src/gnl.c 	\
-		src/map_parsing.c \
+SRCS = src/cub3d.c \
+		src/error.c \
+		src/gnl.c \
 		src/mem.c \
-		src/minimap.c \
 		src/mlx_utils.c \
+		src/map_parsing.c \
+		src/cub_parsing.c \
+		src/parsing_utils.c\
+		src/minimap.c \
 		src/movement.c \
 		src/raycasting.c \
+<<<<<<< HEAD
 		src/utils.c \
 		src/textures.c
+=======
+		src/set_game.c \
+		src/draw.c \
+		src/keys.c
+>>>>>>> origin/barros
 
 RM = rm -f
 

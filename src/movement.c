@@ -6,12 +6,13 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 11:49:58 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/18 11:50:24 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/25 17:05:59 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+<<<<<<< HEAD
 void	redraw_player(t_cub3d *cub)
 {
 	load_wall_floor(cub);
@@ -108,3 +109,5 @@ void	movement(t_cub3d *cub)
 	if (cub->keys.right)
 		rotate(cub, RIGHT);
 }
+=======
+>>>>>>> origin/barros

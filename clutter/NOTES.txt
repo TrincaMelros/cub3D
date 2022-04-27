@@ -10,28 +10,25 @@
 PARSING
 Tous les trucs tricky auxquels il faut penser pour le parsing de tout sauf la map :
 
-    : Il manque qqe chose (R, NO, SO, S…)
-    : Deux fois la même chose (deux R, deux NO..)
-    : Résolution avec des int plus grands que int max
-    : Résolution avec une virgule ou un autre caractère dedans
-    : Résolution avec 3 chiffres, ou un seul, ou un 0
-    : F ou C avec un chiffre qui manque, ou un chiffre en trop
-    : F ou C avec une virgule en moins ou une virgule en trop
-    : F ou C avec un int supérieur à int max : doit renvoyer une erreur
-    : F ou C avec un chiffre supérieur à 255
-    : Un identifiant mauvais genre (X au lieu de R, ou E au lieu de EA)
+    X : Il manque qqe chose (R, NO, SO, S…)
+    X : Deux fois la même chose (deux R, deux NO..)
+    X : Résolution avec un autre caractère que virgule
+    X : F ou C avec un chiffre qui manque, ou un chiffre en trop
+    X : F ou C avec une virgule en moins ou une virgule en trop
+    X : F ou C avec un int supérieur à 255 ou inferieur a 0
+    X : Un identifiant mauvais genre (X au lieu de R, ou E au lieu de EA)
 
 Tous les trucs tricky auxquels il faut penser pour le parsing de la map :
 
-    : Une ligne vide dans la map : “Sauf pour la map elle-même, les informations de chaque élément peuvent être séparées par un ou plusieurs espace(s)"
+    X : Une ligne vide dans la map : “Sauf pour la map elle-même, les informations de chaque élément peuvent être séparées par un ou plusieurs espace(s)"
     X : Un caractère incorrect dans la map, genre un 4
     X : Une map ouverte
     X : “Les espaces sont une partie valable de la carte, c’est à vous de les gérer correctement” : pour moi les espaces vides sont VOID(enum; == 0)
-    : La map est avant un autre élément
-    : Il n’y a pas de map
+    X : La map est avant un autre élément
+    X : Il n’y a pas de map
     X : Pas de joueur ou plusieurs joueurs
     
-    : Check diagonals
+    X : Check diagonals
 
 MINIMAP
 A faire 

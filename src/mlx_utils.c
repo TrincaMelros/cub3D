@@ -6,17 +6,26 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:30:50 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/18 17:08:36 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/25 17:14:42 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	create_trgb(int t, int r, int g, int b)
+void	build_image(void *mlx_ptr, t_img *img, int width, int height)
 {
-	return ( t << 24 | r << 16 | g << 8 | b);
+	img->w = width;
+	img->h = height;
+	img->ptr = mlx_new_image(mlx_ptr, width, height);
+	if (!img->ptr)
+		free_error_exit(NULL);
+	img->addr = (int *)mlx_get_data_addr(img->ptr, &img->bpp,
+			&img->line, &img->endian);
+	if (!img->addr)
+		free_error_exit(NULL);
 }
 
+<<<<<<< HEAD
 //void	img_put_pixel(t_img *img, int color, int y, int x) 
 //{
 //    img->addr[y * img->w + x] = color;
@@ -33,11 +42,22 @@ int	create_trgb(int t, int r, int g, int b)
 //		y++;
 //	}
 //}
+=======
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
+void	img_put_pixel(t_img *img, int color, int y, int x)
+{
+	img->addr[y * img->w + x] = color;
+}
+>>>>>>> origin/barros
 
 int	key_close(int keycode, t_cub3d *cub3d)
 {
 	(void)keycode;
-	mlx_destroy_window(cub3d->mlx_obj.mlx, cub3d->mlx_obj.window);
+	mlx_destroy_window(cub3d->mlx, cub3d->window);
 	free_all(cub3d);
 	exit(0);
 }
