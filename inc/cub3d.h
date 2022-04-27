@@ -37,7 +37,7 @@
 
 # define BUFFER_SIZE 1
 
-# define ROTSPEED 0.05
+# define ROTSPEED 0.01
 # define MOVESPEED 0.05
 
 enum	e_error {
@@ -48,13 +48,9 @@ enum	e_error {
 
 # define BUFFER_SIZE 1
 
-<<<<<<< HEAD
 # define WIDTH 640
 # define HEIGHT 480
 # define TEXSIZE 64
-=======
-# define WIDTH 1080
-# define HEIGHT 720
 
 # define MINIMAP_W 432
 # define MINIMAP_H 288
@@ -69,7 +65,6 @@ enum	e_error {
 # define DEG270 4.71238898
 # define DEG360 6.28318531
 # define VECTORSIZE 5
->>>>>>> origin/barros
 
 typedef enum e_blocks {
 	VOID,
@@ -140,7 +135,6 @@ typedef struct	s_img
 	int		img_height;
 }				t_img;
 
-<<<<<<< HEAD
 typedef struct s_assets {
 	void	*floor;
 	void	*wall;
@@ -157,14 +151,13 @@ typedef struct s_player {
 	double	planeX;
 	double	planeY;
 }	t_player;
-=======
+
 typedef struct s_layer {
 	t_img		screen;
 	t_img		minimap;
 	t_img		wall;
 	t_img		player;
 }	t_layer;
->>>>>>> origin/barros
 
 typedef struct s_keys {
 	bool	up;
@@ -172,14 +165,6 @@ typedef struct s_keys {
 	bool	left;
 	bool	right;
 }	t_keys;
-
-<<<<<<< HEAD
-	/*	MLX	*/
-typedef struct s_mlx {
-	void	*mlx;
-	void	*window;
-	// t_img	*imgs;
-}	t_mlx;
 
 typedef struct s_rc {
 	double	camerax;
@@ -219,26 +204,21 @@ typedef struct s_images {
 	
 }	t_images;
 
-=======
->>>>>>> origin/barros
 	/*	General Struct	*/
 typedef struct s_cub3d
 {
 	void		*mlx;
 	void		*window;
 	t_input		input;
-<<<<<<< HEAD
 	t_assets	assets;
 	t_player	player;
 	t_images	imgs;
 	t_img		img;
-=======
 	t_layer		layers;
->>>>>>> origin/barros
 	t_keys		keys;
 	t_rc		rc;
 	int			map_buff[HEIGHT][WIDTH];
-	int			**texture;
+	int			*texture;
 }		t_cub3d;
 
 	/* RM */
@@ -295,14 +275,11 @@ int		key_hook(int keycode, t_cub3d *cub);
 int		key_release(int keycode, t_cub3d *cub);
 int		key_press(int keycode, t_cub3d *cub);
 
-<<<<<<< HEAD
 		/* Textures */
 void	load_image(t_cub3d *cub, int *texture, char *path, t_img *img);
 void	load_texture(t_cub3d *cub);
-=======
 		/* Movements */
 void	movement(t_cub3d *cub);
->>>>>>> origin/barros
 
 		/* Minimap */
 void	build_minimap(t_cub3d *cub3d);
@@ -313,12 +290,9 @@ int		key_events(int keycode, t_cub3d *cub3d);
 int		button_press(int button, int x, int y, t_cub3d *cub3d);
 
 		/* Raycasting */
-<<<<<<< HEAD
 void	draw_lines(t_cub3d *cub);
 void	raycaster(t_cub3d *cub);
-=======
 int		main_loop(t_cub3d *cub3d);
 // int		main_loop(void *params);
->>>>>>> origin/barros
 
 #endif

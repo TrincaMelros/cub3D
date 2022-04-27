@@ -27,7 +27,7 @@
  * # define KEY_RELEASE_EVENT 3
  */
 
-# define KEY_PRESS 1L
+# define KEY_PRESS 02
 # define KEY_RELEASE 03
 # define KEY_ESC 53
 # define X_BUTTON_EXIT 17

@@ -42,14 +42,10 @@ SRCS = src/cub3d.c \
 		src/minimap.c \
 		src/movement.c \
 		src/raycasting.c \
-<<<<<<< HEAD
-		src/utils.c \
-		src/textures.c
-=======
+		src/textures.c \
 		src/set_game.c \
 		src/draw.c \
 		src/keys.c
->>>>>>> origin/barros
 
 RM = rm -f
 
@@ -101,4 +97,4 @@ debug: $(TESTOBJ) all
 memcheck: DEBUG += -fsanitize=address
 memcheck: debug
 
-.PHONY: all re clean fclean debug
+.PHONY: all re clean fclean 

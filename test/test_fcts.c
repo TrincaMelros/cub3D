@@ -65,7 +65,7 @@ void	print_map(t_map map)
 		while(++j < (int)map.w)
 		{
 			if (i == (int)map.player.y && j == (int)map.player.x)
-				printf("\033[0;32m%c", map.player.dir);
+				printf("\033[0;32m%f", map.player.dir);
 			else
 				print_block(map.top_left[i][j]);
 		}
@@ -76,7 +76,7 @@ void	print_map(t_map map)
 	while (++j < (int)map.w)
 		printf(".");
 	printf("\n");
-	printf("\nPlayer direction: %c", map.player.dir);
+	printf("\nPlayer direction: %f", map.player.dir);
 	printf("\nHeight: %u Width: %u\n", map.h, map.w);
 }
 

@@ -94,7 +94,7 @@ static void	check_p_pos(t_map *map)
 			{
 				if (map->player.x != 0 || map->player.y != 0)
 				{
-					DEBUG(print_map(get_data(0)->input.map);)
+			//		DEBUG(print_map(get_data(0)->input.map);)
 					free_error_exit("map: too many positions set for player.");
 				}
 				map->player.x = (float)j + 0.5;
@@ -156,6 +156,6 @@ t_map	map_validation(char **map)
 	tmp.player.dir = set_direction(map[(int)tmp.player.y][(int)tmp.player.x]);
 	if (invalid_perimeter(tmp.top_left, (int)tmp.w))
 		free_error_exit("map: invalid perimeter.");
-	DEBUG(print_map(tmp);)
+	//DEBUG(print_map(tmp);)
 	return (tmp);
 }

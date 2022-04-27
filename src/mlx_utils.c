@@ -14,18 +14,17 @@
 
 void	build_image(void *mlx_ptr, t_img *img, int width, int height)
 {
-	img->w = width;
-	img->h = height;
-	img->ptr = mlx_new_image(mlx_ptr, width, height);
-	if (!img->ptr)
+	img->img_width = width;
+	img->img_height = height;
+	img->img = mlx_new_image(mlx_ptr, width, height);
+	if (!img->img)
 		free_error_exit(NULL);
-	img->addr = (int *)mlx_get_data_addr(img->ptr, &img->bpp,
-			&img->line, &img->endian);
-	if (!img->addr)
+	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp,
+			&img->size_l, &img->endian);
+	if (!img->data)
 		free_error_exit(NULL);
 }
 
-<<<<<<< HEAD
 //void	img_put_pixel(t_img *img, int color, int y, int x) 
 //{
 //    img->addr[y * img->w + x] = color;
@@ -42,7 +41,6 @@ void	build_image(void *mlx_ptr, t_img *img, int width, int height)
 //		y++;
 //	}
 //}
-=======
 int	create_trgb(int t, int r, int g, int b)
 {
 	return (t << 24 | r << 16 | g << 8 | b);
@@ -50,9 +48,8 @@ int	create_trgb(int t, int r, int g, int b)
 
 void	img_put_pixel(t_img *img, int color, int y, int x)
 {
-	img->addr[y * img->w + x] = color;
+	img->data[y * img->img_width + x] = color;
 }
->>>>>>> origin/barros
 
 int	key_close(int keycode, t_cub3d *cub3d)
 {

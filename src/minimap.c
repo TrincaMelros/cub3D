@@ -12,17 +12,17 @@
 
 #include "cub3d.h"
 
-static void	draw_player_vector(t_cub3d cub3d, int step, int posx, int posy)
-{
-	int	i;
-	int	increment;
+// static void	draw_player_vector(t_cub3d cub3d, int step, int posx, int posy)
+// {
+// 	int	i;
+// 	int	increment;
 
-	i = -1;
-	while (++i < VECTORSIZE)
-	{
-		// 
-	}
-}
+// 	i = -1;
+// 	while (++i < VECTORSIZE)
+// 	{
+// 		// 
+// 	}
+// }
 
 static int	get_minimap_color(t_blocks block)
 {
@@ -65,15 +65,9 @@ static void	draw_minimap(t_cub3d *cub3d, int step)
 
 void	build_minimap(t_cub3d *cub3d)
 {
-<<<<<<< HEAD
-	printf("player x is %f, player y is %f\n", cub->player.posX, cub->player.posY);
-	mlx_put_image_to_window(cub->mlx_obj.mlx, cub->mlx_obj.window, cub->assets.player, cub->player.posX * 64, cub->player.posY * 64);
-}
-=======
 	const int	width_step = MINIMAP_W / cub3d->input.map.w;
 	const int	height_step = MINIMAP_H / cub3d->input.map.h;
 	int			fixed_step;	
->>>>>>> origin/barros
 
 	build_image(cub3d->mlx, &cub3d->layers.minimap, MINIMAP_W, MINIMAP_H);
 	fixed_step = width_step;
