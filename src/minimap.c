@@ -6,22 +6,35 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 11:38:38 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/25 19:08:07 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/26 13:37:41 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	draw_player_vector(t_cub3d cub3d, int step, int posx, int posy)
-{
-	int	i;
-	int	increment;
+/**
+ *     1/2π turn	180°/π ≈ 57.296°
+ * 
+ *       //length of ray from one x or y-side to next x or y-side
+      double deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
+      double deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
+	  	// ...
+	// DDA :
+        //jump to next map square, either in x-direction, or in y-direction
+        if (sideDistX < sideDistY) {
+          sideDistX += deltaDistX;
+          mapX += stepX;
+          side = 0; }
+        else {
+          sideDistY += deltaDistY;
+          mapY += stepY;
+          side = 1; }
+		  
+ */
 
-	i = -1;
-	while (++i < VECTORSIZE)
-	{
-		// 
-	}
+static void	draw_player_dir(t_position player, int step, t_point pos, t_img *mmap)
+{
+	
 }
 
 static int	get_minimap_color(t_blocks block)
@@ -35,19 +48,19 @@ static int	get_minimap_color(t_blocks block)
 
 static void	draw_player(const int step, t_cub3d *cub3d)
 {
-	const int	posx = (int)(cub3d->input.map.player.x * step - step / 4);
-	const int	posy = (int)(cub3d->input.map.player.y * step - step / 4);
+	const t_point	pos = (t_point){.x = (int)(cub3d->input.map.player.x
+			* step - step / 4),
+		.y = (int)(cub3d->input.map.player.y * step - step / 4)};
 
-	draw_rect((t_point){.x = posx, .y = posy},
-		(t_point){.x = step / 2 , .y = step / 2},
-			MINIMAP_PLAYER, &cub3d->layers.minimap);
-	// draw_player_vector(cub3d, step, posx, posy);
+	draw_rect(pos, (t_point){.x = step / 2, .y = step / 2},
+		MINIMAP_PLAYER, &cub3d->layers.minimap);
+	draw_player_dir(cub3d->input.map.player, step, pos, &cub3d->layers.minimap);
 }
 
 static void	draw_minimap(t_cub3d *cub3d, int step)
 {
-	int 		x;
-	int 		h;
+	int	x;
+	int	h;
 
 	x = -1;
 	while (++x < (int)cub3d->input.map.w)
@@ -67,7 +80,7 @@ void	build_minimap(t_cub3d *cub3d)
 {
 	const int	width_step = MINIMAP_W / cub3d->input.map.w;
 	const int	height_step = MINIMAP_H / cub3d->input.map.h;
-	int			fixed_step;	
+	int			fixed_step;
 
 	build_image(cub3d->mlx, &cub3d->layers.minimap, MINIMAP_W, MINIMAP_H);
 	fixed_step = width_step;

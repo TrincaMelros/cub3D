@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 17:15:00 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/25 17:48:09 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/27 12:40:58 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,28 @@ void	assign_texture(char **ptr, char *path)
 
 double	set_direction(char cardinal)
 {
+	/**
+	 * if (cardinal == 'N')
+	 * 		dirx = 0;
+	 *		diry = -1;
+	 * 		planex = 0.66;
+	 * 		planey = 0;
+	 * if (cardinal == 'S')
+	 * 		dirx = 0;
+	 *		diry = 1;
+	 * 		planex = -0.66;	
+	 * 		planey = 0;
+	 * if (cardinal == 'E')
+	 * 		dirx = 1;
+	 *		diry = 0;
+	 * 		planex = 0;	
+	 * 		planey = -0.66;
+	 * else
+	 * 		dirx = -1;
+	 *		diry = 0;
+	 * 		planex = 0;
+	 * 		planey = 0.66;
+	 */
 	if (cardinal == 'N')
 		return (DEG90);
 	if (cardinal == 'S')
