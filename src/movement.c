@@ -36,7 +36,7 @@ void	rotate(t_cub3d *cub, int rotate)
 	double	oldplanex;
 	
 	olddirx = 0;
-	if (rotate == RIGHT)
+	if (rotate == LEFT)
 	{
 		olddirx = cub->player.dirX;
 		cub->player.dirX = cub->player.dirX * cos(ROTSPEED) - cub->player.dirY * sin(ROTSPEED);
@@ -45,7 +45,7 @@ void	rotate(t_cub3d *cub, int rotate)
 		cub->player.planeX = cub->player.planeX * cos(ROTSPEED) - cub->player.planeY * sin(ROTSPEED);
 		cub->player.planeY = oldplanex * sin(ROTSPEED + cub->player.planeY * cos(ROTSPEED));	
 	}
-	if (rotate == LEFT)
+	if (rotate == RIGHT)
 	{
 		olddirx = cub->player.dirX;
 		cub->player.dirX = cub->player.dirX * cos(-(ROTSPEED)) - cub->player.dirY * sin(-(ROTSPEED));
