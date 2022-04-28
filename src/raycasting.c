@@ -158,7 +158,6 @@ void	wall_drawing(t_rc *rc, t_cub3d *cub, const int x)
 	// Starting texture coordinate
 	texpos = (rc->drawstart - HEIGHT / 2 + rc->lineheight / 2) * rc->step;
 	y = -1;
-	printf("drawstart is %d, drawend is %d\n", rc->drawstart, rc->drawend);
 	while (++y < rc->drawstart)
 		cub->map_buff[y][x] = cub->input.ceiling.trgb;
 	while (y < rc->drawend)
@@ -166,6 +165,7 @@ void	wall_drawing(t_rc *rc, t_cub3d *cub, const int x)
 		texy = (int)texpos & (TEXSIZE - 1);
 		texpos += rc->step;
 		color = cub->texture[TEXSIZE * texy + rc->texx];
+
 		// if (rc->side == 1)
 		// 	color = (color >> 1) & 8355711;
 		cub->map_buff[y][x] = color;

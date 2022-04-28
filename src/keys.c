@@ -22,6 +22,10 @@ int	key_press(int keycode, t_cub3d *cub)
 		cub->keys.left = true;
 	else if (keycode == MOVE_RIGHT)
 		cub->keys.right = true;
+	else if (keycode == TURN_LEFT)
+		cub->keys.turn_left = true;
+	else if (keycode == TURN_RIGHT)
+		cub->keys.turn_right = true;
 	else if (keycode == ESC)
 		free_and_quit();
 	return (0);
@@ -37,6 +41,10 @@ int	key_release(int keycode, t_cub3d *cub)
 		cub->keys.left = false;
 	else if (keycode == MOVE_RIGHT)
 		cub->keys.right = false;
+	else if (keycode == TURN_LEFT)
+		cub->keys.turn_left = false;
+	else if (keycode == TURN_RIGHT)
+		cub->keys.turn_right = false;
 	else if (keycode == ESC)
 		free_and_quit();
 	return (0);

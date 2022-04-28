@@ -110,9 +110,8 @@ int main(int argc, char **argv)
 	build_image(cub3d.mlx, &cub3d.img, WIDTH, HEIGHT);
 
 	load_texture(&cub3d);
-	// mlx_hook(cub3d.mlx_obj.window, X_EVENT_KEY_PRESS, 0, &key_press, &cub3d); // kinda copied from l-yohai
 	mlx_loop_hook(cub3d.mlx, &main_loop, &cub3d);
-	mlx_hook(cub3d.window, X_BUTTON_EXIT, 131072, &key_close, &cub3d);
+//	mlx_hook(cub3d.window, X_BUTTON_EXIT, (1L << 17), &free_and_quit, &cub3d); //need to replace free_and_quit with a similar one that returns int*
 	mlx_hook(cub3d.window, KEY_PRESS, 0, &key_press, &cub3d);
 	mlx_hook(cub3d.window, KEY_RELEASE, 0, &key_release, &cub3d);
 

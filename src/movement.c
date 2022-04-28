@@ -14,19 +14,27 @@
 
 void	move(t_cub3d *cub, int movement)
 {
-	if (movement == UP)
+	if (movement == MOVE_UP)
 	{
 	    if(cub->input.map.top_left[(int)(cub->player.posY)][(int)(cub->player.posX + cub->player.dirX * MOVESPEED)] == SPACE)
 			cub->player.posX += cub->player.dirX * MOVESPEED;
     	if(cub->input.map.top_left[(int)(cub->player.posY + cub->player.dirY * MOVESPEED)][(int)(cub->player.posX)] == SPACE)
 			cub->player.posY += cub->player.dirY * MOVESPEED;	
 	}
-	if (movement == DOWN)
+	if (movement == MOVE_DOWN)
 	{
-		if(cub->input.map.top_left[(int)(cub->player.posX - cub->player.dirX * MOVESPEED)][(int)(cub->player.posY)] == SPACE)
+		if(cub->input.map.top_left[(int)(cub->player.posY)][(int)(cub->player.posX - cub->player.dirX * MOVESPEED)] == SPACE)
 			cub->player.posX -= cub->player.dirX * MOVESPEED;
     	if(cub->input.map.top_left[(int)(cub->player.posY - cub->player.dirY * MOVESPEED)][(int)(cub->player.posX)] == SPACE)
-			cub->player.posY -= cub->player.dirY * MOVESPEED;	
+			cub->player.posY -= cub->player.dirY * MOVESPEED;
+	}
+	if (movement == MOVE_LEFT)
+	{
+
+	}
+	if (movement == MOVE_RIGHT)
+	{
+
 	}
 }
 
@@ -35,22 +43,19 @@ void	rotate(t_cub3d *cub, int rotate)
 	double	olddirx;
 	double	oldplanex;
 	
-	olddirx = 0;
-	if (rotate == LEFT)
+	olddirx = cub->player.dirX;
+	oldplanex = cub->player.planeX;
+	if (rotate == TURN_LEFT)
 	{
-		olddirx = cub->player.dirX;
 		cub->player.dirX = cub->player.dirX * cos(ROTSPEED) - cub->player.dirY * sin(ROTSPEED);
 		cub->player.dirY = olddirx * sin(ROTSPEED) + cub->player.dirY * cos(ROTSPEED);
-		oldplanex = cub->player.planeX;
 		cub->player.planeX = cub->player.planeX * cos(ROTSPEED) - cub->player.planeY * sin(ROTSPEED);
-		cub->player.planeY = oldplanex * sin(ROTSPEED + cub->player.planeY * cos(ROTSPEED));	
+		cub->player.planeY = oldplanex * sin(ROTSPEED) + cub->player.planeY * cos(ROTSPEED);	
 	}
-	if (rotate == RIGHT)
+	if (rotate == TURN_RIGHT)
 	{
-		olddirx = cub->player.dirX;
 		cub->player.dirX = cub->player.dirX * cos(-(ROTSPEED)) - cub->player.dirY * sin(-(ROTSPEED));
 		cub->player.dirY = olddirx * sin(-(ROTSPEED)) + cub->player.dirY * cos(-(ROTSPEED));
-		oldplanex = cub->player.planeX;
 		cub->player.planeX = cub->player.planeX * cos(-(ROTSPEED)) - cub->player.planeY * sin(-(ROTSPEED));
 		cub->player.planeY = oldplanex * sin(-(ROTSPEED)) + cub->player.planeY * cos(-(ROTSPEED));
 	}
@@ -59,11 +64,15 @@ void	rotate(t_cub3d *cub, int rotate)
 void	movement(t_cub3d *cub)
 {
 	if (cub->keys.up)
-		move(cub, UP);
+		move(cub, MOVE_UP);
 	if (cub->keys.down)
-		move(cub, DOWN);
+		move(cub, MOVE_DOWN);
 	if (cub->keys.left)
-		rotate(cub, LEFT);
+		move(cub, MOVE_LEFT);
 	if (cub->keys.right)
-		rotate(cub, RIGHT);
+		move(cub, MOVE_RIGHT);
+	if (cub->keys.turn_left)
+		rotate(cub, TURN_LEFT);
+	if (cub->keys.turn_right)
+		rotate(cub, TURN_RIGHT);
 }

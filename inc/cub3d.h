@@ -37,7 +37,7 @@
 
 # define BUFFER_SIZE 1
 
-# define ROTSPEED 0.01
+# define ROTSPEED 0.05
 # define MOVESPEED 0.05
 
 enum	e_error {
@@ -164,6 +164,8 @@ typedef struct s_keys {
 	bool	down;
 	bool	left;
 	bool	right;
+	bool	turn_left;
+	bool	turn_right;
 }	t_keys;
 
 typedef struct s_rc {
