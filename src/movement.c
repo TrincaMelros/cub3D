@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void	move(t_cub3d *cub, int movement)
+static void	move(t_cub3d *cub, int movement)
 {
 	if (movement == MOVE_UP)
 	{
@@ -34,7 +34,7 @@ void	move(t_cub3d *cub, int movement)
 	}
 }
 
-void	strafe(t_cub3d *cub, int movement)
+static void	strafe(t_cub3d *cub, int movement)
 {
 	if (movement == MOVE_LEFT)
 	{
@@ -56,7 +56,7 @@ void	strafe(t_cub3d *cub, int movement)
 	}
 }
 
-void	rotate(t_cub3d *cub, int rotate)
+static void	rotate(t_cub3d *cub, int rotate)
 {
 	double	olddirx;
 	double	oldplanex;
