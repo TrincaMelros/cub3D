@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/25 14:05:36 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/29 12:54:24 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ void	free_all(t_cub3d *cub)
 		mlx_destroy_image(cub->mlx, cub->layers.minimap.ptr);
 	if (cub->window)
 		mlx_destroy_window(cub->mlx, cub->window);
-	twod_free((void **)cub->input.txt);
-	twod_free((void **)cub->input.map.top_left);
+	if (cub->input.txt)
+		twod_free((void **)cub->input.txt, 0);
+	if (cub->input.map.top_left)
+		twod_free((void **)cub->input.map.top_left, cub->input.map.h);
 }
 
 static void	check_ftype(const char *ftype)
@@ -71,35 +73,10 @@ int main(int argc, char **argv)
 	check_ftype(argv[1]);
 	ft_init(&cub3d);
 	get_data(&cub3d);
-	// DEBUG(init_test(&cub3d);)
-	cub_parsing(argv[1], &cub3d.input);
-
-	/**
-	 * for minimap
-	 * 	build_image for tiles
-	 *  build_image for player
-	 * 	direction vector
-	 * movements
-	 * 	implement radiants
-	 * 	calculate new direction/position
-	 * 	put image to window
-	 */
-	set_game(&cub3d);
-
-	mlx_loop_hook(cub3d.mlx, &main_loop, &cub3d);
-	mlx_loop(cub3d.mlx);
-
-	cub3d.mlx = mlx_init();
-	cub3d.window = mlx_new_window(cub3d.mlx, cub3d.input.map.w * 64, cub3d.input.map.h * 64, "Cub3D");
-	
-
-	mlx_loop_hook(cub3d.mlx, &main_loop, &cub3d);
-	mlx_hook(cub3d.window, X_BUTTON_EXIT, 131072, &key_close, &cub3d);
-	mlx_hook(cub3d.window, KEY_PRESS, 0, &key_press, &cub3d);
-	mlx_hook(cub3d.window, KEY_RELEASE, 0, &key_release, &cub3d);
-
-	mlx_loop(cub3d.mlx);
-	
-	mlx_destroy_window(cub3d.mlx, cub3d.window);
+	// make independent, copy whatever's relevant to cub struct and get rid of it
+    cub_parsing(argv[1], &(get_data(NULL)->input));
 	free_all(&cub3d);
+	set_game(&cub3d); // <------------------ set_game(&cub, &input);
+	mlx_loop(cub3d.mlx);
+	return (0);
 }

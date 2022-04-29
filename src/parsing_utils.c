@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 17:15:00 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/27 12:40:58 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/29 12:55:07 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	all_assigned(t_input *input)
 
 void	assign_texture(char **ptr, char *path)
 {
-	if (*ptr)
-		free_error_exit(".cub: texture assigned twice or more times.");
+	if (*ptr != NULL)
+		free_error_exit(".cub: texture assigned two or more times.");
 	else
 		*ptr = path;
 }

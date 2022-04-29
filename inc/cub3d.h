@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/27 12:20:58 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/29 12:55:25 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,9 @@
 # define ROTSPEED 0.05
 # define MOVESPEED 0.05
 
-enum	e_error {
-	SUCCESS,
-	SYSCALL,
-	OTHER
-} ;
+# define SUCCESS 0
+# define SYSCALL 1
+# define OTHER 2
 
 # define BUFFER_SIZE 1
 
@@ -189,7 +187,7 @@ void	draw_rect(t_point coord, const t_point size, int color, t_img *img);
 
 		/* Memory Management */
 void	**twod_realloc(void **ptr, size_t size);
-void	**twod_free(void **ptr_arr);
+void	**twod_free(void **ptr_arr, size_t l_lenght);
 void	*set_free(void **ptr);
 t_cub3d	*get_data(t_cub3d *original);
 void	*calloc_check(size_t nmemb, size_t size);
