@@ -4,6 +4,8 @@
 - error handling
 - Check frees being made
 
+- check if N/S/E/W starting position is correct, if not change
+
 - last check on parsing
 - Refactoring/Norminette
 

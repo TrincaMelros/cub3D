@@ -36,14 +36,3 @@ void	assign_texture(char **ptr, char *path)
 	else
 		*ptr = path;
 }
-
-double	set_direction(char cardinal)
-{
-	if (cardinal == 'N')
-		return (DEG90);
-	if (cardinal == 'S')
-		return (DEG270);
-	if (cardinal == 'E')
-		return (0);
-	return (DEG180);
-}

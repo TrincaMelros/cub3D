@@ -42,6 +42,7 @@ SRCS = src/cub3d.c \
 		src/minimap.c \
 		src/movement.c \
 		src/raycasting.c \
+		src/raycasting_calcs.c \
 		src/textures.c \
 		src/set_game.c \
 		src/draw.c \

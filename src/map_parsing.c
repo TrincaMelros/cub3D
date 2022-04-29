@@ -153,7 +153,7 @@ t_map	map_validation(char **map)
 	while (++i < (int)tmp.h)
 		tmp.top_left[i] = init_map_row(map[i], tmp.w);
 	check_p_pos(&tmp);
-	tmp.player.dir = set_direction(map[(int)tmp.player.y][(int)tmp.player.x]);
+	tmp.player.dir = map[(int)tmp.player.y][(int)tmp.player.x];
 	if (invalid_perimeter(tmp.top_left, (int)tmp.w))
 		free_error_exit("map: invalid perimeter.");
 	//DEBUG(print_map(tmp);)

@@ -28,6 +28,42 @@
 // 	}
 //}
 
+void set_player_ns(t_cub3d *cub)
+{
+	if (cub->input.map.player.dir == 'N')
+	{
+		cub->player.dirX = -1.0;
+		cub->player.dirY = 0.0;
+		cub->player.planeX = 0.0;
+		cub->player.planeY = 0.66;
+	}
+	if (cub->input.map.player.dir == 'S')
+	{
+		cub->player.dirX = 1.0;
+		cub->player.dirY = 0.0;
+		cub->player.planeX = 0.0;
+		cub->player.planeY = -0.66;	
+	}
+}
+
+void set_player_we(t_cub3d *cub)
+{
+	if (cub->input.map.player.dir == 'W')
+	{
+		cub->player.dirX = 0.0;
+		cub->player.dirY = -1.0;
+		cub->player.planeX = -0.66;
+		cub->player.planeY = 0.0;	
+	}
+	if (cub->input.map.player.dir == 'E')
+	{
+		cub->player.dirX = 0.0;
+		cub->player.dirY = 1.0;
+		cub->player.planeX = 0.66;
+		cub->player.planeY = 0.0;	
+	}
+}
+
 void	set_game(t_cub3d *cub3d)
 {
 	// init mlx and window

@@ -23,10 +23,8 @@ void	init_vars(t_cub3d *cub)
 {
 	cub->player.posX = cub->input.map.player.x;
 	cub->player.posY = cub->input.map.player.y;
-	cub->player.dirX = -1.0;
-	cub->player.dirY = 0.0;
-	cub->player.planeX = 0.0;
-	cub->player.planeY = 0.66;
+	set_player_ns(cub);
+	set_player_we(cub);
 	cub->textures.north = (int *)calloc_check(1, sizeof(int) * \
 	(TEXSIZE * TEXSIZE));
 	cub->textures.south = (int *)calloc_check(1, sizeof(int) * \

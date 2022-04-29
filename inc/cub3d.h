@@ -79,7 +79,7 @@ typedef struct s_point {
 }	t_point;
 
 typedef struct s_position {
-	double	dir;
+	char	dir;
 	double	x;
 	double	y;
 }	t_position;
@@ -299,6 +299,8 @@ void	build_minimap(t_cub3d *cub3d);
 void	set_game(t_cub3d *cub3d);
 int		key_events(int keycode, t_cub3d *cub3d);
 int		button_press(int button, int x, int y, t_cub3d *cub3d);
+void	set_player_ns(t_cub3d *cub);
+void	set_player_we(t_cub3d *cub);
 
 		/* Raycasting */
 void	draw_lines(t_cub3d *cub);
