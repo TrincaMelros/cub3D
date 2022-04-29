@@ -288,6 +288,7 @@ int		key_press(int keycode, t_cub3d *cub);
 		/* Textures */
 void	load_image(t_cub3d *cub, int *texture, char *path, t_img *img);
 void	load_texture(t_cub3d *cub);
+
 		/* Movements */
 void	movement(t_cub3d *cub);
 
@@ -301,8 +302,15 @@ int		button_press(int button, int x, int y, t_cub3d *cub3d);
 
 		/* Raycasting */
 void	draw_lines(t_cub3d *cub);
+int		choose_texture(t_cub3d *cub, t_rc *rc, int texy);
+void	wall_drawing(t_rc *rc, t_cub3d *cub, const int x);
 void	raycaster(t_cub3d *cub);
-int		main_loop(t_cub3d *cub3d);
-// int		main_loop(void *params);
+
+		/* Raycasting Calcs */
+void	init_var(t_rc *rc);
+void	initial_calcs(t_rc *rc, t_cub3d *cub, int x);
+void	calc_sidedist(t_rc *rc, t_cub3d *cub);
+void	dda_algo(t_rc *rc, t_cub3d *cub);
+void	wall_calcs(t_rc *rc, t_cub3d *cub);
 
 #endif
