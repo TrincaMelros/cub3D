@@ -1,7 +1,7 @@
-NO ./path_to_the_north_texture
-EA ./path_to_the_east_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
+NO ./assets/texture1.xpm
+EA ./assets/texture2.xpm
+SO ./assets/texture3.xpm
+WE ./assets/texture4.xpm
 
 C 127,127, 127
 F 0,0,127

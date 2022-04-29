@@ -206,6 +206,13 @@ typedef struct s_images {
 	
 }	t_images;
 
+typedef	struct s_textures {
+	int		*north;
+	int		*south;
+	int		*west;
+	int		*east;
+}	t_textures;
+
 	/*	General Struct	*/
 typedef struct s_cub3d
 {
@@ -219,8 +226,8 @@ typedef struct s_cub3d
 	t_layer		layers;
 	t_keys		keys;
 	t_rc		rc;
+	t_textures	textures;
 	int			map_buff[HEIGHT][WIDTH];
-	int			*texture;
 }		t_cub3d;
 
 	/* RM */
@@ -239,6 +246,7 @@ int		ft_error(char *s);
 void	error_exit(char *s);
 void	free_error_exit(char *s);
 void	free_and_quit(void);
+int		free_n_quit(void);
 
 		/*	Get Next line */
 int		get_next_line(char **line, int fd);

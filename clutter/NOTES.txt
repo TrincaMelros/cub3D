@@ -4,10 +4,7 @@
 - error handling
 - Check frees being made
 
-- sideways movement
 - last check on parsing
-- N/S/E/W texture implementation
-- Wall colision
 - Refactoring/Norminette
 
 - Understanding what the fuck we're doing here 🤣

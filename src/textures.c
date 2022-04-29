@@ -18,8 +18,10 @@ void	load_image(t_cub3d *cub, int *texture, char *path, t_img *img)
 	int	y;
 
 	img->img = (int *)malloc(sizeof(int) * (TEXSIZE * TEXSIZE));
-	img->img = mlx_xpm_file_to_image(cub->mlx, path, &img->img_width, &img->img_height);
-	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->size_l, &img->endian);
+	img->img = mlx_xpm_file_to_image(cub->mlx, path, &img->img_width, \
+	&img->img_height);
+	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, \
+	&img->size_l, &img->endian);
 	y = 0;
 	while (y < img->img_height)
 	{
@@ -36,7 +38,10 @@ void	load_image(t_cub3d *cub, int *texture, char *path, t_img *img)
 
 void	load_texture(t_cub3d *cub)
 {
-	t_img img;
+	t_img	img;
 
-	load_image(cub, cub->texture, "assets/brickwall.xpm", &img);
+	load_image(cub, cub->textures.north, cub->input.north, &img);
+	load_image(cub, cub->textures.south, cub->input.south, &img);
+	load_image(cub, cub->textures.west, cub->input.west, &img);
+	load_image(cub, cub->textures.east, cub->input.east, &img);
 }
