@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 11:49:58 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/25 17:05:59 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/30 13:53:31 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	move(t_cub3d *cub, int movement)
 
 static void	strafe(t_cub3d *cub, int movement)
 {
-	if (movement == MOVE_LEFT)
+	if (movement == MOVE_RIGHT)
 	{
 		if (cub->input.map.top_left[(int)(cub->player.posY)][(int) \
 		(cub->player.posX - cub->player.dirY * (MOVESPEED * 3))] == SPACE)
@@ -45,7 +45,7 @@ static void	strafe(t_cub3d *cub, int movement)
 		* (MOVESPEED * 3))][(int)cub->player.posX] == SPACE)
 			cub->player.posY += cub->player.dirX * MOVESPEED;
 	}
-	if (movement == MOVE_RIGHT)
+	if (movement == MOVE_LEFT)
 	{
 		if (cub->input.map.top_left[(int)cub->player.posY][(int) \
 		(cub->player.posX + cub->player.dirY * (MOVESPEED * 3))] == SPACE)
@@ -63,7 +63,7 @@ static void	rotate(t_cub3d *cub, int rotate)
 
 	olddirx = cub->player.dirX;
 	oldplanex = cub->player.planeX;
-	if (rotate == TURN_LEFT)
+	if (rotate == TURN_RIGHT)
 	{
 		cub->player.dirX = cub->player.dirX * cos(ROTSPEED) \
 		- cub->player.dirY * sin(ROTSPEED);
@@ -74,7 +74,7 @@ static void	rotate(t_cub3d *cub, int rotate)
 		cub->player.planeY = oldplanex * sin(ROTSPEED) \
 		+ cub->player.planeY * cos(ROTSPEED);
 	}
-	if (rotate == TURN_RIGHT)
+	if (rotate == TURN_LEFT)
 	{
 		cub->player.dirX = cub->player.dirX * cos(-(ROTSPEED)) \
 		- cub->player.dirY * sin(-(ROTSPEED));

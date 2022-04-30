@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 16:20:13 by fbarros           #+#    #+#             */
-/*   Updated: 2022/04/25 17:31:07 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/30 13:52:30 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@ void	draw_lines(t_cub3d *cub)
 {
 	int	x;
 	int	y;
+	// int	k;
 
 	y = 0;
 	while (y < HEIGHT)
 	{
 		x = 0;
+		// k = WIDTH - 1;
 		while (x < WIDTH)
 		{
 			cub->img.data[y * WIDTH + x] = cub->map_buff[y][x];

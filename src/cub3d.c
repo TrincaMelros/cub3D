@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/29 12:54:24 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/30 13:32:50 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,6 @@ static void	ft_init(t_cub3d *cub)
 	ft_bzero(cub, sizeof(t_cub3d));
 	cub->input.floor.trgb = -1;
 	cub->input.ceiling.trgb = -1;
-}
-
-void	init_vars(t_cub3d *cub)
-{
-	cub->player.posX = cub->input.map.player.x;
-	cub->player.posY = cub->input.map.player.y;
-	set_player_ns(cub);
-	set_player_we(cub);
-	cub->textures.north = (int *)calloc_check(1, sizeof(int) * \
-	(TEXSIZE * TEXSIZE));
-	cub->textures.south = (int *)calloc_check(1, sizeof(int) * \
-	(TEXSIZE * TEXSIZE));
-	cub->textures.east = (int *)calloc_check(1, sizeof(int) * \
-	(TEXSIZE * TEXSIZE));
-	cub->textures.west = (int *)calloc_check(1, sizeof(int) * \
-	(TEXSIZE * TEXSIZE));
 }
 
 void	free_all(t_cub3d *cub)
@@ -60,14 +44,6 @@ static void	check_ftype(const char *ftype)
 		error_exit("Wrong file type.");
 }
 
-int	main_loop(t_cub3d *cub)
-{
-	movement(cub);
-	raycaster(cub);
-	draw_lines(cub);
-	return (0);
-}
-
 int	main(int argc, char **argv)
 {
 	t_cub3d	cub3d;
@@ -81,7 +57,6 @@ int	main(int argc, char **argv)
 	ft_init(&cub3d);
 	get_data(&cub3d);
 	cub_parsing(argv[1], &(get_data(NULL)->input));
-	init_vars(&cub3d);
 	set_game(&cub3d);
 	build_image(cub3d.mlx, &cub3d.img, WIDTH, HEIGHT);
 	load_texture(&cub3d);

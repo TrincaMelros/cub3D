@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/29 12:55:25 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/30 13:37:27 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,5 +310,8 @@ void	initial_calcs(t_rc *rc, t_cub3d *cub, int x);
 void	calc_sidedist(t_rc *rc, t_cub3d *cub);
 void	dda_algo(t_rc *rc, t_cub3d *cub);
 void	wall_calcs(t_rc *rc, t_cub3d *cub);
+
+int	main_loop(t_cub3d *cub);
+
 
 #endif

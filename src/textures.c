@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malmeida <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 14:55:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/23 14:55:13 by malmeida         ###   ########.fr       */
+/*   Updated: 2022/04/30 13:33:57 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ void	load_image(t_cub3d *cub, int *texture, char *path, t_img *img)
 	int	x;
 	int	y;
 
-	img->img = (int *)malloc(sizeof(int) * (TEXSIZE * TEXSIZE));
-	img->img = mlx_xpm_file_to_image(cub->mlx, path, &img->img_width, \
+	img->img = mlx_xpm_file_to_image(cub->mlx, path, &img->img_width,
 	&img->img_height);
-	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, \
+	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp,
 	&img->size_l, &img->endian);
 	y = 0;
 	while (y < img->img_height)
