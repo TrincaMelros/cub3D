@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:06:38 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/25 14:05:36 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/29 12:54:24 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ void	free_all(t_cub3d *cub)
 		mlx_destroy_image(cub->mlx, cub->layers.minimap.img);
 	if (cub->window)
 		mlx_destroy_window(cub->mlx, cub->window);
-	twod_free((void **)cub->input.txt);
-	twod_free((void **)cub->input.map.top_left);
+	if (cub->input.txt)
+		twod_free((void **)cub->input.txt, 0);
+	if (cub->input.map.top_left)
+		twod_free((void **)cub->input.map.top_left, cub->input.map.h);
 }
 
 static void	check_ftype(const char *ftype)

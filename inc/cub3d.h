@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:49:12 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/25 19:07:50 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/29 12:55:25 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,16 @@
 # include <limits.h>
 
 # include "libft.h"
-# include "events.h"
-
-// ifeq ($(shell uname), Darwin)
-// 	# include "key_macos.h"
-// else ifeq ($(shell uname), Linux)
-// 	# include "key_linux.h"
-// endif
+# include "keys.h"
 
 # define BUFFER_SIZE 1
 
 # define ROTSPEED 0.05
 # define MOVESPEED 0.05
 
-enum	e_error {
-	SUCCESS,
-	SYSCALL,
-	OTHER
-} ;
+# define SUCCESS 0
+# define SYSCALL 1
+# define OTHER 2
 
 # define BUFFER_SIZE 1
 
@@ -59,6 +51,13 @@ enum	e_error {
 # define MINIMAP_PLAYER 0x88880000
 # define TRANSPARENT 0xFF000000
 
+/**
+ * 		  90°
+ * 		  |
+ * 180° - * - 0°
+ * 		  |
+ * 		 270°
+ */
 // in radians
 # define DEG90 1.57079633
 # define DEG180 3.14159265
@@ -155,8 +154,6 @@ typedef struct s_player {
 typedef struct s_layer {
 	t_img		screen;
 	t_img		minimap;
-	t_img		wall;
-	t_img		player;
 }	t_layer;
 
 typedef struct s_keys {
@@ -275,7 +272,7 @@ void	draw_rect(t_point coord, const t_point size, int color, t_img *img);
 
 		/* Memory Management */
 void	**twod_realloc(void **ptr, size_t size);
-void	**twod_free(void **ptr_arr);
+void	**twod_free(void **ptr_arr, size_t l_lenght);
 void	*set_free(void **ptr);
 t_cub3d	*get_data(t_cub3d *original);
 void	*calloc_check(size_t nmemb, size_t size);

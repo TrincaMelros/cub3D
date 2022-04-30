@@ -6,7 +6,7 @@
 /*   By: fbarros <fbarros@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 16:45:21 by malmeida          #+#    #+#             */
-/*   Updated: 2022/04/21 21:30:09 by fbarros          ###   ########.fr       */
+/*   Updated: 2022/04/29 12:16:33 by fbarros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	assign_color(char *txt, t_color *color)
 	}
 	else
 		free_error_exit(".cub: must assign 3 values to color.");
-	twod_free((void **)splitter);
+	twod_free((void **)splitter, 0);
 	if (color->r > 255 || color->g > 255 || color->b > 255)
 		free_error_exit(".cub: color value too damn high.");
 	if (color->r < 0 || color->g < 0 || color->b < 0)
@@ -96,7 +96,7 @@ static char	**get_input(char *file)
 		if (fd > 2)
 			close(fd);
 		if (txt)
-			txt = (char **)twod_free((void **)txt);
+			txt = (char **)twod_free((void **)txt, 0);
 		error_exit(NULL);
 	}
 	return (txt);
