@@ -51,20 +51,6 @@
 # define MINIMAP_PLAYER 0x88880000
 # define TRANSPARENT 0xFF000000
 
-/**
- * 		  90°
- * 		  |
- * 180° - * - 0°
- * 		  |
- * 		 270°
- */
-// in radians
-# define DEG90 1.57079633
-# define DEG180 3.14159265
-# define DEG270 4.71238898
-# define DEG360 6.28318531
-# define VECTORSIZE 5
-
 typedef enum e_blocks {
 	VOID,
 	SPACE,
@@ -111,17 +97,6 @@ typedef struct s_input {
 	t_map	map;
 }		t_input;
 
-	/*	Images	*/
-//typedef struct s_img {
-//	void	*ptr;
-//	int		w;
-//	int		h;
-//	int		*addr;
-//	int		bpp;
-//	int		line;
-//	int		endian;
-//}	t_img;
-
 typedef struct	s_img
 {
 	void	*img;
@@ -133,14 +108,6 @@ typedef struct	s_img
 	int		img_width;
 	int		img_height;
 }				t_img;
-
-typedef struct s_assets {
-	void	*floor;
-	void	*wall;
-	void	*player;
-	int		player_x;
-	int		player_y;
-}	t_assets;
 
 typedef struct s_player {
 	double	posX;
@@ -216,13 +183,11 @@ typedef struct s_cub3d
 	void		*mlx;
 	void		*window;
 	t_input		input;
-	t_assets	assets;
 	t_player	player;
 	t_images	imgs;
 	t_img		img;
 	t_layer		layers;
 	t_keys		keys;
-	t_rc		rc;
 	t_textures	textures;
 	int			map_buff[HEIGHT][WIDTH];
 }		t_cub3d;
@@ -237,81 +202,71 @@ typedef struct s_cub3d
 	/* RM */
 
 void	free_all(t_cub3d *cub3d);
+int		main_loop(t_cub3d *cub);
+
+		/*	.cub Parsing	*/
+void	cub_parsing(char *filename, t_input *input);
+
+		/* Drawing Utils */
+void	draw_rect(t_point coord, const t_point size, int color, t_img *img);
+void	img_draw_verline(t_img *img, t_point p, const int y2, int color);
+void	img_draw_horline(t_img *img, t_point p, const int x2, int color);
 
 		/* Error Handling */
 int		ft_error(char *s);
 void	error_exit(char *s);
 void	free_error_exit(char *s);
-int		free_n_quit(void);
 
 		/*	Get Next line */
 int		get_next_line(char **line, int fd);
 
+		/* Keys / Events */
+int		key_press(int keycode, t_cub3d *cub);
+int		key_release(int keycode, t_cub3d *cub);
+int		free_n_quit(void);
+
 		/*	Map Parsing	*/
 t_map	map_validation(char **map);
 
-		/*	.cub Parsing	*/
-void	cub_parsing(char *filename, t_input *input);
+		/* Memory Management */
+void	*calloc_check(size_t nmemb, size_t size);
+void	*set_free(void **ptr);
+void	**twod_free(void **ptr_arr, size_t l_lenght);
+void	**twod_realloc(void **ptr, size_t size);
+t_cub3d	*get_data(t_cub3d *original);
 
-		/* Parsing utils */
-int		all_assigned(t_input *input);
-void	assign_texture(char **ptr, char *path);
-double	set_direction(char cardinal);
+		/* Minimap */
+void	build_minimap(t_cub3d *cub3d);
 
 		/*  Mlx utils  */
 void	build_image(void *mlx_ptr, t_img *img, int width, int height);
 int		create_trgb(int t, int r, int g, int b);
 void	img_put_pixel(t_img *img, int color, int y, int x);
-int		key_close(int keycode, t_cub3d *cub3d);
-
-		/* Drawing Utils */
-void	img_draw_verline(t_img *img, t_point p, const int y2, int color);
-void	img_draw_horline(t_img *img, t_point p, const int x2, int color);
-void	draw_rect(t_point coord, const t_point size, int color, t_img *img);
-
-		/* Memory Management */
-void	**twod_realloc(void **ptr, size_t size);
-void	**twod_free(void **ptr_arr, size_t l_lenght);
-void	*set_free(void **ptr);
-t_cub3d	*get_data(t_cub3d *original);
-void	*calloc_check(size_t nmemb, size_t size);
-
-		/* Keys / Events */
-int		key_hook(int keycode, t_cub3d *cub);
-int		key_release(int keycode, t_cub3d *cub);
-int		key_press(int keycode, t_cub3d *cub);
-
-		/* Textures */
-void	load_image(t_cub3d *cub, int *texture, char *path, t_img *img);
-void	load_texture(t_cub3d *cub);
 
 		/* Movements */
 void	movement(t_cub3d *cub);
 
-		/* Minimap */
-void	build_minimap(t_cub3d *cub3d);
-
-		/* Settup and Events (for now) */
-void	set_game(t_cub3d *cub3d);
-int		key_events(int keycode, t_cub3d *cub3d);
-int		button_press(int button, int x, int y, t_cub3d *cub3d);
-void	set_player_ns(t_cub3d *cub);
-void	set_player_we(t_cub3d *cub);
-
-		/* Raycasting */
-void	draw_lines(t_cub3d *cub);
-int		choose_texture(t_cub3d *cub, t_rc *rc, int texy);
-void	wall_drawing(t_rc *rc, t_cub3d *cub, const int x);
-void	raycaster(t_cub3d *cub);
+		/* Parsing utils */
+int		all_assigned(t_input *input);
+void	assign_texture(char **ptr, char *path);
 
 		/* Raycasting Calcs */
-void	init_var(t_rc *rc);
 void	initial_calcs(t_rc *rc, t_cub3d *cub, int x);
 void	calc_sidedist(t_rc *rc, t_cub3d *cub);
 void	dda_algo(t_rc *rc, t_cub3d *cub);
 void	wall_calcs(t_rc *rc, t_cub3d *cub);
 
-int	main_loop(t_cub3d *cub);
+		/* Raycasting */
+void	draw_lines(t_cub3d *cub);
+void	raycaster(t_cub3d *cub);
+
+		/* Textures */
+void	load_image(t_cub3d *cub, int *texture, char *path, t_img *img);
+void	load_texture(t_cub3d *cub);
+
+		/* Setup */
+void	set_game(t_cub3d *cub3d);
+
 
 
 #endif

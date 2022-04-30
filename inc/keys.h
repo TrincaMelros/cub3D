@@ -21,18 +21,9 @@
 # define TURN_RIGHT	124
 # define TURN_LEFT	123
 
-/**
- * # define KEY_PRESS_MASK 1L<<0
- * # define KEY_RELEASE_MASK 1L<<1
-
- * # define KEY_PRESS_EVENT 2
- * # define KEY_RELEASE_EVENT 3
- */
-
 # define KEY_PRESS 02
 # define KEY_RELEASE 03
 # define KEY_ESC 53
 # define X_BUTTON_EXIT 17
-
 
 #endif /*EVENTS_H*/

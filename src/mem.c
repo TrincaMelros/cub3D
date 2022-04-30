@@ -55,10 +55,6 @@ void	**twod_free(void **ptr_arr, size_t l_lenght)
 }
 
 void	**twod_realloc(void **ptr, const size_t size)
-/**
- * allocates size pointers set to NULL and "appends" to pointer
- * if no size returns pointer
-*/
 {
 	void	**tmp;
 	int		i;

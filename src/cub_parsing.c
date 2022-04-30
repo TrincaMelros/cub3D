@@ -69,9 +69,6 @@ static char	**assign_elements(t_input *input)
 }
 
 static char	**get_input(char *file)
-/**
- * "The map must be parsed as it looks [like] in the file." The map meaning the .cub file??
-*/
 {
 	char		**txt;
 	int			fd;

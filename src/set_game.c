@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void set_player_ns(t_cub3d *cub)
+static void set_player_ns(t_cub3d *cub)
 {
 	if (cub->input.map.player.dir == 'N')
 	{
@@ -30,7 +30,7 @@ void set_player_ns(t_cub3d *cub)
 	}
 }
 
-void set_player_we(t_cub3d *cub)
+static void set_player_we(t_cub3d *cub)
 {
 	if (cub->input.map.player.dir == 'W')
 	{
@@ -69,13 +69,11 @@ void	set_game(t_cub3d *cub3d)
 	init_vars(cub3d);
 	cub3d->mlx = mlx_init();
 	cub3d->window = mlx_new_window(cub3d->mlx, WIDTH, HEIGHT, "Cub3D");
-
+	build_image(cub3d->mlx, &cub3d->img, WIDTH, HEIGHT);
+	load_texture(cub3d);
+	mlx_loop_hook(cub3d->mlx, &main_loop, cub3d);
+	mlx_hook(cub3d->window, X_BUTTON_EXIT, (1L << 17), &free_n_quit, cub3d);
+	mlx_hook(cub3d->window, KEY_PRESS, 0, &key_press, cub3d);
+	mlx_hook(cub3d->window, KEY_RELEASE, 0, &key_release, cub3d);
 }
 
-int	main_loop(t_cub3d *cub)
-{
-	movement(cub);
-	raycaster(cub);
-	draw_lines(cub);
-	return (0);
-}

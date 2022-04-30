@@ -16,19 +16,19 @@ static void	move(t_cub3d *cub, int movement)
 {
 	if (movement == MOVE_UP)
 	{
-		if (cub->input.map.top_left[(int)(cub->player.posY)][(int) \
+		if (cub->input.map.top_left[(int)(cub->player.posY)][(int)
 		(cub->player.posX + cub->player.dirX * (MOVESPEED * 3))] == SPACE)
 			cub->player.posX += cub->player.dirX * MOVESPEED;
-		if (cub->input.map.top_left[(int)(cub->player.posY + cub->player.dirY \
+		if (cub->input.map.top_left[(int)(cub->player.posY + cub->player.dirY
 		* (MOVESPEED * 3))][(int)(cub->player.posX)] == SPACE)
 			cub->player.posY += cub->player.dirY * MOVESPEED;
 	}
 	if (movement == MOVE_DOWN)
 	{
-		if (cub->input.map.top_left[(int)(cub->player.posY)][(int) \
+		if (cub->input.map.top_left[(int)(cub->player.posY)][(int)
 		(cub->player.posX - cub->player.dirX * (MOVESPEED * 3))] == SPACE)
 			cub->player.posX -= cub->player.dirX * MOVESPEED;
-		if (cub->input.map.top_left[(int)(cub->player.posY - cub->player.dirY \
+		if (cub->input.map.top_left[(int)(cub->player.posY - cub->player.dirY
 		* (MOVESPEED * 3))][(int)(cub->player.posX)] == SPACE)
 			cub->player.posY -= cub->player.dirY * MOVESPEED;
 	}
@@ -38,19 +38,19 @@ static void	strafe(t_cub3d *cub, int movement)
 {
 	if (movement == MOVE_RIGHT)
 	{
-		if (cub->input.map.top_left[(int)(cub->player.posY)][(int) \
+		if (cub->input.map.top_left[(int)(cub->player.posY)][(int)
 		(cub->player.posX - cub->player.dirY * (MOVESPEED * 3))] == SPACE)
 			cub->player.posX -= cub->player.dirY * MOVESPEED;
-		if (cub->input.map.top_left[(int)(cub->player.posY + cub->player.dirX \
+		if (cub->input.map.top_left[(int)(cub->player.posY + cub->player.dirX
 		* (MOVESPEED * 3))][(int)cub->player.posX] == SPACE)
 			cub->player.posY += cub->player.dirX * MOVESPEED;
 	}
 	if (movement == MOVE_LEFT)
 	{
-		if (cub->input.map.top_left[(int)cub->player.posY][(int) \
+		if (cub->input.map.top_left[(int)cub->player.posY][(int)
 		(cub->player.posX + cub->player.dirY * (MOVESPEED * 3))] == SPACE)
 			cub->player.posX += cub->player.dirY * MOVESPEED;
-		if (cub->input.map.top_left[(int)(cub->player.posY - cub->player.dirX \
+		if (cub->input.map.top_left[(int)(cub->player.posY - cub->player.dirX
 		* (MOVESPEED * 3))][(int)cub->player.posX] == SPACE)
 			cub->player.posY -= cub->player.dirX * MOVESPEED;
 	}
@@ -65,24 +65,24 @@ static void	rotate(t_cub3d *cub, int rotate)
 	oldplanex = cub->player.planeX;
 	if (rotate == TURN_RIGHT)
 	{
-		cub->player.dirX = cub->player.dirX * cos(ROTSPEED) \
+		cub->player.dirX = cub->player.dirX * cos(ROTSPEED)
 		- cub->player.dirY * sin(ROTSPEED);
-		cub->player.dirY = olddirx * sin(ROTSPEED) + \
+		cub->player.dirY = olddirx * sin(ROTSPEED) +
 		cub->player.dirY * cos(ROTSPEED);
-		cub->player.planeX = cub->player.planeX * cos(ROTSPEED) \
+		cub->player.planeX = cub->player.planeX * cos(ROTSPEED)
 		- cub->player.planeY * sin(ROTSPEED);
-		cub->player.planeY = oldplanex * sin(ROTSPEED) \
+		cub->player.planeY = oldplanex * sin(ROTSPEED)
 		+ cub->player.planeY * cos(ROTSPEED);
 	}
 	if (rotate == TURN_LEFT)
 	{
-		cub->player.dirX = cub->player.dirX * cos(-(ROTSPEED)) \
+		cub->player.dirX = cub->player.dirX * cos(-(ROTSPEED))
 		- cub->player.dirY * sin(-(ROTSPEED));
-		cub->player.dirY = olddirx * sin(-(ROTSPEED)) \
+		cub->player.dirY = olddirx * sin(-(ROTSPEED))
 		+ cub->player.dirY * cos(-(ROTSPEED));
-		cub->player.planeX = cub->player.planeX * cos(-(ROTSPEED)) \
+		cub->player.planeX = cub->player.planeX * cos(-(ROTSPEED))
 		- cub->player.planeY * sin(-(ROTSPEED));
-		cub->player.planeY = oldplanex * sin(-(ROTSPEED)) \
+		cub->player.planeY = oldplanex * sin(-(ROTSPEED))
 		+ cub->player.planeY * cos(-(ROTSPEED));
 	}
 }

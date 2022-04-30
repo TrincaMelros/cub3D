@@ -16,13 +16,11 @@ void	draw_lines(t_cub3d *cub)
 {
 	int	x;
 	int	y;
-	// int	k;
 
 	y = 0;
 	while (y < HEIGHT)
 	{
 		x = 0;
-		// k = WIDTH - 1;
 		while (x < WIDTH)
 		{
 			cub->img.data[y * WIDTH + x] = cub->map_buff[y][x];
@@ -33,7 +31,7 @@ void	draw_lines(t_cub3d *cub)
 	mlx_put_image_to_window(cub->mlx, cub->window, cub->img.img, 0, 0);
 }
 
-int	choose_texture(t_cub3d *cub, t_rc *rc, int texy)
+static int	choose_texture(t_cub3d *cub, t_rc *rc, int texy)
 {
 	if (rc->side == 0)
 	{
@@ -51,7 +49,7 @@ int	choose_texture(t_cub3d *cub, t_rc *rc, int texy)
 	}
 }
 
-void	wall_drawing(t_rc *rc, t_cub3d *cub, const int x)
+static void	wall_drawing(t_rc *rc, t_cub3d *cub, const int x)
 {
 	double	texpos;
 	int		y;
@@ -84,7 +82,7 @@ void	raycaster(t_cub3d *cub)
 	x = 0;
 	while (x < WIDTH)
 	{
-		init_var(&rc);
+		ft_bzero(&rc, sizeof(t_rc));
 		initial_calcs(&rc, cub, x);
 		calc_sidedist(&rc, cub);
 		dda_algo(&rc, cub);

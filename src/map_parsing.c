@@ -13,9 +13,6 @@
 #include "cub3d.h"
 
 static t_map	init_t_map(char **map)
-/**
- * Gets max width, height and truncates unnecessary spaces both horizontally and vertically
-*/
 {
 	t_map	tmp;
 	size_t	trunc_l;
@@ -42,10 +39,6 @@ static t_map	init_t_map(char **map)
 }
 
 static t_blocks	*init_map_row(char *original, size_t lenght)
-/**
- * Scans line for validity and translates each element to t_blocks(enum) element
- * Initially, everything is set to 0, which equals VOID and is a bit of a dangerous implementation
-*/
 {
 	int			i;
 	t_blocks	*new_map;
@@ -75,10 +68,6 @@ static t_blocks	*init_map_row(char *original, size_t lenght)
 }
 
 static void	check_p_pos(t_map *map)
-/**
- * Checks player position
- * If none or too many are found: frees everything(hopefully), outputs error and exits
-*/
 {
 	int		i;
 	int		j;
@@ -93,10 +82,7 @@ static void	check_p_pos(t_map *map)
 			if (map->top_left[i][j] == PLAYER)
 			{
 				if (map->player.x != 0 || map->player.y != 0)
-				{
-			//		DEBUG(print_map(get_data(0)->input.map);)
 					free_error_exit("map: too many positions set for player.");
-				}
 				map->player.x = (float)j + 0.5;
 				map->player.y = (float)i + 0.5;
 				map->top_left[i][j] = SPACE;
@@ -108,9 +94,6 @@ static void	check_p_pos(t_map *map)
 }
 
 static bool	invalid_perimeter(t_blocks **map, int width)
-/**
- * Checks if map is "fenced" with '1's
-*/
 {
 	int	i;
 	int	j;
@@ -140,9 +123,6 @@ static bool	invalid_perimeter(t_blocks **map, int width)
 }
 
 t_map	map_validation(char **map)
-/**
- * "Except for the map content, each type of element can be separated by one or more empty lines."
-*/
 {
 	t_map	tmp;
 	int		i;
@@ -156,6 +136,5 @@ t_map	map_validation(char **map)
 	tmp.player.dir = map[(int)tmp.player.y][(int)tmp.player.x];
 	if (invalid_perimeter(tmp.top_left, (int)tmp.w))
 		free_error_exit("map: invalid perimeter.");
-	//DEBUG(print_map(tmp);)
 	return (tmp);
 }

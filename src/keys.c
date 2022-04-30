@@ -50,23 +50,12 @@ int	key_release(int keycode, t_cub3d *cub)
 	return (0);
 }
 
-int	key_events(int keycode, t_cub3d *cub3d)
+int		free_n_quit(void)
 {
-	(void)cub3d;
-	printf("key pressed: %d\n", keycode);
-	if (keycode == ESC)
-	{
-		free_all(cub3d);
-		exit(SUCCESS);
-	}
-	return (SUCCESS);
-}
+	t_cub3d *cub3d;
 
-int	button_press(int button, int x, int y, t_cub3d *cub3d)
-{
-	(void)x;
-	(void)y;
-	(void)cub3d;
-	printf("button pressed: %d\n", button);
-	return (SUCCESS);
+	cub3d = get_data(NULL);
+	free_all(cub3d);
+	exit (0);
+	return (0);
 }

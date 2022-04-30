@@ -12,31 +12,6 @@
 
 #include "cub3d.h"
 
-void	init_var(t_rc *rc)
-{
-	rc->camerax = 0;
-	rc->raydirx = 0;
-	rc->raydiry = 0;
-	rc->mapx = 0;
-	rc->mapy = 0;
-	rc->sidedistx = 0;
-	rc->sidedisty = 0;
-	rc->deltadistx = 0;
-	rc->deltadisty = 0;
-	rc->perpwalldist = 0;
-	rc->stepx = 0;
-	rc->stepy = 0;
-	rc->hit = 0;
-	rc->side = 0;
-	rc->lineheight = 0;
-	rc->drawstart = 0;
-	rc->drawend = 0;
-	rc->texnum = 0;
-	rc->wallx = 0;
-	rc->texx = 0;
-	rc->step = 0;
-}
-
 void	initial_calcs(t_rc *rc, t_cub3d *cub, int x)
 {
 	rc->camerax = 2 * x / (double)WIDTH - 1;

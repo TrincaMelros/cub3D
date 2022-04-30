@@ -38,12 +38,3 @@ void	free_error_exit(char *s)
 	error_exit(s);
 }
 
-int		free_n_quit(void)
-{
-	t_cub3d *cub3d;
-
-	cub3d = get_data(NULL);
-	free_all(cub3d);
-	exit (0);
-	return (0);
-}
