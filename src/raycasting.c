@@ -35,14 +35,14 @@ static int	choose_texture(t_cub3d *cub, t_rc *rc, int texy)
 {
 	if (rc->side == 0)
 	{
-		if (cub->player.posX > rc->mapx)
+		if (cub->player.posx > rc->mapx)
 			return (cub->textures.north[TEXSIZE * texy + rc->texx]);
 		else
 			return (cub->textures.south[TEXSIZE * texy + rc->texx]);
 	}
 	else
 	{
-		if (cub->player.posY > rc->mapy)
+		if (cub->player.posy > rc->mapy)
 			return (cub->textures.west[TEXSIZE * texy + rc->texx]);
 		else
 			return (cub->textures.east[TEXSIZE * texy + rc->texx]);

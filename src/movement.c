@@ -16,21 +16,21 @@ static void	move(t_cub3d *cub, int movement)
 {
 	if (movement == MOVE_UP)
 	{
-		if (cub->input.map.top_left[(int)(cub->player.posY)][(int)
-		(cub->player.posX + cub->player.dirX * (MOVESPEED * 3))] == SPACE)
-			cub->player.posX += cub->player.dirX * MOVESPEED;
-		if (cub->input.map.top_left[(int)(cub->player.posY + cub->player.dirY
-		* (MOVESPEED * 3))][(int)(cub->player.posX)] == SPACE)
-			cub->player.posY += cub->player.dirY * MOVESPEED;
+		if (cub->input.map.top_left[(int)(cub->player.posy)][(int)
+		(cub->player.posx + cub->player.dirx * (MOVESPEED * 3))] == SPACE)
+			cub->player.posx += cub->player.dirx * MOVESPEED;
+		if (cub->input.map.top_left[(int)(cub->player.posy + cub->player.diry
+				* (MOVESPEED * 3))][(int)(cub->player.posx)] == SPACE)
+			cub->player.posy += cub->player.diry * MOVESPEED;
 	}
 	if (movement == MOVE_DOWN)
 	{
-		if (cub->input.map.top_left[(int)(cub->player.posY)][(int)
-		(cub->player.posX - cub->player.dirX * (MOVESPEED * 3))] == SPACE)
-			cub->player.posX -= cub->player.dirX * MOVESPEED;
-		if (cub->input.map.top_left[(int)(cub->player.posY - cub->player.dirY
-		* (MOVESPEED * 3))][(int)(cub->player.posX)] == SPACE)
-			cub->player.posY -= cub->player.dirY * MOVESPEED;
+		if (cub->input.map.top_left[(int)(cub->player.posy)][(int)
+		(cub->player.posx - cub->player.dirx * (MOVESPEED * 3))] == SPACE)
+			cub->player.posx -= cub->player.dirx * MOVESPEED;
+		if (cub->input.map.top_left[(int)(cub->player.posy - cub->player.diry
+				* (MOVESPEED * 3))][(int)(cub->player.posx)] == SPACE)
+			cub->player.posy -= cub->player.diry * MOVESPEED;
 	}
 }
 
@@ -38,53 +38,40 @@ static void	strafe(t_cub3d *cub, int movement)
 {
 	if (movement == MOVE_RIGHT)
 	{
-		if (cub->input.map.top_left[(int)(cub->player.posY)][(int)
-		(cub->player.posX - cub->player.dirY * (MOVESPEED * 3))] == SPACE)
-			cub->player.posX -= cub->player.dirY * MOVESPEED;
-		if (cub->input.map.top_left[(int)(cub->player.posY + cub->player.dirX
-		* (MOVESPEED * 3))][(int)cub->player.posX] == SPACE)
-			cub->player.posY += cub->player.dirX * MOVESPEED;
+		if (cub->input.map.top_left[(int)(cub->player.posy)][(int)
+		(cub->player.posx - cub->player.diry * (MOVESPEED * 3))] == SPACE)
+			cub->player.posx -= cub->player.diry * MOVESPEED;
+		if (cub->input.map.top_left[(int)(cub->player.posy + cub->player.dirx
+				* (MOVESPEED * 3))][(int)cub->player.posx] == SPACE)
+			cub->player.posy += cub->player.dirx * MOVESPEED;
 	}
 	if (movement == MOVE_LEFT)
 	{
-		if (cub->input.map.top_left[(int)cub->player.posY][(int)
-		(cub->player.posX + cub->player.dirY * (MOVESPEED * 3))] == SPACE)
-			cub->player.posX += cub->player.dirY * MOVESPEED;
-		if (cub->input.map.top_left[(int)(cub->player.posY - cub->player.dirX
-		* (MOVESPEED * 3))][(int)cub->player.posX] == SPACE)
-			cub->player.posY -= cub->player.dirX * MOVESPEED;
+		if (cub->input.map.top_left[(int)cub->player.posy][(int) \
+		(cub->player.posx + cub->player.diry * (MOVESPEED * 3))] == SPACE)
+			cub->player.posx += cub->player.diry * MOVESPEED;
+		if (cub->input.map.top_left[(int)(cub->player.posy - cub->player.dirx
+				* (MOVESPEED * 3))][(int)cub->player.posx] == SPACE)
+			cub->player.posy -= cub->player.dirx * MOVESPEED;
 	}
 }
 
-static void	rotate(t_cub3d *cub, int rotate)
+static void	rotate(t_cub3d *cub, float rotate)
 {
 	double	olddirx;
 	double	oldplanex;
 
-	olddirx = cub->player.dirX;
-	oldplanex = cub->player.planeX;
-	if (rotate == TURN_RIGHT)
-	{
-		cub->player.dirX = cub->player.dirX * cos(ROTSPEED)
-		- cub->player.dirY * sin(ROTSPEED);
-		cub->player.dirY = olddirx * sin(ROTSPEED) +
-		cub->player.dirY * cos(ROTSPEED);
-		cub->player.planeX = cub->player.planeX * cos(ROTSPEED)
-		- cub->player.planeY * sin(ROTSPEED);
-		cub->player.planeY = oldplanex * sin(ROTSPEED)
-		+ cub->player.planeY * cos(ROTSPEED);
-	}
-	if (rotate == TURN_LEFT)
-	{
-		cub->player.dirX = cub->player.dirX * cos(-(ROTSPEED))
-		- cub->player.dirY * sin(-(ROTSPEED));
-		cub->player.dirY = olddirx * sin(-(ROTSPEED))
-		+ cub->player.dirY * cos(-(ROTSPEED));
-		cub->player.planeX = cub->player.planeX * cos(-(ROTSPEED))
-		- cub->player.planeY * sin(-(ROTSPEED));
-		cub->player.planeY = oldplanex * sin(-(ROTSPEED))
-		+ cub->player.planeY * cos(-(ROTSPEED));
-	}
+	rotate *= ROTSPEED;
+	olddirx = cub->player.dirx;
+	oldplanex = cub->player.planex;
+	cub->player.dirx = cub->player.dirx * cos(rotate)
+		- cub->player.diry * sin(rotate);
+	cub->player.diry = olddirx * sin(rotate)
+		+ cub->player.diry * cos(rotate);
+	cub->player.planex = cub->player.planex * cos(rotate)
+		- cub->player.planey * sin(rotate);
+	cub->player.planey = oldplanex * sin(rotate)
+		+ cub->player.planey * cos(rotate);
 }
 
 void	movement(t_cub3d *cub)
@@ -98,7 +85,7 @@ void	movement(t_cub3d *cub)
 	if (cub->keys.right)
 		strafe(cub, MOVE_RIGHT);
 	if (cub->keys.turn_left)
-		rotate(cub, TURN_LEFT);
+		rotate(cub, -1);
 	if (cub->keys.turn_right)
-		rotate(cub, TURN_RIGHT);
+		rotate(cub, 1);
 }

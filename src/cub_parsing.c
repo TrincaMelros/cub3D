@@ -75,26 +75,21 @@ static char	**get_input(char *file)
 	int			rd;
 	static int	i;
 
-	txt = calloc_check(2, sizeof(char *));
+	txt = calloc_check(1, sizeof(char *));
 	fd = open(file, O_RDONLY);
-	rd = get_next_line(txt, fd);
+	rd = 1;
 	while (rd == 1)
 	{
+		rd = get_next_line(&txt[i++], fd);
 		txt = (char **)twod_realloc((void **)txt, 1);
 		if (!txt)
-		{
-			rd = -1;
-			break ;
-		}
-		rd = get_next_line(&txt[++i], fd);
+			free_error_exit(NULL);
 	}
 	if (rd < 0)
 	{
 		if (fd > 2)
 			close(fd);
-		if (txt)
-			txt = (char **)twod_free((void **)txt, 0);
-		error_exit(NULL);
+		free_error_exit(NULL);
 	}
 	return (txt);
 }

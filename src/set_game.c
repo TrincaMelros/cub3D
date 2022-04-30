@@ -12,46 +12,46 @@
 
 #include "cub3d.h"
 
-static void set_player_ns(t_cub3d *cub)
+static void	set_player_ns(t_cub3d *cub)
 {
 	if (cub->input.map.player.dir == 'N')
 	{
-		cub->player.dirX = 0.0;
-		cub->player.dirY = -1.0;
-		cub->player.planeX = 0.66;
-		cub->player.planeY = 0.0;	
+		cub->player.dirx = 0.0;
+		cub->player.diry = -1.0;
+		cub->player.planex = 0.66;
+		cub->player.planey = 0.0;
 	}
 	if (cub->input.map.player.dir == 'S')
 	{
-		cub->player.dirX = 0.0;
-		cub->player.dirY = 1.0;
-		cub->player.planeX = -0.66;
-		cub->player.planeY = 0.00;	
+		cub->player.dirx = 0.0;
+		cub->player.diry = 1.0;
+		cub->player.planex = -0.66;
+		cub->player.planey = 0.00;
 	}
 }
 
-static void set_player_we(t_cub3d *cub)
+static void	set_player_we(t_cub3d *cub)
 {
 	if (cub->input.map.player.dir == 'W')
 	{
-		cub->player.dirX = -1.0;
-		cub->player.dirY = 0.0;
-		cub->player.planeX = 0.00;
-		cub->player.planeY = -0.66;	
+		cub->player.dirx = -1.0;
+		cub->player.diry = 0.0;
+		cub->player.planex = 0.00;
+		cub->player.planey = -0.66;
 	}
 	if (cub->input.map.player.dir == 'E')
 	{
-		cub->player.dirX = 1.0;
-		cub->player.dirY = 0.0;
-		cub->player.planeX = 0.0;
-		cub->player.planeY = 0.66;
+		cub->player.dirx = 1.0;
+		cub->player.diry = 0.0;
+		cub->player.planex = 0.0;
+		cub->player.planey = 0.66;
 	}
 }
 
 static void	init_vars(t_cub3d *cub)
 {
-	cub->player.posX = cub->input.map.player.x;
-	cub->player.posY = cub->input.map.player.y;
+	cub->player.posx = cub->input.map.player.x;
+	cub->player.posy = cub->input.map.player.y;
 	set_player_ns(cub);
 	set_player_we(cub);
 	cub->textures.north = (int *)calloc_check(1, sizeof(int) * \
@@ -76,4 +76,3 @@ void	set_game(t_cub3d *cub3d)
 	mlx_hook(cub3d->window, KEY_PRESS, 0, &key_press, cub3d);
 	mlx_hook(cub3d->window, KEY_RELEASE, 0, &key_release, cub3d);
 }
-

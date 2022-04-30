@@ -12,15 +12,28 @@
 
 #include "cub3d.h"
 
+static void	tex_error(char *path)
+{
+	write(2, "Error\ntexture: ", 15);
+	write(2, path, ft_strlen(path));
+	write(2, " is invalid.\n", 13);
+	free_all(get_data(NULL));
+	exit(OTHER);
+}
+
 void	load_image(t_cub3d *cub, int *texture, char *path, t_img *img)
 {
 	int	x;
 	int	y;
 
-	img->img = mlx_xpm_file_to_image(cub->mlx, path, &img->img_width,
+	img->img = mlx_xpm_file_to_image(cub->mlx, path, &img->img_width, \
 	&img->img_height);
-	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp,
+	if (!img->img)
+		tex_error(path);
+	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, \
 	&img->size_l, &img->endian);
+	if (!img->data)
+		free_error_exit(NULL);
 	y = 0;
 	while (y < img->img_height)
 	{

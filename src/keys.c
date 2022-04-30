@@ -50,9 +50,9 @@ int	key_release(int keycode, t_cub3d *cub)
 	return (0);
 }
 
-int		free_n_quit(void)
+int	free_n_quit(void)
 {
-	t_cub3d *cub3d;
+	t_cub3d	*cub3d;
 
 	cub3d = get_data(NULL);
 	free_all(cub3d);

@@ -27,7 +27,7 @@
 # include <limits.h>
 
 # include "libft.h"
-# include "keys.h"
+# include "events.h"
 
 # define BUFFER_SIZE 1
 
@@ -97,7 +97,7 @@ typedef struct s_input {
 	t_map	map;
 }		t_input;
 
-typedef struct	s_img
+typedef struct s_img
 {
 	void	*img;
 	int		*data;
@@ -110,12 +110,12 @@ typedef struct	s_img
 }				t_img;
 
 typedef struct s_player {
-	double	posX;
-	double	posY;
-	double	dirX;
-	double	dirY;
-	double	planeX;
-	double	planeY;
+	double	posx;
+	double	posy;
+	double	dirx;
+	double	diry;
+	double	planex;
+	double	planey;
 }	t_player;
 
 typedef struct s_layer {
@@ -136,7 +136,7 @@ typedef struct s_rc {
 	double	camerax;
 	double	raydirx;
 	double	raydiry;
-	
+
 	int		mapx;
 	int		mapy;
 
@@ -167,10 +167,10 @@ typedef struct s_rc {
 typedef struct s_images {
 	t_img	screen;
 	t_img	minimap;
-	
+
 }	t_images;
 
-typedef	struct s_textures {
+typedef struct s_textures {
 	int		*north;
 	int		*south;
 	int		*west;
@@ -266,7 +266,5 @@ void	load_texture(t_cub3d *cub);
 
 		/* Setup */
 void	set_game(t_cub3d *cub3d);
-
-
 
 #endif

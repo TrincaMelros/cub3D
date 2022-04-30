@@ -15,10 +15,10 @@
 void	initial_calcs(t_rc *rc, t_cub3d *cub, int x)
 {
 	rc->camerax = 2 * x / (double)WIDTH - 1;
-	rc->raydirx = cub->player.dirX + cub->player.planeX * rc->camerax;
-	rc->raydiry = cub->player.dirY + cub->player.planeY * rc->camerax;
-	rc->mapx = (int)cub->player.posX;
-	rc->mapy = (int)cub->player.posY;
+	rc->raydirx = cub->player.dirx + cub->player.planex * rc->camerax;
+	rc->raydiry = cub->player.diry + cub->player.planey * rc->camerax;
+	rc->mapx = (int)cub->player.posx;
+	rc->mapy = (int)cub->player.posy;
 	rc->deltadistx = fabs(1 / rc->raydirx);
 	rc->deltadisty = fabs(1 / rc->raydiry);
 }
@@ -28,22 +28,22 @@ void	calc_sidedist(t_rc *rc, t_cub3d *cub)
 	if (rc->raydirx < 0)
 	{
 		rc->stepx = -1;
-		rc->sidedistx = (cub->player.posX - rc->mapx) * rc->deltadistx;
+		rc->sidedistx = (cub->player.posx - rc->mapx) * rc->deltadistx;
 	}
 	else
 	{
 		rc->stepx = 1;
-		rc->sidedistx = (rc->mapx + 1.0 - cub->player.posX) * rc->deltadistx;
+		rc->sidedistx = (rc->mapx + 1.0 - cub->player.posx) * rc->deltadistx;
 	}
 	if (rc->raydiry < 0)
 	{
 		rc->stepy = -1;
-		rc->sidedisty = (cub->player.posY - rc->mapy) * rc->deltadisty;
+		rc->sidedisty = (cub->player.posy - rc->mapy) * rc->deltadisty;
 	}
 	else
 	{
 		rc->stepy = 1;
-		rc->sidedisty = (rc->mapy + 1.0 - cub->player.posY) * rc->deltadisty;
+		rc->sidedisty = (rc->mapy + 1.0 - cub->player.posy) * rc->deltadisty;
 	}
 }
 
@@ -71,11 +71,11 @@ void	dda_algo(t_rc *rc, t_cub3d *cub)
 void	wall_calcs(t_rc *rc, t_cub3d *cub)
 {
 	if (rc->side == 0)
-		rc->perpwalldist = (rc->mapx - cub->player.posX + \
-		(1 - rc->stepx) / 2) / rc->raydirx;
+		rc->perpwalldist = (rc->mapx - cub->player.posx \
+		+ (1 - rc->stepx) / 2) / rc->raydirx;
 	else
-		rc->perpwalldist = (rc->mapy - cub->player.posY + \
-		(1 - rc->stepy) / 2) / rc->raydiry;
+		rc->perpwalldist = (rc->mapy - cub->player.posy \
+		+ (1 - rc->stepy) / 2) / rc->raydiry;
 	rc->lineheight = (int)(HEIGHT / rc->perpwalldist);
 	rc->drawstart = -rc->lineheight / 2 + HEIGHT / 2;
 	if (rc->drawstart < 0)
@@ -84,9 +84,9 @@ void	wall_calcs(t_rc *rc, t_cub3d *cub)
 	if (rc->drawend >= HEIGHT)
 		rc->drawend = HEIGHT - 1;
 	if (rc->side == 0)
-		rc->wallx = cub->player.posY + rc->perpwalldist * rc->raydiry;
+		rc->wallx = cub->player.posy + rc->perpwalldist * rc->raydiry;
 	else
-		rc->wallx = cub->player.posX + rc->perpwalldist * rc->raydirx;
+		rc->wallx = cub->player.posx + rc->perpwalldist * rc->raydirx;
 	rc->wallx -= floor(rc->wallx);
 	rc->texx = (int)(rc->wallx * (double)TEXSIZE);
 	if (rc->side == 0 && rc->raydirx > 0)

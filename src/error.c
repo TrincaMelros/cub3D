@@ -37,4 +37,3 @@ void	free_error_exit(char *s)
 	free_all(cub3d);
 	error_exit(s);
 }
-
