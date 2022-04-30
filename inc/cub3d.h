@@ -242,7 +242,6 @@ void	free_all(t_cub3d *cub3d);
 int		ft_error(char *s);
 void	error_exit(char *s);
 void	free_error_exit(char *s);
-void	free_and_quit(void);
 int		free_n_quit(void);
 
 		/*	Get Next line */

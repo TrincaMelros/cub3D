@@ -29,7 +29,7 @@ static void	draw_player(const int step, t_cub3d *cub3d)
 
 	draw_rect(pos, (t_point){.x = step / 2, .y = step / 2},
 		MINIMAP_PLAYER, &cub3d->layers.minimap);
-	draw_player_dir(cub3d->input.map.player, step, pos, &cub3d->layers.minimap);
+//	draw_player_dir(cub3d->input.map.player, step, pos, &cub3d->layers.minimap);
 }
 
 static void	draw_minimap(t_cub3d *cub3d, int step)
